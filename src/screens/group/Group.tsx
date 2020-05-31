@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 //screens 
-import Planner from './Planner';
+import PlannerCalendar from './PlannerCalendar';
 import Chat from './Chat';
 import Profile from './Profile';
 import Iou from './Iou';
@@ -14,7 +14,7 @@ const Group = () => {
     return (
         <NavigationContainer>
             <Tab.Navigator>
-                <Tab.Screen name="Planner" component={Planner} />
+                <Tab.Screen name="Planner" component={PlannerCalendar} />
                 <Tab.Screen name="Chat" component={Chat} />
                 <Tab.Screen name="IOUs" component={Iou} />
                 <Tab.Screen name="My Profile" component={Profile} />

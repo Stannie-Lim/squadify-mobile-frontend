@@ -2,7 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 
 //screens
-import Group from '../screens/Group';
+import Group from '../screens/group/Group';
 import Home from '../screens/Home';
 
 const screens = {
