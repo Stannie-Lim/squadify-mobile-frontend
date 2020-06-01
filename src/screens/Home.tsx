@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
 const Home = ({ navigation }: any) => {
     return (
         <View>
-            <Button title='group' onPress={ () => navigation.navigate('Group') }>Click here to go to group</Button>
+          <Button title='Group' onPress={ () => navigation.navigate('Group') } />
         </View>
     );
 };
