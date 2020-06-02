@@ -2,8 +2,8 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // screens
-import PlannerCalendar from '../screens/group/PlannerCalendar';
-import PlannerMap from '../screens/group/PlannerMap';
+import PlannerCalendar from '../../screens/group/PlannerCalendar';
+import PlannerMap from '../../screens/group/PlannerMap';
 
 interface PlannerStackProps {}
 type PlannerParamList = {
