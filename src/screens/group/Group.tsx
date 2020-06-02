@@ -1,26 +1,17 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-//screens 
-import PlannerCalendar from './PlannerCalendar';
-import Chat from './Chat';
-import Profile from './Profile';
-import Iou from './Iou';
+//routes 
+import { GroupStack } from '../../routes/groupStack';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
+
 const Group = () => {
-    return (
-        <NavigationContainer>
-            <Tab.Navigator>
-                <Tab.Screen name="Planner" component={PlannerCalendar} />
-                <Tab.Screen name="Chat" component={Chat} />
-                <Tab.Screen name="IOUs" component={Iou} />
-                <Tab.Screen name="My Profile" component={Profile} />
-            </Tab.Navigator>
-        </NavigationContainer>
-    );  
+  return (
+    <GroupStack />
+  );  
 };
 
 export default Group;

@@ -1,18 +1,20 @@
 import React from 'react';
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';
 
-const PlannerCalendar = () => {
-    const mapRegion = {
-        latitude: 40.705127,
-        longitude: -74.009150,
-        latitudeDelta: 0.001,
-        longitudeDelta: 0.001
-  }
+const PlannerCalendar = ({ navigation }: any) => {
+    const goToMap = ( date: any) => {
+        navigation.navigate('PlannerMap', { date })
+    };
+
     return (
         <SafeAreaView>
             <View style={ styles.center }>
                 <Text style={ styles.text }>Planner</Text>
             </View>
+            <Calendar 
+                onDayPress={goToMap}
+            />
         </SafeAreaView>
     );
 };
@@ -23,10 +25,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 50,
-    },
-    mapStyle: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
     },
 });
 

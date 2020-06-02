@@ -1,18 +1,16 @@
-import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation';
+import React from 'react';
+import { NavigationContainer, RouteProp } from "@react-navigation/native";
 
-//screens
-import Group from '../screens/group/Group';
-import Home from '../screens/Home';
+// stack
+import { HomeStack } from './homeStack';
 
-const screens = {
-    Home: {
-        screen: Home
-    },
-    Group: {
-        screen: Group
-    },
-}   
+interface RoutesProps {}
 
-const HomeStack = createStackNavigator(screens);
-export default createAppContainer(HomeStack);
+export const Routes: React.FC<RoutesProps> = ({}) => {
+    return (
+        <NavigationContainer>
+            <HomeStack />
+        </NavigationContainer>
+    );
+}; 
+

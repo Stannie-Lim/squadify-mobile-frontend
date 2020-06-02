@@ -2,7 +2,8 @@ import React from 'react';
 import MapView, { AnimatedRegion } from 'react-native-maps';
 import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';
 
-const PlannerMap = () => {
+const PlannerMap = ({ route }: any) => {
+    const { date } = route.params;
     const mapRegion = {
         latitude: 40.705127,
         longitude: -74.009150,
@@ -12,7 +13,7 @@ const PlannerMap = () => {
     return (
         <SafeAreaView>
             <View style={ styles.center }>
-                <Text style={ styles.text }>Planner</Text>
+            <Text style={ styles.text }>Your map for { date.dateString }</Text>
             </View>
             <MapView 
                 style={styles.mapStyle}
