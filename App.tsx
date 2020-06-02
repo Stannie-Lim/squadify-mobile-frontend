@@ -2,13 +2,17 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 // navigator
-import Navigator from './src/routes/routeStack';
+import { Routes } from './src/routes/routeStack';
 
-export default function App() {
+interface ProvidersProps {}
+
+const App: React.FC<ProvidersProps> = ({}) => {
   return (
-    <Navigator />
+    <Routes />
   );
 }
+
+export default App;
 
 // const styles = StyleSheet.create({
 //   container: {
