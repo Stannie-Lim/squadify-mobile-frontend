@@ -4,9 +4,8 @@ import { Button, Text } from "react-native";
 
 //screens
 import Home from '../screens/Home';
+import Group from './group/groupStack';
 
-//group screens
-import Group from '../screens/group/Group';
 
 interface HomeStackProps {}
 
