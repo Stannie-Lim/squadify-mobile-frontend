@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
+import { StyleSheet, Text, ScrollView, SafeAreaView, Button } from 'react-native';
 
 const Home = ({ navigation }: any) => {
     return (
-        <View>
-          <Button title='Group' onPress={ () => navigation.navigate('Group') } />
-        </View>
+        <ScrollView>
+          <Button title='Group 1' onPress={ () => navigation.navigate('Group 1') } />
+        </ScrollView>
     );
 };
 
