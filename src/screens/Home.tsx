@@ -5,7 +5,7 @@ const Home = ({ navigation, groups }: any) => {
     return (
         <ScrollView>
           {
-            groups.map((group: string) => <Button key={group} title={group} onPress={ () => navigation.navigate('Group 1') } /> )
+            groups.map((group: string) => <Button key={group} title={group} onPress={ () => navigation.navigate('Group', { group } ) } /> )
           }
         </ScrollView>
     );
