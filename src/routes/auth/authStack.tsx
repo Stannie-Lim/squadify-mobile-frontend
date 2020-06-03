@@ -18,7 +18,7 @@ type AuthParamList = {
     Register: undefined;
     "Your Groups": undefined;
     "Group 1": undefined;
-    UserTabs: undefined;
+    "Your Account": undefined;
 };
 
 const Stack = createStackNavigator<AuthParamList>();
@@ -28,7 +28,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         <Stack.Screen name="Welcome to Squadify!" component={ Auth } />
         <Stack.Screen name="Login" component={ Login } />
         <Stack.Screen name="Register" component={ Register } />
-        <Stack.Screen name='UserTabs' component={ UserTabsStack } />
+        <Stack.Screen name='Your Account' component={ UserTabsStack } />
         <Stack.Screen name="Your Groups" component={ Home } />
         <Stack.Screen name="Group 1" component={ Group } />
     </Stack.Navigator>
