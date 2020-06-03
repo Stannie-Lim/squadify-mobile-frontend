@@ -22,7 +22,13 @@ type GroupParamList = {
 };
 
 const Tab = createBottomTabNavigator<GroupParamList>();
-const GroupStack: React.FC<GroupTabsProps> = ({}) => {
+const GroupStack: React.FC<GroupTabsProps> = ({route}: any) => {
+  const { group } = route.params;
+
+  //ALL THE GROUP INFORMATION IS IN THIS VARIABLE 
+  console.log(group);
+
+  
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({

@@ -17,7 +17,7 @@ type AuthParamList = {
     Login: undefined;
     Register: undefined;
     "Your Groups": undefined;
-    "Group 1": undefined;
+    Group: undefined;
     "Your Account": undefined;
 };
 
@@ -30,7 +30,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         <Stack.Screen name="Register" component={ Register } />
         <Stack.Screen name='Your Account' component={ UserTabsStack } />
         <Stack.Screen name="Your Groups" component={ Home } />
-        <Stack.Screen name="Group 1" component={ Group } />
+        <Stack.Screen name="Group" component={ Group } />
     </Stack.Navigator>
   );
 };
