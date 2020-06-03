@@ -8,7 +8,7 @@ const Login = ({ navigation }: any) => {
     const login = async () => {
         try {
             await AsyncStorage.setItem("token", "token");
-            navigation.navigate('Group');
+            navigation.navigate('UserTabs');
         } catch(err) {
             console.log(err);
         }
