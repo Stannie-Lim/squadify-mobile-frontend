@@ -6,9 +6,12 @@ const Login = ({ navigation }: any) => {
     const [ password, setPassword ] = useState('password123');
 
     const login = async () => {
+
+        const groups = ['Group 1', 'Group 2'];
+
         try {
             await AsyncStorage.setItem("token", "token");
-            navigation.navigate('UserTabs');
+            navigation.navigate('UserTabs', { groups });
         } catch(err) {
             console.log(err);
         }
