@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // icons
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 
 //screens 
 import Chat from '../../screens/group/Chat';
@@ -34,10 +34,10 @@ const GroupStack: React.FC<GroupTabsProps> = ({}) => {
           return <Ionicons name={"ios-people"} size={size} color={color} />;
         }
         else if (route.name === "IOUs") {
-          // return <Ionicons name={"pay-circle1"} size={size} color={color} />;
+          return <FontAwesome5 name={"money-bill"} size={size} color={color} />;
         }
         else if (route.name === "My Profile") {
-          // return <Ionicons name={"profile"} size={size} color={color} />;
+          return <AntDesign name={"profile"} size={size} color={color} />;
         }
       }
       })}

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
 
 const Chat = () => {
     const [ value, setValue ] = useState('');
@@ -9,6 +9,7 @@ const Chat = () => {
             style={ styles.inputField }
             onChangeText={text => setValue(text)}
             value={value} />
+            <Button title="Send" onPress={ () => console.log(value) } />
         </SafeAreaView>
     );
 };
