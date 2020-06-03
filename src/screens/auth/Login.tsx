@@ -28,7 +28,7 @@ const Login = ({ navigation }: any) => {
                 value={password} 
                 placeholder='Email'
             />
-            <Button title='Login' onPress={ login } disabled={ !email || !password ? 'disabled' : '' } />
+            <Button title='Login' onPress={ login } />
             <Button title="Don't have an account? Register here!" onPress={ () => navigation.navigate('Register') } />
         </SafeAreaView>
     );
