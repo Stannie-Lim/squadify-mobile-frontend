@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, SafeAreaView, Button } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button } from 'react-native';
 
 const Home = ({ navigation, groups }: any) => {
     return (
         <ScrollView>
           {
-            groups.map((group: string) => <Button key={group} title={group} onPress={ () => navigation.navigate('Group', { group } ) } /> )
+            groups.map((group: string) => <Button key={group} title={group} onPress={ () => navigation.navigate('Group', { group } ) } /> ) 
           }
         </ScrollView>
     );

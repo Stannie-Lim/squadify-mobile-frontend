@@ -14,7 +14,10 @@ type PlannerParamList = {
 const Stack = createStackNavigator<PlannerParamList>();
 export const PlannerStack: React.FC<PlannerStackProps> = ({}) => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{
+      headerShown: false
+    }}>
       <Stack.Screen name='PlannerCalendar' component={ PlannerCalendar } />
       <Stack.Screen name='PlannerMap' component={ PlannerMap } />
     </Stack.Navigator>

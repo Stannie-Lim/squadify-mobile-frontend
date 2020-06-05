@@ -11,6 +11,7 @@ import Friends from '../screens/Friends';
 
 interface UserTabsProps {};
 type UserParamList = {
+  Group: undefined;
   Groups: undefined;
   Friends: undefined;
 };
@@ -29,11 +30,11 @@ export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
           return <Ionicons name={"ios-people"} size={size} color={color} />;
         }
       }
-      })}
-      tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray"
-      }}>
+    })}
+    tabBarOptions={{
+      activeTintColor: "tomato",
+      inactiveTintColor: "gray"
+    }}>
         <Tab.Screen name="Groups">
           { ({ navigation }: any) => <Home navigation={navigation} groups={groups} /> }
         </Tab.Screen>
