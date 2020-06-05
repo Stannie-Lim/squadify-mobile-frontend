@@ -1,7 +1,7 @@
   
 import React, { useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Button, Text } from "react-native";
+import { Button, Text, AsyncStorage, Modal } from "react-native";
 
 // screens
 import Auth from '../../screens/auth/Auth';
@@ -23,14 +23,51 @@ type AuthParamList = {
 
 const Stack = createStackNavigator<AuthParamList>();
 export const AuthStack: React.FC<AuthStackProps> = ({}) => {
+
+  const logout = (navigation: any) => {
+    AsyncStorage.removeItem("token");
+    navigation.popToTop();
+  };
+
+  const getHeaderLeft = (route: any) => {
+    // Access the tab navigator's state using `route.state`
+    const routeName = route.state
+      ? // Get the currently active route name in the tab navigator
+        route.state.routes[route.state.index].name
+      : 
+        route.params?.screen || 'Feed';
+    if(route.state) {
+      switch(route.state.index) {
+        case 0:
+          return <Button title="Add Group" onPress={ () => alert("add") } />
+        case 1:
+          return <Button title="Add Friend" onPress={ () => alert("add") } />
+      }
+    } else {
+      return <Button title="Add Group" onPress={ () => alert("add") } />
+    }
+  }
+
   return (
     <Stack.Navigator>
         <Stack.Screen name="Welcome to Squadify!" component={ Auth } />
         <Stack.Screen name="Login" component={ Login } />
         <Stack.Screen name="Register" component={ Register } />
-        <Stack.Screen name='Your Account' component={ UserTabsStack } />
+        <Stack.Screen name='Your Account' component={ UserTabsStack } 
+          options={ ({ navigation, route }) => ({
+            headerLeft: () => getHeaderLeft(route),
+            headerRight: () => (
+              <Button title='Log Out' onPress={ () => logout(navigation) } /> 
+            ),
+          })
+        }
+        />
         <Stack.Screen name="Your Groups" component={ Home } />
-        <Stack.Screen name="Group" component={ Group } />
+        <Stack.Screen name="Group"
+          options={({route}) => ({
+            title: route.params.group
+          })}
+          component={ Group } />
     </Stack.Navigator>
   );
 };
