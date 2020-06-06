@@ -12,7 +12,7 @@ const Login = ({ navigation }: any) => {
             
             const groups = ['Group 1', 'Group 2', 'Group 3'];
             await AsyncStorage.setItem("token", token);
-            navigation.replace('Your Account', { groups });
+            navigation.replace('Group', { group: groups[0], groups });
         } catch(err) {
             console.log(err);
         }

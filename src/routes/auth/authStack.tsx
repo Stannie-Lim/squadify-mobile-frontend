@@ -30,12 +30,6 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
   };
 
   const getHeaderLeft = (route: any) => {
-    // Access the tab navigator's state using `route.state`
-    const routeName = route.state
-      ? // Get the currently active route name in the tab navigator
-        route.state.routes[route.state.index].name
-      : 
-        route.params?.screen || 'Feed';
     if(route.state) {
       switch(route.state.index) {
         case 0:
@@ -64,8 +58,11 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         />
         <Stack.Screen name="Your Groups" component={ Home } />
         <Stack.Screen name="Group"
-          options={({route}) => ({
-            title: route.params.group
+          options={({navigation, route}) => ({
+            title: route.params.group,
+            headerLeft: () => (
+              <Button title='Your Groups' onPress={ () => navigation.navigate('Your Account', { groups: route.params.groups }) } />
+            )
           })}
           component={ Group } />
     </Stack.Navigator>
