@@ -8,6 +8,7 @@ import Auth from '../../screens/auth/Auth';
 import Login from '../../screens/auth/Login';
 import Register from '../../screens/auth/Register';
 import Home from '../../screens/Home';
+import Chat from '../../screens/group/Chat';
 import Group from '../group/groupStack';
 import { UserTabsStack } from '../UserTabsStack';
 
@@ -16,6 +17,7 @@ type AuthParamList = {
     "Welcome to Squadify!": undefined;
     Login: undefined;
     Register: undefined;
+    Chat: undefined;
     "Your Groups": undefined;
     Group: undefined;
     "Your Account": undefined;
@@ -32,8 +34,11 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
   const getHeaderLeft = (route: any) => {
     if(route.state) {
       switch(route.state.index) {
+        // if you're currently in groups tab
         case 0:
           return <Button title="Add Group" onPress={ () => alert("add") } />
+
+        //if you're currently in friends tab
         case 1:
           return <Button title="Add Friend" onPress={ () => alert("add") } />
       }
@@ -41,6 +46,19 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
       return <Button title="Add Group" onPress={ () => alert("add") } />
     }
   }
+
+  const getHeaderRight = (route: any, navigation: any) => {
+    if(route.state) {
+      switch(route.state.index) {
+        case 0:
+          return <Button title='Search' onPress={ () => alert('search') } />
+        case 1:
+          return <Button title='Chat' onPress={ () => navigation.navigate('Chat') } />
+      }
+    } else {
+      return <Button title='Search' onPress={ () => alert('search') } />
+    }
+  };
 
   return (
     <Stack.Navigator>
@@ -57,14 +75,18 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         }
         />
         <Stack.Screen name="Your Groups" component={ Home } />
-        <Stack.Screen name="Group"
-          options={({navigation, route}) => ({
+        <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen name="Group" component={ Group }
+          options={ ({ navigation, route }) => ({
             title: route.params.group,
             headerLeft: () => (
               <Button title='Your Groups' onPress={ () => navigation.navigate('Your Account', { groups: route.params.groups }) } />
+            ),
+            headerRight: () => (
+              getHeaderRight(route, navigation)
             )
           })}
-          component={ Group } />
+         />
     </Stack.Navigator>
   );
 };
