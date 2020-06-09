@@ -9,6 +9,7 @@ import Login from '../../screens/auth/Login';
 import Register from '../../screens/auth/Register';
 import Home from '../../screens/Home';
 import Chat from '../../screens/group/Chat';
+import Search from '../../screens/group/Search';
 import Group from '../group/groupStack';
 import { UserTabsStack } from '../UserTabsStack';
 
@@ -21,6 +22,7 @@ type AuthParamList = {
     "Your Groups": undefined;
     Group: undefined;
     "Your Account": undefined;
+    Search: undefined;
 };
 
 const Stack = createStackNavigator<AuthParamList>();
@@ -51,12 +53,12 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
     if(route.state) {
       switch(route.state.index) {
         case 0:
-          return <Button title='Search' onPress={ () => alert('search') } />
+          return <Button title='Search' onPress={ () => navigation.navigate('Search') } />
         case 1:
           return <Button title='Chat' onPress={ () => navigation.navigate('Chat') } />
       }
     } else {
-      return <Button title='Search' onPress={ () => alert('search') } />
+      return <Button title='Search' onPress={ () => navigation.navigate('Search') } />
     }
   };
 
@@ -65,17 +67,23 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         <Stack.Screen name="Welcome to Squadify!" component={ Auth } />
         <Stack.Screen name="Login" component={ Login } />
         <Stack.Screen name="Register" component={ Register } />
+        <Stack.Screen name="Your Groups" component={ Home } />
+        <Stack.Screen name="Chat" component={ Chat } />
+        <Stack.Screen name="Search" component={ Search } />
+
+        { /* swiped left */ } 
         <Stack.Screen name='Your Account' component={ UserTabsStack } 
           options={ ({ navigation, route }) => ({
             headerLeft: () => getHeaderLeft(route),
             headerRight: () => (
               <Button title='Log Out' onPress={ () => logout(navigation) } /> 
             ),
+            gestureEnabled: true,
           })
         }
         />
-        <Stack.Screen name="Your Groups" component={ Home } />
-        <Stack.Screen name="Chat" component={Chat} />
+
+        { /* swiped right */ } 
         <Stack.Screen name="Group" component={ Group }
           options={ ({ navigation, route }) => ({
             title: route.params.group,
@@ -87,6 +95,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
             )
           })}
          />
+
     </Stack.Navigator>
   );
 };

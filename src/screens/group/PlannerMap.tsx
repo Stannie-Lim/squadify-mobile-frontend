@@ -9,7 +9,7 @@ const PlannerMap = ({ route, navigation }: any) => {
         longitude: -74.009150,
         latitudeDelta: 0.001,
         longitudeDelta: 0.001
-  }
+    }
     return (
         <SafeAreaView>
             <View style={ styles.center }>
