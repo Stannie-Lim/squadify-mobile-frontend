@@ -8,10 +8,10 @@ const Login = ({ navigation }: any) => {
 
     const login = async () => {
         try {
-            const token = (await axios.post('http://localhost:3000/auth/login', { email, password })).data.token;
+            // const token = (await axios.post('http://localhost:3000/auth/login', { email, password })).data.token;
             
             const groups = ['Group 1', 'Group 2', 'Group 3'];
-            await AsyncStorage.setItem("token", token);
+            // await AsyncStorage.setItem("token", token);
             navigation.replace('Group', { group: groups[0], groups });
         } catch(err) {
             console.log(err);
