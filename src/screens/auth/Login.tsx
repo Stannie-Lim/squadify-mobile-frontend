@@ -3,15 +3,15 @@ import axios from 'axios';
 import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput } from 'react-native';
 
 const Login = ({ navigation }: any) => {
-    const [ email, setEmail ] = useState('Stannie@gmail.com');
-    const [ password, setPassword ] = useState('Stannie123');
+    const [ email, setEmail ] = useState('user1@gmail.com');
+    const [ password, setPassword ] = useState('password');
 
     const login = async () => {
         try {
-            // const token = (await axios.post('http://localhost:3000/auth/login', { email, password })).data.token;
+            const token = (await axios.post('http://localhost:3000/auth/login', { email, password })).data.token;
             
             const groups = ['Group 1', 'Group 2', 'Group 3'];
-            // await AsyncStorage.setItem("token", token);
+            await AsyncStorage.setItem("token", token);
             navigation.replace('Group', { group: groups[0], groups });
         } catch(err) {
             console.log(err);

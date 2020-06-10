@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage } from 'react-native';
 import axios from 'axios';
 
+// component
+import ChooseImage from './ChooseImage';
+
 const Register = ({ navigation }: any) => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -39,7 +42,7 @@ const Register = ({ navigation }: any) => {
           style={styles.inputField}
           onChangeText={text => setDob(text)}
           value={dob} 
-          placeholder='Date of Birth'
+          placeholder='Date of Birth MM-DD-YYYY'
       />
       <TextInput 
           style={styles.inputField}
@@ -53,6 +56,7 @@ const Register = ({ navigation }: any) => {
           value={password} 
           placeholder='Password'
       />
+      <ChooseImage />
       <Button title='Register' onPress={ register } />
       <Button title="Already have an account? Log in here!" onPress={ () => navigation.navigate('Login') } />
     </SafeAreaView>

@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.48,
         shadowRadius: 11.95,
         elevation: 18,
+        borderRadius: 20,
     },
     avatar: {
         height: 100,

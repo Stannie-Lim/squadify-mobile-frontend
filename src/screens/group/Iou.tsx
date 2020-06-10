@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 
 // components
 import IouCard from '../../cards/IouCard';
@@ -26,7 +26,7 @@ const Iou = () => {
             {
                 you && <IouCard user={ you } />
             } 
-            <ScrollView style={{ marginBottom: 210 }}>  
+            <ScrollView style={{ height: Dimensions.get('window').height / 1.8, }}>  
                 {
                     you && you.owe.map((user, index) => <IouCard key={ index } color={ colors[index] } user={ user } /> )
                 }
