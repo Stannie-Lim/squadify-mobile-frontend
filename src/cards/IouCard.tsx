@@ -68,13 +68,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.48,
         shadowRadius: 11.95,
         elevation: 18,
-        // position: 'absolute',
     },
     container: {
         borderColor: 'black',
         borderWidth: 1,
-        margin: 30,
-        padding: 20,
+        margin: 40,
+        padding: 30,
         alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: {
