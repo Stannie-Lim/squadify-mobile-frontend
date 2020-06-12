@@ -11,6 +11,7 @@ import Home from '../../screens/Home';
 import Chat from '../../screens/group/Chat';
 import Search from '../../screens/group/Search';
 import Group from '../group/groupStack';
+import AddFriend from '../../screens/friend/AddFriend';
 import { UserTabsStack } from '../UserTabsStack';
 
 interface AuthStackProps {};
@@ -23,6 +24,7 @@ type AuthParamList = {
     Group: undefined;
     "Your Account": undefined;
     Search: undefined;
+    "Add friend": undefined;
 };
 
 const Stack = createStackNavigator<AuthParamList>();
@@ -33,7 +35,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
     navigation.popToTop();
   };
 
-  const getHeaderLeft = (route: any) => {
+  const getHeaderLeft = (route: any, navigation: any) => {
     if(route.state) {
       switch(route.state.index) {
         // if you're currently in groups tab
@@ -42,7 +44,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
 
         //if you're currently in friends tab
         case 1:
-          return <Button title="Add Friend" onPress={ () => alert("add") } />
+          return <Button title="Add Friend" onPress={ () => navigation.push('Add friend') } />
       }
     } else {
       return <Button title="Add Group" onPress={ () => alert("add") } />
@@ -74,7 +76,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         { /* swiped left */ } 
         <Stack.Screen name='Your Account' component={ UserTabsStack } 
           options={ ({ navigation, route }) => ({
-            headerLeft: () => getHeaderLeft(route),
+            headerLeft: () => getHeaderLeft(route, navigation),
             headerRight: () => (
               <Button title='Log Out' onPress={ () => logout(navigation) } /> 
             ),
@@ -83,12 +85,14 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         }
         />
 
+        <Stack.Screen name="Add friend" component={ AddFriend } />
+
         { /* swiped right */ } 
         <Stack.Screen name="Group" component={ Group }
           options={ ({ navigation, route }) => ({
             title: route.params.group,
             headerLeft: () => (
-              <Button title='Your Groups' onPress={ () => navigation.navigate('Your Account', { groups: route.params.groups }) } />
+              <Button title='Your Groups' onPress={ () => navigation.navigate('Your Account', { groups: route.params.groups, friends: route.params.friends }) } />
             ),
             headerRight: () => (
               getHeaderRight(route, navigation)
