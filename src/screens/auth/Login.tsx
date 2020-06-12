@@ -9,10 +9,15 @@ const Login = ({ navigation }: any) => {
     const login = async () => {
         try {
             const token = (await axios.post('http://localhost:3000/auth/login', { email, password })).data.token;
+
+            const { id } = (await axios.get(`http://localhost:3000/user/${email}`, { headers: { Authorization: `Bearer ${token}` }})).data;
             
+            const friends = (await axios.get(`http://localhost:3000/user/${id}/friends`, { headers: { Authorization: `Bearer ${token}` }})).data;
+
             const groups = ['Group 1', 'Group 2', 'Group 3'];
             await AsyncStorage.setItem("token", token);
-            navigation.replace('Group', { group: groups[0], groups });
+            await AsyncStorage.setItem("id", id);
+            navigation.replace('Group', { group: groups[0], groups, friends });
         } catch(err) {
             console.log(err);
         }
