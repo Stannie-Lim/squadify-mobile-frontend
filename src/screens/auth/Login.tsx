@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { API_URL } from 'react-native-dotenv'
+import { API_URL } from 'react-native-dotenv';
 import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput } from 'react-native';
 
 const Login = ({ navigation }: any) => {

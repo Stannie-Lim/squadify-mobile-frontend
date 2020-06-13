@@ -1,6 +1,6 @@
+import React from 'react';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
 
 const ChooseImage = ({ setImage }) => {
@@ -10,7 +10,7 @@ const ChooseImage = ({ setImage }) => {
             const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
             // const file = {
             //     uri,
-            //     name:  , 
+            //     name: , 
             //     type: 'image/png',
             // };
             // const config = {
