@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_URL } from 'react-native-dotenv'
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView } from 'react-native';
 
@@ -9,7 +10,7 @@ const FriendRequests = () => {
         const allFriendRequests = async () => {
             const id = await AsyncStorage.getItem('id');
             const token = await AsyncStorage.getItem('token');
-            const requests = (await axios.get(`http://localhost:3000/user/${id}/friendrequests`, { headers: { Authorization: `Bearer ${token}`}})).data;
+            const requests = (await axios.get(`${API_URL}/user/${id}/friendrequests`, { headers: { Authorization: token}})).data;
             setIncomingFriendRequests(requests.incomingRequests);
             console.log(requests);
             setOutgoingFriendRequests(requests.sentRequests);
@@ -20,7 +21,7 @@ const FriendRequests = () => {
     const accept = async ({ id }: any) => {
         const myId = await AsyncStorage.getItem('id');
         const token = await AsyncStorage.getItem('token');
-        await axios.post(`http://localhost:3000/user/${id}/acceptfriend`, { otherUserId: id }, { headers: { Authorization: `Bearer ${token}` }});
+        await axios.post(`${API_URL}/user/${id}/acceptfriend`, { otherUserId: id }, { headers: { Authorization: token }});
         const afterAnswering = outgoingFriendRequests.filter(request => request.id !== id);
         setOutgoingFriendRequests(afterAnswering);
     };

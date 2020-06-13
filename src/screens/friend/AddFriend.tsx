@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { API_URL } from 'react-native-dotenv'
 import { StyleSheet, Text, View, ScrollView, TextInput, Button, AsyncStorage } from 'react-native';
 
 const AddFriend = () => {
@@ -9,10 +10,10 @@ const AddFriend = () => {
         const token = await AsyncStorage.getItem('token');
         const id = await AsyncStorage.getItem('id');
 
-        const friendId = (await axios.get(`http://localhost:3000/user/${friendEmail}`, { headers: { Authorization: `Bearer ${token}`} })).data.id;
+        const friendId = (await axios.get(`${API_URL}/user/${friendEmail}`, { headers: { Authorization: token} })).data.id;
 
-        const friendrequest = (await axios.post(`http://localhost:3000/user/${id}/addfriend`, { otherUserId: friendId }, {headers: { Authorization: `Bearer ${token}` }} )).data;
-        
+        const friendrequest = (await axios.post(`${API_URL}/user/${id}/addfriend`, { otherUserId: friendId }, {headers: { Authorization: token }} )).data;
+
         console.log(friendrequest);
     };
 
