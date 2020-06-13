@@ -7,7 +7,7 @@ import { Ionicons, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 
 // screens
 import Home from '../screens/Home';
-import Friends from '../screens/Friends';
+import Friends from '../screens/friend/Friends';
 
 interface UserTabsProps {};
 type UserParamList = {
@@ -18,7 +18,7 @@ type UserParamList = {
 
 const Tab = createBottomTabNavigator<UserParamList>();
 export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
-  const { groups } = route.params;
+  const { groups, friends } = route.params;
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -38,7 +38,9 @@ export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
         <Tab.Screen name="Groups">
           { ({ navigation }: any) => <Home navigation={navigation} groups={groups} /> }
         </Tab.Screen>
-        <Tab.Screen name="Friends" component={Friends} />
+        <Tab.Screen name="Friends">
+          { ({ navigation }: any) => <Friends navigation={navigation} friends={friends} /> }
+        </Tab.Screen>
     </Tab.Navigator>
   );  
 };
