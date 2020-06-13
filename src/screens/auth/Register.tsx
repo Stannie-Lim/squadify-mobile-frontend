@@ -31,10 +31,15 @@ const Register = ({ navigation }: any) => {
       const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
 
       const token = (await axios.post(`${API_URL}/auth/register`, { email, password, lastName, firstName, dob, avatarUrl } )).data.token; 
+
+      // const { id } = (await axios.get(`${API_URL}/user/${email}`, { headers: { Authorization: token }})).data;
+
+      // const friends = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
+
       await AsyncStorage.setItem("token", token);
 
       const groups = ['Group 1', 'Group 2'];
-      navigation.replace('Your Account', { groups });
+      navigation.replace('Group', { group: groups[0], groups });
 
     } catch(err) { 
       console.log(err);

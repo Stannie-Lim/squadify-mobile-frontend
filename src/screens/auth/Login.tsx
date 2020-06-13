@@ -15,7 +15,8 @@ const Login = ({ navigation }: any) => {
             
             const friends = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
 
-            const groups = ['Group 1', 'Group 2', 'Group 3'];
+            const groups = (await axios.get(`${API_URL}/groups/${id}`, { headers: { Authorization: token }})).data;
+
             await AsyncStorage.setItem("token", token);
             await AsyncStorage.setItem("id", id);
             navigation.replace('Group', { group: groups[0], groups, friends });

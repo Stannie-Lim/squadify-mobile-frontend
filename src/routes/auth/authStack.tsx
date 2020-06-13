@@ -90,7 +90,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         { /* swiped right */ } 
         <Stack.Screen name="Group" component={ Group }
           options={ ({ navigation, route }) => ({
-            title: route.params.group,
+            title: route.params.group.name,
             headerLeft: () => (
               <Button title='Your Groups' onPress={ () => navigation.navigate('Your Account', { groups: route.params.groups, friends: route.params.friends }) } />
             ),
