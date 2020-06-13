@@ -23,7 +23,7 @@ const IouCard = ({ user, color }: any) => {
                 </View> : 
                 <Text></Text>
             }
-            <Image style={ styles.avatar } source={{ uri: user.avatar }} />
+            <Image style={ styles.avatar } source={{ uri: user.avatarUrl }} />
             <Text style={ styles.name }>{`${user.firstName} ${user.lastName}`}</Text>
             {
                 you ? 

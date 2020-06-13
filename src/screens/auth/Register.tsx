@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RNS3 } from 'react-native-aws3';
-import { REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
+import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
 import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image } from 'react-native';
 import axios from 'axios';
 
@@ -18,29 +18,24 @@ const Register = ({ navigation }: any) => {
   const register = async() => {
     try {
       const file = {
-        image,
-        name: `${email}-avatar`, 
-        type: 'image/png',
+        uri: image,
+        name: `${email.replace('.', '').replace('@', '')}_avatar`, 
+        type: 'image/jpg',
       };
       const config = {
-          keyPrefix: 's3/',
-          bucket: 'spicecurlsproducts',
+          bucket: 'squadify-avatars',
           region: REGION,
           accessKey: ACCESS_KEY_ID,
-          secretKey: SECRET_ACCESS_KEY,
-          successActionStatus: 201,
+          secretKey: SECRET_ACCESS_KEY
       };
-      const imageurl = (await RNS3.put(file, config)).body.postResponse.location;
-      console.log(imageurl);
+      const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
 
-      //uncomment when backend is able to take imageurl and put it in user's row in database
-      /*
-      const token = (await axios.post('http://localhost:3000/auth/register', { email, password, lastName, firstName, dob, imageurl } )).data.token; 
+      const token = (await axios.post(`${API_URL}/auth/register`, { email, password, lastName, firstName, dob, avatarUrl } )).data.token; 
       await AsyncStorage.setItem("token", token);
 
       const groups = ['Group 1', 'Group 2'];
       navigation.replace('Your Account', { groups });
-      */
+
     } catch(err) { 
       console.log(err);
     }
