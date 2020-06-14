@@ -3,7 +3,7 @@ import { API_URL } from 'react-native-dotenv'
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView } from 'react-native';
 
-const FriendRequests = ({ setFriends }) => {
+const FriendRequests = ({ setFriends }: any) => {
     const [ incomingFriendRequests, setIncomingFriendRequests ] = useState([]);
     const [ outgoingFriendRequests, setOutgoingFriendRequests ] = useState([]);
     useEffect(() => {
@@ -30,7 +30,14 @@ const FriendRequests = ({ setFriends }) => {
             await axios.post(`${API_URL}/user/${myId}/rejectfriend`, { otherUserId: id }, { headers: { Authorization: token }});
         }
         const afterAnswering = outgoingFriendRequests.filter(request => request.id !== id);
-        setOutgoingFriendRequests(afterAnswering);
+        setIncomingFriendRequests(afterAnswering);
+        // setIncomingFriendRequests(
+        try {
+            const friendsData = (await axios.get(`${API_URL}/user/${myId}/friends`, { headers: { Authorization: token }})).data;
+            setFriends(friendsData);
+        } catch(err) {
+            console.log(err);
+        }
     };
 
     return (
