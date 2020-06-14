@@ -24,7 +24,7 @@ const Login = ({ navigation, route }: any) => {
 
             await AsyncStorage.setItem("token", token);
             await AsyncStorage.setItem("id", id);
-            // navigation.replace('Group', { group: groups[0], groups, friends });
+            // navigation.replace('Grouup', { group: groups[0], groups, friends });
             if(groupsData.length !== 0) {
                 navigation.replace('Group', { group: groupsData[0], groups: groupsData, friends: friendsData });
             } else {

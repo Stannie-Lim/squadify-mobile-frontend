@@ -13,7 +13,7 @@ const CreateGroup = ({ navigation, route }: any) => {
     const [ chosenFriends, setChosenFriends ] = useState([]);
     const [ avatarUrl, setAvatarUrl ] = useState('https://66.media.tumblr.com/79a1ac638d6e50f1fa5d760be1d8a51a/tumblr_inline_ojk654MOr11qzet7p_250.png');
 
-    // used for 
+    // not used in api calls
     const [ myFriends, setFriends ] = useState([]);
     useEffect(() => {
         setFriends(route.params.friends);
