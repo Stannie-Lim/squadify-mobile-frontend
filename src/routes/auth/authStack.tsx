@@ -40,19 +40,19 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
   };
 
   const getHeaderLeft = (route: any, navigation: any) => {
-    const { friends } = route.params;
+    const { groups, friends, setFriends } = route.params;
     if(route.state) {
       switch(route.state.index) {
         // if you're currently in groups tab
         case 0:
-          return <Button title="Create Group" onPress={ () => navigation.push('Create group', { friends }) } />
+          return <Button title="Create Group" onPress={ () => navigation.push('Create group', { groups, friends, navigation, route }) } />
 
         //if you're currently in friends tab
         case 1:
-          return <Button title="Add Friend" onPress={ () => navigation.push('Add friend') } />
+          return <Button title="Add Friend" onPress={ () => navigation.push('Add friend',{ friends, setFriends, navigation, route } ) } />
       }
     } else {
-      return <Button title="Create Group" onPress={ () => navigation.push('Create group', { friends }) } />
+      return <Button title="Create Group" onPress={ () => navigation.push('Create group', { groups, friends, navigation, route }) } />
     }
   }
 

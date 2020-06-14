@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { API_URL } from 'react-native-dotenv';
 import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput } from 'react-native';
 
-const Login = ({ navigation }: any) => {
+const Login = ({ navigation, route }: any) => {
     const [ email, setEmail ] = useState('user1@gmail.com');
     const [ password, setPassword ] = useState('password');
+    const [ friends, setFriends ] = useState([]);
+    const [ groups, setGroups ] = useState([]);
 
     const login = async () => {
         try {
@@ -13,13 +15,21 @@ const Login = ({ navigation }: any) => {
 
             const { id } = (await axios.get(`${API_URL}/user/${email}`, { headers: { Authorization: token }})).data;
             
-            const friends = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
+            const friendsData = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
 
-            const groups = (await axios.get(`${API_URL}/groups/${id}`, { headers: { Authorization: token }})).data;
+            const groupsData = (await axios.get(`${API_URL}/groups/${id}`, { headers: { Authorization: token }})).data;
+
+            setFriends(friendsData);
+            setGroups(groupsData);
 
             await AsyncStorage.setItem("token", token);
             await AsyncStorage.setItem("id", id);
-            navigation.replace('Group', { group: groups[0], groups, friends });
+            // navigation.replace('Group', { group: groups[0], groups, friends });
+            if(groupsData.length !== 0) {
+                navigation.replace('Group', { group: groupsData[0], groups: groupsData, friends: friendsData });
+            } else {
+                navigation.replace('Your Account', { groups, friends });
+            }
         } catch(err) {
             console.log(err);
         }
