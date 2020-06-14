@@ -1,7 +1,23 @@
-import React from 'react';
-import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button, TouchableOpacity, Image } from 'react-native';
+import axios from 'axios';
+import { API_URL } from 'react-native-dotenv';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 
-const Home = ({ navigation, groups, route }: any) => {
+const Home = ({ navigation, route }: any) => {
+  const [ groups, setGroups ] = useState([]);
+  useEffect(() => {
+    const getGroups = async() => {
+      const token = await AsyncStorage.getItem('token');
+      const id = await AsyncStorage.getItem('id');
+      try {
+        const groupsData = (await axios.get(`${API_URL}/groups/${id}`, { headers: { Authorization: token }})).data;
+        setGroups(groupsData);
+      } catch(err) {
+        console.log(err);
+      }
+    };
+    getGroups();
+  }, [groups]);
   return (
       <ScrollView>
         {

@@ -38,8 +38,7 @@ const Register = ({ navigation }: any) => {
 
       await AsyncStorage.setItem("token", token);
 
-      const groups = ['Group 1', 'Group 2'];
-      navigation.replace('Group', { group: groups[0], groups });
+      navigation.replace('Your Account', { groups: [] });
 
     } catch(err) { 
       console.log(err);

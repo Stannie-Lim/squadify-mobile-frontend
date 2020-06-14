@@ -18,7 +18,7 @@ type UserParamList = {
 
 const Tab = createBottomTabNavigator<UserParamList>();
 export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
-  const { groups, friends, setGroups, setFriends } = route.params;
+  const { groups, friends } = route.params;
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -36,10 +36,10 @@ export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
       inactiveTintColor: "gray"
     }}>
         <Tab.Screen name="Groups">
-          { ({ navigation, route }: any) => <Home route={ route } navigation={navigation} groups={groups} setGroups={ setGroups } /> }
+          { ({ navigation, route }: any) => <Home route={ route } navigation={navigation} groups={groups} /> }
         </Tab.Screen>
         <Tab.Screen name="Friends">
-          { ({ navigation, route }: any) => <Friends route={ route }navigation={navigation} friends={friends} setFriends={ setFriends } /> }
+          { ({ navigation, route }: any) => <Friends route={ route }navigation={navigation} friends={friends} /> }
         </Tab.Screen>
     </Tab.Navigator>
   );  
