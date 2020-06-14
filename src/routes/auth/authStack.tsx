@@ -10,8 +10,11 @@ import Register from '../../screens/auth/Register';
 import Home from '../../screens/Home';
 import Chat from '../../screens/group/Chat';
 import Search from '../../screens/group/Search';
-import Group from '../group/groupStack';
 import AddFriend from '../../screens/friend/AddFriend';
+import CreateGroup from '../../screens/group/CreateGroup';
+
+// stacks
+import Group from '../group/groupStack';
 import { UserTabsStack } from '../UserTabsStack';
 
 interface AuthStackProps {};
@@ -25,6 +28,7 @@ type AuthParamList = {
     "Your Account": undefined;
     Search: undefined;
     "Add friend": undefined;
+    "Create group": undefined;
 };
 
 const Stack = createStackNavigator<AuthParamList>();
@@ -36,18 +40,19 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
   };
 
   const getHeaderLeft = (route: any, navigation: any) => {
+    const { friends } = route.params;
     if(route.state) {
       switch(route.state.index) {
         // if you're currently in groups tab
         case 0:
-          return <Button title="Add Group" onPress={ () => alert("add") } />
+          return <Button title="Create Group" onPress={ () => navigation.push('Create group', { friends }) } />
 
         //if you're currently in friends tab
         case 1:
           return <Button title="Add Friend" onPress={ () => navigation.push('Add friend') } />
       }
     } else {
-      return <Button title="Add Group" onPress={ () => alert("add") } />
+      return <Button title="Create Group" onPress={ () => navigation.push('Create group', { friends }) } />
     }
   }
 
@@ -86,6 +91,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
         />
 
         <Stack.Screen name="Add friend" component={ AddFriend } />
+        <Stack.Screen name='Create group' component={ CreateGroup } />
 
         { /* swiped right */ } 
         <Stack.Screen name="Group" component={ Group }
@@ -98,7 +104,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({}) => {
               getHeaderRight(route, navigation)
             )
           })}
-         />
+        />
 
     </Stack.Navigator>
   );
