@@ -20,6 +20,7 @@ const AddFriend = () => {
     return (
         <ScrollView>
             <TextInput 
+                autoCapitalize="none"
                 style={ styles.inputField }
                 placeholder='Email'
                 value={ friendEmail }

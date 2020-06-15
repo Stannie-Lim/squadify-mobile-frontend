@@ -38,12 +38,14 @@ const Login = ({ navigation, route }: any) => {
     return (
         <SafeAreaView style={styles.container}>
             <TextInput 
+                autoCapitalize="none"
                 style={styles.inputField}
                 onChangeText={text => setEmail(text)}
                 value={email} 
                 placeholder='Email'
             />
             <TextInput 
+                autoCapitalize="none"
                 style={styles.inputField}
                 onChangeText={text => setPassword(text)}
                 value={password} 

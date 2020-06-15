@@ -8,17 +8,19 @@ import FriendRequests from './FriendRequests';
 
 const Friends = ({ navigation }: any) => {
     const [ friends, setFriends ] = useState([]);
+
+    const getFriends = async() => {
+        const token = await AsyncStorage.getItem('token');
+        const id = await AsyncStorage.getItem('id');
+        try {
+            const friendsData = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
+            setFriends(friendsData);
+        } catch(err) {
+            console.log(err);
+        }
+    };
+
     useEffect(() => {
-        const getFriends = async() => {
-            const token = await AsyncStorage.getItem('token');
-            const id = await AsyncStorage.getItem('id');
-            try {
-                const friendsData = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
-                setFriends(friendsData);
-            } catch(err) {
-                console.log(err);
-            }
-        };
         getFriends();
     }, [friends.length]);
 
@@ -28,7 +30,7 @@ const Friends = ({ navigation }: any) => {
             {
                 friends && friends.map((friend: any) => <Text key={friend.id}>{friend.firstName} {friend.lastName}</Text>)
             }
-            <FriendRequests setFriends={ setFriends } />
+            <FriendRequests getFriends={ getFriends } />
         </ScrollView>
     );
 };

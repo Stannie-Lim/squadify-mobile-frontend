@@ -3,7 +3,7 @@ import { API_URL } from 'react-native-dotenv'
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView } from 'react-native';
 
-const FriendRequests = ({ setFriends }: any) => {
+const FriendRequests = ({ getFriends }: any) => {
     const [ incomingFriendRequests, setIncomingFriendRequests ] = useState([]);
     const [ outgoingFriendRequests, setOutgoingFriendRequests ] = useState([]);
     useEffect(() => {
@@ -24,20 +24,17 @@ const FriendRequests = ({ setFriends }: any) => {
     const answer = async ({ id }: any, accepted: boolean) => {
         const myId = await AsyncStorage.getItem('id');
         const token = await AsyncStorage.getItem('token');
+        console.log(id);
         if(accepted) {
-            await axios.post(`${API_URL}/user/${myId}/acceptfriend`, { otherUserId: id }, { headers: { Authorization: token }});
+           await axios.post(`${API_URL}/user/${myId}/acceptfriend`, { otherUserId: id }, { headers: { Authorization: token }});
+        //     // your id: bf3adc17-9f5b-48b4-b9e1-d73e81393382
+        //     // friend id: 6b6377bc-0413-4244-b4dc-9e3f06e5f499
         } else {
             await axios.post(`${API_URL}/user/${myId}/rejectfriend`, { otherUserId: id }, { headers: { Authorization: token }});
         }
-        const afterAnswering = outgoingFriendRequests.filter(request => request.id !== id);
+        const afterAnswering = [...outgoingFriendRequests].filter(request => request.id !== id);
         setIncomingFriendRequests(afterAnswering);
-        // setIncomingFriendRequests(
-        try {
-            const friendsData = (await axios.get(`${API_URL}/user/${myId}/friends`, { headers: { Authorization: token }})).data;
-            setFriends(friendsData);
-        } catch(err) {
-            console.log(err);
-        }
+        getFriends();
     };
 
     return (
