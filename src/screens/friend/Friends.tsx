@@ -15,7 +15,6 @@ const Friends = ({ navigation }: any) => {
         try {
             const friendsData = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
             setFriends(friendsData);
-            // console.log(friendsData,' hello');
         } catch(err) {
             console.log(err);
         }

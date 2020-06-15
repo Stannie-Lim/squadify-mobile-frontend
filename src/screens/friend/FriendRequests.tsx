@@ -24,16 +24,16 @@ const FriendRequests = ({ getFriends }: any) => {
     const answer = async ({ id }: any, accepted: boolean) => {
         const myId = await AsyncStorage.getItem('id');
         const token = await AsyncStorage.getItem('token');
+        console.log(id);
         if(accepted) {
            await axios.post(`${API_URL}/user/${myId}/acceptfriend`, { otherUserId: id }, { headers: { Authorization: token }});
-            // your id: bf3adc17-9f5b-48b4-b9e1-d73e81393382
-            // friend id: 6b6377bc-0413-4244-b4dc-9e3f06e5f499
+        //     // your id: bf3adc17-9f5b-48b4-b9e1-d73e81393382
+        //     // friend id: 6b6377bc-0413-4244-b4dc-9e3f06e5f499
         } else {
             await axios.post(`${API_URL}/user/${myId}/rejectfriend`, { otherUserId: id }, { headers: { Authorization: token }});
         }
-        const afterAnswering = outgoingFriendRequests.filter(request => request.id !== id);
+        const afterAnswering = [...outgoingFriendRequests].filter(request => request.id !== id);
         setIncomingFriendRequests(afterAnswering);
-        // setIncomingFriendRequests(
         getFriends();
     };
 

@@ -66,12 +66,14 @@ const Register = ({ navigation }: any) => {
           placeholder='Date of Birth MM-DD-YYYY'
       />
       <TextInput 
+          autoCapitalize="none"
           style={styles.inputField}
           onChangeText={text => setEmail(text)}
           value={email} 
           placeholder='Email'
       />
       <TextInput 
+          autoCapitalize="none"
           style={styles.inputField}
           onChangeText={text => setPassword(text)}
           value={password} 
