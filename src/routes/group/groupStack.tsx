@@ -12,18 +12,6 @@ import Profile from '../../screens/group/Profile';
 import AddEvent from '../../screens/group/AddEvent';
 import Iou from '../../screens/group/Iou';
 
-// MAINVIEW AFTER YOU LOG IN
-/*
-
-
-
-NAVBAR BOTTOM: feed (top right: search), group (top left navbar: groups list, top right navbar: chats, calendar/map view), add event, IOUS, my profile
-
-
-
-
-*/
-
 // stacks
 import { PlannerStack } from './plannerStack';
 
