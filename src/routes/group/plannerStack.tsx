@@ -22,7 +22,7 @@ export const PlannerStack: React.FC<PlannerStackProps> = ({navigation, group}: a
         { () => <PlannerCalendar group={ group } navigation={ navigation } /> }
       </Stack.Screen>
       <Stack.Screen name='PlannerMap'>
-        { () => <PlannerMap group={ group } navigation={ navigation } /> }
+        { ({route}: any) => <PlannerMap group={ group } navigation={ navigation } route={route}/> }
       </Stack.Screen>
     </Stack.Navigator>
   );

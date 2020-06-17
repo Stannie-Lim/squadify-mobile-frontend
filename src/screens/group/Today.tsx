@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStor
 // components
 import EventCard from '../../cards/EventCard';
 
-const Today = ({ route, group }: any) => {
+const Today = ({ route, group, navigation }: any) => {
     const today = new Date();
     const [ events, setEvents ] = useState([]);
     useEffect(() => {
@@ -26,7 +26,7 @@ const Today = ({ route, group }: any) => {
             <View style={{ alignItems: 'center' }}>
                 <ScrollView style={{ height: Dimensions.get('window').height / 3.5, }}>
                     {
-                        events.map((event, index) => <EventCard key={ index } event={ event } /> )
+                        events.map((event, index) => <EventCard key={ index } event={ event } navigation={ navigation } /> )
                     }
                 </ScrollView>
             </View>
