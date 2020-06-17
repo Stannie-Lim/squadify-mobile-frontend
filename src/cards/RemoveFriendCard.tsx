@@ -14,9 +14,7 @@ const RemoveFriendCard = ({ friend, deleteFriend }: any) => {
         <Swipeout
             right={swipeBtns}
             backgroundColor= 'transparent'>
-                <View
-                    style={ styles.container }    
-                >
+                <View style={ styles.container }>
                     <Image source={{ uri: friend.avatarUrl }} style={ styles.avatar } />
                     <Text style={{ fontSize: 20 }} key={friend.id}>{friend.firstName} {friend.lastName}</Text>
                 </View>
