@@ -7,7 +7,7 @@ import Today from './Today';
 
 const PlannerCalendar = ({ navigation, group }: any) => {
     const goToMap = (date: any) => {
-        navigation.navigate('PlannerMap', { date })
+        navigation.navigate('PlannerMap', { date: date.dateString })
     };
 
     return (
@@ -18,7 +18,7 @@ const PlannerCalendar = ({ navigation, group }: any) => {
             <Calendar 
                 onDayPress={goToMap}
             />
-            <Today group={ group }/>
+            <Today group={ group } navigation={ navigation } />
         </SafeAreaView>
     );
 };
