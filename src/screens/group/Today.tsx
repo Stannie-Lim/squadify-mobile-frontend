@@ -1,13 +1,22 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import axios from 'axios';
+import { API_URL } from 'react-native-dotenv';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 
 // components
 import EventCard from '../../cards/EventCard';
 
-const Today = () => {
+const Today = ({ route, group }: any) => {
     const today = new Date();
-    const events = [];
-    for(let i = 0; i < 20; i++) events.push({ name: 'Cool event', description: 'This is cool', dateAndTime: today, isPrivate: true, isFinished: false });
+    const [ events, setEvents ] = useState([]);
+    useEffect(() => {
+        const getTodaysEvents = async() => {
+            const token = await AsyncStorage.getItem('token');
+            const data = (await axios.get(`${API_URL}/event/${group.id}`, { headers: { Authorization: token }})).data;
+            setEvents(data);
+        };  
+        getTodaysEvents();
+    }, [events.length]);
     return (
         <View>
             <View style={ styles.top }>

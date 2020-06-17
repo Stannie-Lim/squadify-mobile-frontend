@@ -12,6 +12,7 @@ import Chat from '../screens/group/Chat';
 import Search from '../screens/group/Search';
 import AddFriend from '../screens/friend/AddFriend';
 import CreateGroup from '../screens/group/CreateGroup';
+import SetLocation from '../screens/group/SetLocation';
 
 // stacks
 import Group from './group/groupStack';
@@ -29,6 +30,7 @@ type RoutesParamList = {
     Search: undefined;
     "Add friend": undefined;
     "Create group": undefined;
+    'Set Location': undefined;
 };
 
 const Stack = createStackNavigator<RoutesParamList>();
@@ -91,6 +93,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
 
                 <Stack.Screen name="Add friend" component={ AddFriend } />
                 <Stack.Screen name='Create group' component={ CreateGroup } />
+                <Stack.Screen name="Set Location" component={ SetLocation } />
 
                 { /* swiped right */ } 
                 <Stack.Screen name="Group" component={ Group }

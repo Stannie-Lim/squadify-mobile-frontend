@@ -6,7 +6,7 @@ const EventCard = ({ event }: any) => {
         <View style={ styles.container }>
             <Text style={{ fontSize: 30 }}>{ event.name }</Text>
             <Text>{ event.description }</Text>
-            <Text>{ event.dateAndTime.toDateString() }</Text>
+            <Text>{ new Date(event.startTime).toDateString() }</Text>
         </View>
     );
 };

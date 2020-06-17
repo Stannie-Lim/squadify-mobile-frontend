@@ -12,14 +12,18 @@ type PlannerParamList = {
 }
 
 const Stack = createStackNavigator<PlannerParamList>();
-export const PlannerStack: React.FC<PlannerStackProps> = ({}) => {
+export const PlannerStack: React.FC<PlannerStackProps> = ({navigation, group}: any) => {
   return (
     <Stack.Navigator
     screenOptions={{
       headerShown: false
     }}>
-      <Stack.Screen name='PlannerCalendar' component={ PlannerCalendar } />
-      <Stack.Screen name='PlannerMap' component={ PlannerMap } />
+      <Stack.Screen name='PlannerCalendar'>
+        { () => <PlannerCalendar group={ group } navigation={ navigation } /> }
+      </Stack.Screen>
+      <Stack.Screen name='PlannerMap'>
+        { () => <PlannerMap group={ group } navigation={ navigation } /> }
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };

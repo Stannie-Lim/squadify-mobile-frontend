@@ -26,8 +26,9 @@ type GroupParamList = {
 };
 
 const Tab = createBottomTabNavigator<GroupParamList>();
-const GroupStack: React.FC<GroupTabsProps> = ({route}: any) => {
+const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
   const { group } = route.params;
+  console.log(navigation);
 
   //ALL THE GROUP INFORMATION IS IN THIS VARIABLE 
   console.log(group);
@@ -51,8 +52,12 @@ const GroupStack: React.FC<GroupTabsProps> = ({route}: any) => {
       }}>
         <Tab.Screen name='Feed' component={Feed} />
         {/* <Tab.Screen name="Chat" component={Chat} /> */}
-        <Tab.Screen name="Planner" component={PlannerStack} />
-        <Tab.Screen name="Add Event" component={AddEvent} />
+        <Tab.Screen name="Planner">
+          { () => <PlannerStack navigation={ navigation } group={ group } /> }
+        </Tab.Screen>
+        <Tab.Screen name="Add Event">
+          { () => <AddEvent navigation={ navigation } route={ route }/> }
+        </Tab.Screen>
         <Tab.Screen name="IOUs" component={Iou} />
         <Tab.Screen name="My Profile" component={Profile} />
     </Tab.Navigator>

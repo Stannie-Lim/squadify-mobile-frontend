@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MapView, { AnimatedRegion } from 'react-native-maps';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, Button } from 'react-native';
 
 const PlannerMap = ({ route, navigation }: any) => {
@@ -10,6 +12,7 @@ const PlannerMap = ({ route, navigation }: any) => {
         latitudeDelta: 0.001,
         longitudeDelta: 0.001
     }
+
     return (
         <SafeAreaView>
             <View style={ styles.center }>
