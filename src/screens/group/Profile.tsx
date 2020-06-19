@@ -25,14 +25,18 @@ const Profile = ({ navigation }: any) => {
   {
     const getUser = async() => {
       const token = await AsyncStorage.getItem('token');
-      const me = (await axios.get(`${API_URL}/auth/me`, { headers: { Authorization: token }})).data;
-      setId(me.id)
-      setFirstName(me.firstName)
-      setLastName(me.lastName)
-      setEmail(me.email)
-      setPassword(me.password)
-      setAvatarUrl(me.avatarUrl)
-      console.log(me);
+      try { 
+        const me = (await axios.get(`${API_URL}/auth/me`, { headers: { Authorization: token }})).data;
+        setId(me.id)
+        setFirstName(me.firstName)
+        setLastName(me.lastName)
+        setEmail(me.email)
+        setPassword(me.password)
+        setAvatarUrl(me.avatarUrl)
+        console.log(me);
+      } catch(err) {
+        console.log(err);
+      }
   }
   getUser();
   }, [])

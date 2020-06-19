@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';
 // components
 import Today from './Today';
 
-const PlannerCalendar = ({ navigation, group }: any) => {
+const PlannerCalendar = ({ route, navigation, group }: any) => {
     const goToMap = (date: any) => {
         navigation.navigate('PlannerMap', { date: date.dateString })
     };
@@ -18,7 +18,7 @@ const PlannerCalendar = ({ navigation, group }: any) => {
             <Calendar 
                 onDayPress={goToMap}
             />
-            <Today group={ group } navigation={ navigation } />
+            <Today route={ route } group={ group } navigation={ navigation } />
         </SafeAreaView>
     );
 };

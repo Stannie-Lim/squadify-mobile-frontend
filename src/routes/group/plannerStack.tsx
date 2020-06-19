@@ -19,7 +19,7 @@ export const PlannerStack: React.FC<PlannerStackProps> = ({navigation, group}: a
       headerShown: false
     }}>
       <Stack.Screen name='PlannerCalendar'>
-        { () => <PlannerCalendar group={ group } navigation={ navigation } /> }
+        { ({route}: any) => <PlannerCalendar route={ route } group={ group } navigation={ navigation } /> }
       </Stack.Screen>
       <Stack.Screen name='PlannerMap'>
         { ({route}: any) => <PlannerMap group={ group } navigation={ navigation } route={route}/> }
