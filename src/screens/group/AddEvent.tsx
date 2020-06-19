@@ -49,7 +49,6 @@ const AddEvent = ({ navigation, route }: any) => {
         const time = moment(timeOfEvent).format('HH:mm:ss');
         const startTime = new Date(`${date}T${time}Z`);
         const data = (await axios.post(`${API_URL}/event/${group.id}`, { userId, name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }, { headers: {Authorization: token }})).data;
-        console.log(data);
         setName('');
         setDescription('');
         setDate('');
@@ -57,7 +56,7 @@ const AddEvent = ({ navigation, route }: any) => {
         setAddress('');
         setCoords({});
         setPrivate(false);
-        // navigation.navigate('');
+        navigation.navigate('Planner', { newEvent: data.event });
     };
 
     return (

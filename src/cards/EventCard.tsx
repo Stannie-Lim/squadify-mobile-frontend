@@ -17,14 +17,18 @@ const EventCard = ({ event, navigation }: any) => {
     useEffect(() => {
         const getGeolocation = async() => {
             const token = await AsyncStorage.getItem('token');
-            const region = (await axios.get(`${API_URL}/event/${event.id}/geolocation`, { headers: { Authorization: token }})).data;
-            setGeolocation({ 
-                latitude: region.latitude,
-                longitude: region.longitude,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-            });
-            setAddress(region.localized_address);
+            try { 
+                const region = (await axios.get(`${API_URL}/event/${event.id}/geolocation`, { headers: { Authorization: token }})).data;
+                setGeolocation({ 
+                    latitude: region.latitude * 1,
+                    longitude: region.longitude * 1,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
+                });
+                setAddress(region.localized_address);
+            } catch(err) {
+                console.log(err);
+            }
         };
         getGeolocation();
     }, [address]);

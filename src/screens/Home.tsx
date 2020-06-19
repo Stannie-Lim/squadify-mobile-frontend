@@ -17,33 +17,35 @@ const Home = ({ navigation, route }: any) => {
       }
     };
     getGroups();
-  }, [groups]);
+  }, [groups.length]);
   return (
-      <ScrollView>
-        {
-          route.params 
-          ? route.params.groups.map((group: any, index: number) => 
-            <TouchableOpacity 
-              style={ styles.container }
-              key={index} 
-              onPress={ () => navigation.navigate('Group', { group } ) }
-            >
-              <Image source={{ uri: group.avatarUrl }} style={ styles.avatar } />
-              <Text style={ group.isPrivate ? styles.private : styles.public }>{group.name}</Text>
-            </TouchableOpacity> 
-          ):
-          groups?.map((group: any, index: number) => 
-            <TouchableOpacity 
-              style={ styles.container }
-              key={index} 
-              onPress={ () => navigation.navigate('Group', { group } ) }
-            >
-              <Image source={{ uri: group.avatarUrl }} style={ styles.avatar } />
-              <Text style={ group.isPrivate ? styles.private : styles.public }>{group.name}</Text>
-            </TouchableOpacity> 
-          ) 
-        }
-      </ScrollView>
+    groups.length === 0 ? 
+    <Text>You have no groups!</Text> :
+    <ScrollView>
+      {
+        route.params 
+        ? route.params.groups.map((group: any, index: number) => 
+          <TouchableOpacity 
+            style={ styles.container }
+            key={index} 
+            onPress={ () => navigation.navigate('Group', { group } ) }
+          >
+            <Image source={{ uri: group.avatarUrl }} style={ styles.avatar } />
+            <Text style={ group.isPrivate ? styles.private : styles.public }>{group.name}</Text>
+          </TouchableOpacity> 
+        ):
+        groups?.map((group: any, index: number) => 
+          <TouchableOpacity 
+            style={ styles.container }
+            key={index} 
+            onPress={ () => navigation.navigate('Group', { group } ) }
+          >
+            <Image source={{ uri: group.avatarUrl }} style={ styles.avatar } />
+            <Text style={ group.isPrivate ? styles.private : styles.public }>{group.name}</Text>
+          </TouchableOpacity> 
+        ) 
+      }
+    </ScrollView>
   );
 };
 

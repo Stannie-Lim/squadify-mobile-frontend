@@ -10,11 +10,15 @@ const AddFriend = () => {
         const token = await AsyncStorage.getItem('token');
         const id = await AsyncStorage.getItem('id');
 
-        const friendId = (await axios.get(`${API_URL}/user/${friendEmail}`, { headers: { Authorization: token} })).data.id;
+        try {
+            const friendId = (await axios.get(`${API_URL}/user/${friendEmail}`, { headers: { Authorization: token} })).data.id;
 
-        const friendrequest = (await axios.post(`${API_URL}/user/${id}/addfriend`, { otherUserId: friendId }, {headers: { Authorization: token }} )).data;
+            const friendrequest = (await axios.post(`${API_URL}/user/${id}/addfriend`, { otherUserId: friendId }, {headers: { Authorization: token }} )).data;
 
-        console.log(friendrequest);
+            console.log(friendrequest);
+        } catch(err) {
+            console.log(err);
+        }
     };
 
     return (

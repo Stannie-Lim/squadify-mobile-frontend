@@ -23,9 +23,13 @@ const CreateGroup = ({ navigation, route }: any) => {
         const { groups } = route.params;
         const token = await AsyncStorage.getItem('token');
         const id = await AsyncStorage.getItem('id');
-        const newGroup = (await axios.post(`${API_URL}/groups`, { name, isPrivate, creatorId: id, friendIds: chosenFriends, avatarUrl }, { headers: { Authorization: token }} )).data;
-        const setGroups = [...groups, newGroup.group.raw[0]];
-        navigation.replace('Your Account', { groups: setGroups, navigation, route });
+        try {
+            const newGroup = (await axios.post(`${API_URL}/groups`, { name, isPrivate, creatorId: id, friendIds: chosenFriends, avatarUrl }, { headers: { Authorization: token }} )).data;
+            const setGroups = [...groups, newGroup.group.raw[0]];
+            navigation.replace('Your Account', { groups: setGroups, navigation, route });
+        } catch(err) {
+            console.log(err);
+        }
     };
 
     return (
