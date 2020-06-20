@@ -22,7 +22,6 @@ const SetLocation = ({ navigation }: any) => {
     const [ address, setAddress ] = useState('');
     
     useEffect(() => {
-        console.log('hello');
         const getCurrentLocation = async() => {
             const { status } = await Permissions.askAsync(Permissions.LOCATION);
             if(status !== 'granted') {

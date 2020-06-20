@@ -44,19 +44,27 @@ const AddEvent = ({ navigation, route }: any) => {
         const { group } = route.params;
         const userId = await AsyncStorage.getItem('id');
         const token = await AsyncStorage.getItem('token');
-        console.log(token);
+        // console.log(token);
         const date = moment(dateOfEvent).format('YYYY-MM-DD');
         const time = moment(timeOfEvent).format('HH:mm:ss');
         const startTime = new Date(`${date}T${time}Z`);
-        const data = (await axios.post(`${API_URL}/event/${group.id}`, { userId, name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }, { headers: {Authorization: token }})).data;
-        setName('');
-        setDescription('');
-        setDate('');
-        setTime('');
-        setAddress('');
-        setCoords({});
-        setPrivate(false);
-        navigation.navigate('Planner', { newEvent: data.event });
+        const now = new Date();
+        if(startTime < now) alert('Cannot create an event in the past!');
+        else {
+            try {
+                const data = (await axios.post(`${API_URL}/event/${group.id}`, { userId, name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }, { headers: {Authorization: token }})).data;
+                setName('');
+                setDescription('');
+                setDate('');
+                setTime('');
+                setAddress('');
+                setCoords({});
+                setPrivate(false);
+                navigation.navigate('Planner', { newEvent: data.event });
+            } catch(err) {
+                console.log(err);
+            }
+        }
     };
 
     return (
