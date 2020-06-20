@@ -12,11 +12,11 @@ const Iou = () => {
     useEffect(() => {
         const getUser = async() => {
             const token = await AsyncStorage.getItem('token');
-            console.log(token);
-            console.log(`${API_URL}/auth/me`);
+            // console.log(token);
+            // console.log(`${API_URL}/auth/me`);
             try { 
                 const me = (await axios.get(`${API_URL}/auth/me`, { headers: { Authorization: token }})).data;
-                console.log(me);
+                // console.log(me);
                 setUser(me);
             } catch(err) {
                 console.log(err);

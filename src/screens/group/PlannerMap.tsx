@@ -18,6 +18,7 @@ const PlannerMap = ({ route, navigation }: any) => {
     const { date } = route.params;
     useEffect(() => {
         if(route.params.mapRegion) {
+            // console.log(route.params.mapRegion);
             setMapRegion(route.params.mapRegion);
             setAddress(route.params.address);
             setEvent(route.params.event);

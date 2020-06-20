@@ -15,7 +15,7 @@ const AddFriend = () => {
 
             const friendrequest = (await axios.post(`${API_URL}/user/${id}/addfriend`, { otherUserId: friendId }, {headers: { Authorization: token }} )).data;
 
-            console.log(friendrequest);
+            // console.log(friendrequest);
         } catch(err) {
             console.log(err);
         }

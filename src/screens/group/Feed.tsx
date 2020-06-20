@@ -6,13 +6,17 @@ import * as Permissions from 'expo-permissions';
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage } from 'react-native';
 
-const Feed = () => {
+// components
+import EventCard from '../../cards/EventCard'
+
+const Feed = ({ navigation }: any) => {
     const [ mapRegion, setMapRegion ] = useState({
         latitude: 0,
         longitude: 0
     });
     
     const [ events, setEvents ] = useState([]);
+    const radius = 10;
 
     useEffect(() => {
         const getCurrentLocation = async() => {
@@ -24,7 +28,8 @@ const Feed = () => {
                     const location = await Location.getCurrentPositionAsync();
                     const token = await AsyncStorage.getItem('token');
                     const { latitude, longitude } = location.coords;
-                    const findEvents = (await axios.get(`${API_URL}/event/searcharea/1000/${latitude}/${longitude}`, { headers: { Authorization: token }} )).data;
+                    const findEvents = (await axios.get(`${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`, { headers: { Authorization: token }} )).data;
+                    console.log(findEvents, 'geolocation events');
                     setEvents(findEvents);
                 } catch(err) {
                     console.log(err);
@@ -35,7 +40,10 @@ const Feed = () => {
     }, []);
     return (
         <SafeAreaView>
-            <Text>Feed</Text>
+            <Text>Feed. Radius: {radius}</Text>
+            {
+                events.map((event, index) => <EventCard key={ index } event={event } navigation={ navigation } /> )
+            }
         </SafeAreaView>
     );
 };
