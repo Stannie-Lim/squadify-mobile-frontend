@@ -42,9 +42,6 @@ const AddEvent = ({ navigation, route }: any) => {
 
     const createEvent = async() => {
         const { group } = route.params;
-        const userId = await AsyncStorage.getItem('id');
-        const token = await AsyncStorage.getItem('token');
-        // console.log(token);
         const date = moment(dateOfEvent).format('YYYY-MM-DD');
         const time = moment(timeOfEvent).format('HH:mm:ss');
         const startTime = new Date(`${date}T${time}Z`);
@@ -52,8 +49,10 @@ const AddEvent = ({ navigation, route }: any) => {
         if(startTime < now) alert('Cannot create an event in the past!');
         else {
             try {
-                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { userId, name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }))?.data;
+                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }))?.data;
+
                 await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.event.identifiers[0].id });
+
                 setName('');
                 setDescription('');
                 setDate('');

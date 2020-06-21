@@ -6,16 +6,18 @@ import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView 
 const FriendRequests = ({ getFriends }: any) => {
     const [ incomingFriendRequests, setIncomingFriendRequests ] = useState([]);
     const [ outgoingFriendRequests, setOutgoingFriendRequests ] = useState([]);
+    
+    const allFriendRequests = async () => {
+        try {
+            const requests = (await AxiosHttpRequest('GET', `${API_URL}/user/friendrequests`))?.data;
+            setIncomingFriendRequests(requests.incomingRequests);
+            setOutgoingFriendRequests(requests.sentRequests);
+        } catch(err) {
+            console.log(err);
+        }
+    };
+
     useEffect(() => {
-        const allFriendRequests = async () => {
-            try {
-                const requests = (await AxiosHttpRequest('GET', `${API_URL}/user/friendrequests`))?.data;
-                setIncomingFriendRequests(requests.incomingRequests);
-                setOutgoingFriendRequests(requests.sentRequests);
-            } catch(err) {
-                console.log(err);
-            }
-        };
         allFriendRequests();
     }, [outgoingFriendRequests.length]);
 
