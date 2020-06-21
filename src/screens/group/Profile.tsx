@@ -1,49 +1,91 @@
+import { RNS3 } from 'react-native-aws3';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useEffect } from 'react';
-import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput } from 'react-native';
-import { API_URL } from 'react-native-dotenv'
-import axios from 'axios';
+import { AxiosHttpRequest, getUser } from '../../utils/axios';
+import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
+import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, TouchableOpacity } from 'react-native';
+
+//components 
 
 const Profile = ({ navigation }: any) => {
-  const [ id, setId ] = useState('');
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ lastName, setLastName ] = useState('');
-  const [ firstName, setFirstName ] = useState('');
-  const [ dob, setDob ] = useState('');
-  const [ avatarUrl, setAvatarUrl ] = useState('');
+  const [ user, setUser ] = useState({
+    firstName: '',
+    lastName: '',
+    password: '',
+    email: '', 
+    avatarUrl: ''
+  });
 
   const Update = async() => {
     try {
-        const user = (await axios.put(`${API_URL}/user/${id}/updateProfile`, { id, firstName, lastName, email, password, avatarUrl})).data;
-        console.log(user)
+      //wait until we're not too lazy to do the password hashing first 
+
+      // const updated = (await AxiosHttpRequest('PUT', `${API_URL}/user/updateProfile`, {
+      //   firstName: user.firstName, 
+      //   lastName: user.lastName, 
+      //   email: user.email, 
+      //   password: 'password', 
+      //   avatarUrl: user.avatarUrl
+      // }))?.data;
+      // setUser({
+      //   firstName: updated.raw[0].firstName,
+      //   lastName: updated.raw[0].lastName,
+      //   password: updated.raw[0].password,
+      //   email: updated.raw[0].email,
+      //   avatarUrl: updated.raw[0].avatarUrl
+      // });
     } catch(err) { 
       console.log(err);
     }
   };
 
-  useEffect( () => 
-  {
-    const getUser = async() => {
-      const token = await AsyncStorage.getItem('token');
-      try { 
-        const me = (await axios.get(`${API_URL}/auth/me`, { headers: { Authorization: token }})).data;
-        setId(me.id)
-        setFirstName(me.firstName)
-        setLastName(me.lastName)
-        setEmail(me.email)
-        setPassword(me.password)
-        setAvatarUrl(me.avatarUrl)
-        console.log(me);
-      } catch(err) {
+  const pickImage = async () => {
+    try {
+        await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
+        if(!cancelled) {
+          const file = {
+            uri,
+            name: `${user.email.replace('.', '').replace('@', '')}_avatar`, 
+            type: 'image/jpg',
+          };
+          const config = {
+              keyPrefix: 'users/',
+              bucket: 'squadify-avatars',
+              region: REGION,
+              accessKey: ACCESS_KEY_ID,
+              secretKey: SECRET_ACCESS_KEY
+          };
+          const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
+          setUser({ 
+            firstName: user.firstName, 
+            lastName: user.lastName,
+            password: user.password,
+            email: user.email,
+            avatarUrl 
+          });
+          Update();
+        }
+    } catch(err) {
         console.log(err);
-      }
-  }
-  getUser();
+    }
+  };
+
+  useEffect( () => {
+    const getUserInfo = async () => {
+      await getUser(setUser);
+    };
+    getUserInfo();
   }, [])
 
   return (
     <SafeAreaView style={styles.container}>
-      <TextInput 
+      <TouchableOpacity onPress={ pickImage }>
+        { user.avatarUrl.length !== 0 && <Image source={{ uri: user.avatarUrl }} style={ styles.avatar } /> }
+      </TouchableOpacity>
+
+      {/* <TextInput 
           style={styles.inputField}
           onChangeText={text => setFirstName(text)}
           value={firstName} 
@@ -72,8 +114,8 @@ const Profile = ({ navigation }: any) => {
           onChangeText={text => setPassword(text)}
           value={password} 
           placeholder='Password'
-      />
-      <Button title='Update Info' onPress={ Update } />
+      /> */}
+      {/* <Button title='Update Info' onPress={ Update } /> */}
     </SafeAreaView>
   );
 };
@@ -88,8 +130,13 @@ const styles = StyleSheet.create({
   },
   container: {
       flex: 1,
-      justifyContent: 'center',
-  }
+      alignItems: 'center'
+  },
+  avatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+  }, 
 });
 
 export default Profile;

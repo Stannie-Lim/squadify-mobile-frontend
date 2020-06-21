@@ -36,6 +36,13 @@ export const AxiosHttpRequest = async (method: string, url: string, data?: objec
             'Authorization': `Bearer ${await getJwt()}`
           }
         })
+    case 'PUT':
+      return axios.put(url, data,
+        {
+          headers: {
+            'Authorization': `Bearer ${await getJwt()}`
+          }
+        })
     default:
       alert('Not a valid method');
       break;

@@ -1,30 +1,48 @@
-import { API_URL } from 'react-native-dotenv';
+import { RNS3 } from 'react-native-aws3';
 import React, {useState, useEffect} from 'react';
 import { CheckBox } from 'react-native-elements';
 import { AxiosHttpRequest } from '../../utils/axios';
+import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView, Dimensions } from 'react-native';
 
 //cards 
 import FriendCard from '../../cards/FriendCard';
 
+//components 
+import ChooseImage from '../auth/ChooseImage';
+
 const CreateGroup = ({ navigation, route }: any) => {
     const [ name, setName ] = useState('');
     const [ isPrivate, setPrivate ] = useState(false);
     const [ chosenFriends, setChosenFriends ] = useState([]);
-    const [ avatarUrl, setAvatarUrl ] = useState('https://66.media.tumblr.com/79a1ac638d6e50f1fa5d760be1d8a51a/tumblr_inline_ojk654MOr11qzet7p_250.png');
+    const [ avatarUrl, setImage ] = useState('');
 
     // not used in api calls
     const [ myFriends, setFriends ] = useState([]);
+
     useEffect(() => {
         setFriends(route.params.friends);
     }, []);
 
     const createGroup = async () => {
         const { groups } = route.params;
-        const token = await AsyncStorage.getItem('token');
-        const id = await AsyncStorage.getItem('id');
         try {
-            const newGroup = (await AxiosHttpRequest('POST', `${API_URL}/groups`, { name, isPrivate, creatorId: id, friendIds: chosenFriends, avatarUrl }))?.data;
+            const file = {
+                uri: avatarUrl,
+                name: `${name}_group_avatar`, 
+                type: 'image/jpg',
+              };
+              const config = {
+                  keyPrefix: 'groups//',
+                  bucket: 'squadify-avatars',
+                  region: REGION,
+                  accessKey: ACCESS_KEY_ID,
+                  secretKey: SECRET_ACCESS_KEY
+              };
+
+            const url = (await RNS3.put(file, config)).body.postResponse.location;
+
+            const newGroup = (await AxiosHttpRequest('POST', `${API_URL}/groups/create`, { name, isPrivate, friendIds: chosenFriends, avatarUrl: url }))?.data;
             const setGroups = [...groups, newGroup.group.raw[0]];
             navigation.replace('Your Account', { groups: setGroups, navigation, route });
         } catch(err) {
@@ -47,7 +65,7 @@ const CreateGroup = ({ navigation, route }: any) => {
                 uncheckedIcon='circle-o'
                 onPress={ () => setPrivate(!isPrivate) }
             />
-            <Text>Choose image</Text>
+            <ChooseImage setImage={setImage} />
             <Text style={{ fontSize: 30 }}>Add friends</Text>
             <ScrollView style={ styles.listOfFriends }>
                 {
@@ -71,7 +89,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     listOfFriends: {
-        height: Dimensions.get('window').height / 1.7,
+        height: Dimensions.get('window').height / 2,
         borderTopColor: 'black',
         borderBottomColor: 'black',
         borderTopWidth: 1,

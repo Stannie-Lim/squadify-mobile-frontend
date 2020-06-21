@@ -1,6 +1,8 @@
+import moment from 'moment';
 import React, { useState } from 'react';
 import { RNS3 } from 'react-native-aws3';
 import { AxiosHttpRequest, setJwt } from '../../utils/axios';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
 import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image } from 'react-native';
 
@@ -12,8 +14,14 @@ const Register = ({ navigation }: any) => {
   const [ password, setPassword ] = useState('');
   const [ lastName, setLastName ] = useState('');
   const [ firstName, setFirstName ] = useState('');
-  const [ dob, setDob ] = useState('');
+  const [ dob, setDob ] = useState({});
   const [ image, setImage ] = useState(null);
+  const [ isDatePickerVisible, setDatePickerVisibility ] = useState(false);
+
+  const handleDate = (dateObj: object): void => {
+    setDob(dateObj);
+    setDatePickerVisibility(false);
+  };
 
   const register = async() => {
     try {
@@ -23,6 +31,7 @@ const Register = ({ navigation }: any) => {
         type: 'image/jpg',
       };
       const config = {
+          keyPrefix: 'users/',
           bucket: 'squadify-avatars',
           region: REGION,
           accessKey: ACCESS_KEY_ID,
@@ -30,14 +39,14 @@ const Register = ({ navigation }: any) => {
       };
       const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
 
-      const token = (await AxiosHttpRequest('POST', `${API_URL}/auth/register`, { email, password, lastName, firstName, dob, avatarUrl }))?.data.token;
+      const token = (await AxiosHttpRequest('POST', `${API_URL}/auth/register`, { email, password, lastName, firstName, dob: moment(dob).format('MM-DD-YYYY'), avatarUrl }))?.data.token;
 
       setJwt(token);
 
       navigation.replace('Your Account', { groups: [] });
 
     } catch(err) { 
-      console.log(err);
+      alert("backend is not running right now");
     }
   };
 
@@ -55,11 +64,13 @@ const Register = ({ navigation }: any) => {
           value={lastName} 
           placeholder='Last Name'
       />
-       <TextInput 
-          style={styles.inputField}
-          onChangeText={text => setDob(text)}
-          value={dob} 
-          placeholder='Date of Birth MM-DD-YYYY'
+       <Text>{moment(dob).format('dddd, MMMM Do YYYY')}</Text>
+          <Button title="Set Date" onPress={ () => setDatePickerVisibility(true) } />
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleDate}
+            onCancel={ () => setDatePickerVisibility(false) }
       />
       <TextInput 
           autoCapitalize="none"

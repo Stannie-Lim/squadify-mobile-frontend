@@ -30,7 +30,7 @@ const Login = ({ navigation, route }: any) => {
                 navigation.replace('Your Account', { groups, friends });
             }
         } catch(err) {
-            console.log(err);
+            alert("Incorrect information or backend not running right now :)");
         }
     };
 
