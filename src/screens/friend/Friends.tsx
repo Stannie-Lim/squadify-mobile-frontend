@@ -33,7 +33,7 @@ const Friends = ({ navigation }: any) => {
                     const token = await AsyncStorage.getItem('token');
                     const id = await AsyncStorage.getItem('id');
                     try {
-                        await axios.delete(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }, data: { otherUserId: friendId }} );
+                        await AxiosHttpRequest('DELETE', `${API_URL}/user/friends/${friendId}`);
                         getFriends();
                     } catch(err) {
                         console.log(err);   
