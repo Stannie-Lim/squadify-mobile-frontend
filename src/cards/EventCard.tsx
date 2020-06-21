@@ -1,7 +1,7 @@
-import axios from 'axios';
 import moment from 'moment';
 import { API_URL } from 'react-native-dotenv';
 import React, {useState, useEffect} from 'react';
+import { AxiosHttpRequest } from '../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -18,7 +18,7 @@ const EventCard = ({ event, navigation }: any) => {
         const getGeolocation = async() => {
             const token = await AsyncStorage.getItem('token');
             try { 
-                const region = (await axios.get(`${API_URL}/event/${event.id}/geolocation`, { headers: { Authorization: token }})).data;
+                const region = (await AxiosHttpRequest('GET', `${API_URL}/event/${event.id}/geolocation`))?.data;
                 setGeolocation({ 
                     latitude: region.latitude * 1,
                     longitude: region.longitude * 1,

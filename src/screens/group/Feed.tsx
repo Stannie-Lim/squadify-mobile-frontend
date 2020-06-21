@@ -1,9 +1,9 @@
-import axios from 'axios';
 import * as Location from 'expo-location';
 import Geocoder from 'react-native-geocoding';
 import { API_URL } from 'react-native-dotenv';
 import * as Permissions from 'expo-permissions';
 import React, {useState, useEffect} from 'react';
+import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage } from 'react-native';
 
 // components
@@ -26,9 +26,8 @@ const Feed = ({ navigation }: any) => {
             } else {
                 try {
                     const location = await Location.getCurrentPositionAsync();
-                    const token = await AsyncStorage.getItem('token');
                     const { latitude, longitude } = location.coords;
-                    const findEvents = (await axios.get(`${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`, { headers: { Authorization: token }} )).data;
+                    const findEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data;
                     console.log(findEvents, 'geolocation events');
                     setEvents(findEvents);
                 } catch(err) {

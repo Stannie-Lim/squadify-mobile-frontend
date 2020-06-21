@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { API_URL } from 'react-native-dotenv'
 import React, { useState, useEffect } from 'react';
+import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView } from 'react-native';
 
 const FriendRequests = ({ getFriends }: any) => {
@@ -9,9 +9,7 @@ const FriendRequests = ({ getFriends }: any) => {
     useEffect(() => {
         const allFriendRequests = async () => {
             try {
-                const id = await AsyncStorage.getItem('id');
-                const token = await AsyncStorage.getItem('token');
-                const requests = (await axios.get(`${API_URL}/user/${id}/friendrequests`, { headers: { Authorization: token}})).data;
+                const requests = (await AxiosHttpRequest('GET', `${API_URL}/user/friendrequests`))?.data;
                 setIncomingFriendRequests(requests.incomingRequests);
                 setOutgoingFriendRequests(requests.sentRequests);
             } catch(err) {
@@ -22,16 +20,9 @@ const FriendRequests = ({ getFriends }: any) => {
     }, [outgoingFriendRequests.length]);
 
     const answer = async ({ id }: any, accepted: boolean) => {
-        const myId = await AsyncStorage.getItem('id');
-        const token = await AsyncStorage.getItem('token');
-        console.log(id);
-        if(accepted) {
-           await axios.post(`${API_URL}/user/${myId}/acceptfriend`, { otherUserId: id }, { headers: { Authorization: token }});
-        //     // your id: bf3adc17-9f5b-48b4-b9e1-d73e81393382
-        //     // friend id: 6b6377bc-0413-4244-b4dc-9e3f06e5f499
-        } else {
-            await axios.post(`${API_URL}/user/${myId}/rejectfriend`, { otherUserId: id }, { headers: { Authorization: token }});
-        }
+        accepted ? await AxiosHttpRequest('POST', `${API_URL}/user/acceptfriend`, { otherUserId: id })
+        : await AxiosHttpRequest('POST', `${API_URL}/user/rejectfriend`, { otherUserId: id });
+
         const afterAnswering = [...outgoingFriendRequests].filter(request => request.id !== id);
         setIncomingFriendRequests(afterAnswering);
         getFriends();

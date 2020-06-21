@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { API_URL } from 'react-native-dotenv';
 import React, {useState, useEffect} from 'react';
 import { CheckBox } from 'react-native-elements';
+import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView, Dimensions } from 'react-native';
 
 //cards 
@@ -24,7 +24,7 @@ const CreateGroup = ({ navigation, route }: any) => {
         const token = await AsyncStorage.getItem('token');
         const id = await AsyncStorage.getItem('id');
         try {
-            const newGroup = (await axios.post(`${API_URL}/groups`, { name, isPrivate, creatorId: id, friendIds: chosenFriends, avatarUrl }, { headers: { Authorization: token }} )).data;
+            const newGroup = (await AxiosHttpRequest('POST', `${API_URL}/groups`, { name, isPrivate, creatorId: id, friendIds: chosenFriends, avatarUrl }))?.data;
             const setGroups = [...groups, newGroup.group.raw[0]];
             navigation.replace('Your Account', { groups: setGroups, navigation, route });
         } catch(err) {

@@ -3,7 +3,7 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
 
-const ChooseImage = ({ setImage }) => {
+const ChooseImage = ({ setImage }: any) => {
     const pickImage = async () => {
         try {
             await Permissions.askAsync(Permissions.CAMERA_ROLL);

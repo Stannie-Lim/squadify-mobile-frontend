@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
 
 const Chat = () => {

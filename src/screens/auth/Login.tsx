@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { API_URL } from 'react-native-dotenv';
+import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput } from 'react-native';
 
 const Login = ({ navigation, route }: any) => {
@@ -11,20 +11,19 @@ const Login = ({ navigation, route }: any) => {
 
     const login = async () => {
         try {
-            const token = `Bearer ${(await axios.post(`${API_URL}/auth/login`, { email, password })).data.token}`;
+            const { token } = (await AxiosHttpRequest('POST', `${API_URL}/auth/login`, { email, password }))?.data;
+            setJwt(token);
 
-            const { id } = (await axios.get(`${API_URL}/user/${email}`, { headers: { Authorization: token }})).data;
-            
-            const friendsData = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
+            // const { id } = (await AxiosHttpRequest('GET', `${API_URL}/user/${email}`))?.data;
+            // await AsyncStorage.setItem("id", id);
 
-            const groupsData = (await axios.get(`${API_URL}/groups/${id}`, { headers: { Authorization: token }})).data;
+            const friendsData = (await AxiosHttpRequest('GET', `${API_URL}/user/friends`))?.data;
+
+            const groupsData = (await AxiosHttpRequest('GET', `${API_URL}/user/groups`))?.data;
 
             setFriends(friendsData);
             setGroups(groupsData);
 
-            await AsyncStorage.setItem("token", token);
-            await AsyncStorage.setItem("id", id);
-            // navigation.replace('Grouup', { group: groups[0], groups, friends });
             if(groupsData.length !== 0) {
                 navigation.replace('Group', { group: groupsData[0], groups: groupsData, friends: friendsData });
             } else {

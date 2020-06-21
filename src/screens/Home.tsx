@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { API_URL } from 'react-native-dotenv';
+import { AxiosHttpRequest } from '../utils/axios';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 
@@ -7,10 +7,8 @@ const Home = ({ navigation, route }: any) => {
   const [ groups, setGroups ] = useState([]);
   useEffect(() => {
     const getGroups = async() => {
-      const token = await AsyncStorage.getItem('token');
-      const id = await AsyncStorage.getItem('id');
       try {
-        const groupsData = (await axios.get(`${API_URL}/groups/${id}`, { headers: { Authorization: token }})).data;
+        const groupsData = (await AxiosHttpRequest('GET', `${API_URL}/user/groups`))?.data;
         setGroups(groupsData);
       } catch(err) {
         console.log(err);

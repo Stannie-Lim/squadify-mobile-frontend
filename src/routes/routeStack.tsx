@@ -1,4 +1,5 @@
 import React from 'react';
+import { removeJwt } from '../utils/axios';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Button, Text, AsyncStorage, Modal } from "react-native";
@@ -36,7 +37,7 @@ type RoutesParamList = {
 const Stack = createStackNavigator<RoutesParamList>();
 export const Routes: React.FC<RoutesProps> = ({}) => {
     const logout = (navigation: any) => {
-        AsyncStorage.removeItem("token");
+        removeJwt();
         navigation.popToTop();
       };
     

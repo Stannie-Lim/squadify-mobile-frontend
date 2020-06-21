@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { RNS3 } from 'react-native-aws3';
+import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
 import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image } from 'react-native';
-import axios from 'axios';
 
 // component
 import ChooseImage from './ChooseImage';
@@ -30,13 +30,9 @@ const Register = ({ navigation }: any) => {
       };
       const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
 
-      const token = (await axios.post(`${API_URL}/auth/register`, { email, password, lastName, firstName, dob, avatarUrl } )).data.token; 
+      const token = (await AxiosHttpRequest('POST', `${API_URL}/auth/register`, { email, password, lastName, firstName, dob, avatarUrl }))?.data.token;
 
-      // const { id } = (await axios.get(`${API_URL}/user/${email}`, { headers: { Authorization: token }})).data;
-
-      // const friends = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
-
-      await AsyncStorage.setItem("token", token);
+      setJwt(token);
 
       navigation.replace('Your Account', { groups: [] });
 
