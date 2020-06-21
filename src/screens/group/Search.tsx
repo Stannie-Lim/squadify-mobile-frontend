@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, {useState} from 'react';
 import { API_KEY } from 'react-native-dotenv'
+import { AxiosHttpRequest } from '../../utils/axios';
 import MapView, { AnimatedRegion } from 'react-native-maps';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions } from 'react-native';
 
@@ -17,7 +17,7 @@ const Search = () => {
     const findLocation = async () => {
         try {
             const address = value.replace(' ', '+');
-            const location = (await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${API_KEY}`)).data;
+            const location = (await AxiosHttpRequest('GET', `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${API_KEY}`))?.data;
             setLatitude(location.results[0].geometry.location.lat);
             setLongitude(location.results[0].geometry.location.lng);
         } catch(err) {

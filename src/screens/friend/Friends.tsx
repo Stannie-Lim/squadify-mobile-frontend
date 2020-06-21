@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { API_URL } from 'react-native-dotenv';
 import React, { useState, useEffect } from 'react';
+import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, ScrollView, AsyncStorage, Alert } from 'react-native';
 
 //components 
@@ -11,10 +11,8 @@ const Friends = ({ navigation }: any) => {
     const [ friends, setFriends ] = useState([]);
 
     const getFriends = async() => {
-        const token = await AsyncStorage.getItem('token');
-        const id = await AsyncStorage.getItem('id');
         try {
-            const friendsData = (await axios.get(`${API_URL}/user/${id}/friends`, { headers: { Authorization: token }})).data;
+            const friendsData = (await AxiosHttpRequest('GET', `${API_URL}/user/friends`))?.data;
             setFriends(friendsData);
         } catch(err) {
             console.log(err);

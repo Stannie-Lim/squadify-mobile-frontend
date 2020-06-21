@@ -1,8 +1,8 @@
 import moment from 'moment';
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
 import { API_URL } from 'react-native-dotenv';
 import { CheckBox } from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import { AxiosHttpRequest } from '../../utils/axios';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions, AsyncStorage } from 'react-native';
 
@@ -52,7 +52,8 @@ const AddEvent = ({ navigation, route }: any) => {
         if(startTime < now) alert('Cannot create an event in the past!');
         else {
             try {
-                const data = (await axios.post(`${API_URL}/event/${group.id}`, { userId, name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }, { headers: {Authorization: token }})).data;
+                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { userId, name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }))?.data;
+                await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.event.identifiers[0].id });
                 setName('');
                 setDescription('');
                 setDate('');

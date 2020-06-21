@@ -1,21 +1,18 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { API_URL } from 'react-native-dotenv'
+import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, ScrollView, TextInput, Button, AsyncStorage } from 'react-native';
 
 const AddFriend = () => {
     const [ friendEmail, setFriendEmail ] = useState('');
 
     const addFriend = async () => {
-        const token = await AsyncStorage.getItem('token');
-        const id = await AsyncStorage.getItem('id');
-
         try {
-            const friendId = (await axios.get(`${API_URL}/user/${friendEmail}`, { headers: { Authorization: token} })).data.id;
+            const friendId = (await AxiosHttpRequest('GET', `${API_URL}/user/findfriend/${friendEmail}`))?.data.id;
 
-            const friendrequest = (await axios.post(`${API_URL}/user/${id}/addfriend`, { otherUserId: friendId }, {headers: { Authorization: token }} )).data;
+            const friendrequest = (await AxiosHttpRequest('POST', `${API_URL}/user/addfriend`, { otherUserId: friendId }))?.data;
 
-            // console.log(friendrequest);
+            console.log(friendrequest);
         } catch(err) {
             console.log(err);
         }

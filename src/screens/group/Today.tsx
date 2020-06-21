@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { API_URL } from 'react-native-dotenv';
 import React, {useState, useEffect} from 'react';
+import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 
 // components
@@ -13,7 +13,7 @@ const Today = ({ route, group, navigation }: any) => {
     const getTodaysEvents = async() => {
         const token = await AsyncStorage.getItem('token');
         try { 
-            const data = (await axios.get(`${API_URL}/event/${group.id}`, { headers: { Authorization: token }})).data;
+            const data = (await AxiosHttpRequest('GET', `${API_URL}/event/group_events/${group.id}`))?.data;
             setEvents(data);
         } catch(err) {
             console.log(err);
