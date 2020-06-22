@@ -51,7 +51,7 @@ const AddEvent = ({ navigation, route }: any) => {
             try {
                 const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }))?.data;
 
-                await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.event.identifiers[0].id });
+                await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.id });
 
                 setName('');
                 setDescription('');
