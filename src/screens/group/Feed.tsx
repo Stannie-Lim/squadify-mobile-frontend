@@ -4,7 +4,7 @@ import { API_URL } from 'react-native-dotenv';
 import * as Permissions from 'expo-permissions';
 import React, {useState, useEffect} from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView, RefreshControl } from 'react-native';
 
 // components
 import EventCard from '../../cards/EventCard'
@@ -16,32 +16,53 @@ const Feed = ({ navigation }: any) => {
     });
     
     const [ events, setEvents ] = useState([]);
+    const [ refreshing, setRefreshing ] = useState(false);
+    const [ latitude, setLatitude ] = useState(0.0);
+    const [ longitude, setLongitude ] = useState(0.0);
+
     const radius = 10;
 
     useEffect(() => {
-        const getCurrentLocation = async() => {
-            const { status } = await Permissions.askAsync(Permissions.LOCATION);
-            if(status !== 'granted') {
-                alert('too bad');
-            } else {
-                try {
-                    const location = await Location.getCurrentPositionAsync();
-                    const { latitude, longitude } = location.coords;
-                    const findEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data;
-                    console.log(findEvents, 'geolocation events');
-                    setEvents(findEvents);
-                } catch(err) {
-                    console.log(err);
-                }
-            }   
-        };
         getCurrentLocation();
-    }, []);
+        findEvents();
+    }, [latitude, longitude]);
+
+    const refresh = async () => {
+        setRefreshing(true);
+        findEvents();
+        setRefreshing(false);
+    };
+
+    const findEvents = async() => {
+        const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data;
+        setEvents(foundEvents);
+    };
+
+    const getCurrentLocation = async() => {
+        const { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if(status !== 'granted') {
+            alert('too bad');
+        } else {
+            try {
+                const location = await Location.getCurrentPositionAsync();
+                setLatitude(location.coords.latitude);
+                setLongitude(location.coords.longitude);
+            } catch(err) {
+                console.log(err);
+            }
+        }   
+    };
+
     return (
-        <ScrollView>
+        <ScrollView
+            refreshControl={
+                <RefreshControl
+                refreshing={refreshing}
+                onRefresh={refresh} />
+            }>
             <Text>Feed. Radius: {radius}</Text>
             {
-                events.map((event, index) => <EventCard key={ index } event={event } navigation={ navigation } /> )
+                events.length !== 0 && events.map((event, index) => <EventCard key={ index } event={event } navigation={ navigation } /> )
             }
         </ScrollView>
     );

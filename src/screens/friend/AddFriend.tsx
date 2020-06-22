@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API_URL } from 'react-native-dotenv'
-import { AxiosHttpRequest } from '../../utils/axios';
+import { AxiosHttpRequest, getUser } from '../../utils/axios';
 import { StyleSheet, Text, View, ScrollView, TextInput, Button, AsyncStorage } from 'react-native';
 
-const AddFriend = () => {
+const AddFriend = ({ navigation }: any) => {
     const [ friendEmail, setFriendEmail ] = useState('');
+    const [ me, setMe ] = useState({ id: 0 });
+
+    useEffect(() => {
+        const getMe = async() => await getUser(setMe);
+        getMe();
+    });
 
     const addFriend = async () => {
         try {
@@ -12,7 +18,21 @@ const AddFriend = () => {
 
             const friendrequest = (await AxiosHttpRequest('POST', `${API_URL}/user/addfriend`, { otherUserId: friendId }))?.data;
 
-            console.log(friendrequest);
+            const allfriends = (await AxiosHttpRequest('GET', `${API_URL}/user/friends`))?.data;
+
+            let isCurrentFriend = false;
+
+            allfriends.forEach((friend: any) => friend.id === friendId ? isCurrentFriend = true : '')
+
+            if(me.id === friendId) {
+                alert('You cannot add yourself a friend');
+                return;
+            } else if(isCurrentFriend) {
+                alert('You are already friends');
+                return;
+            }
+
+            navigation.navigate('Friends');
         } catch(err) {
             console.log(err);
         }

@@ -3,32 +3,27 @@ import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView } from 'react-native';
 
-const FriendRequests = ({ getFriends }: any) => {
-    const [ incomingFriendRequests, setIncomingFriendRequests ] = useState([]);
-    const [ outgoingFriendRequests, setOutgoingFriendRequests ] = useState([]);
+const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoingFriendRequests }: any) => {
+    const [ incomingFriendRequests, setIncomingFriendRequests ]: any = useState([]);
     
-    const allFriendRequests = async () => {
-        try {
-            const requests = (await AxiosHttpRequest('GET', `${API_URL}/user/friendrequests`))?.data;
-            setIncomingFriendRequests(requests.incomingRequests);
-            setOutgoingFriendRequests(requests.sentRequests);
-        } catch(err) {
-            console.log(err);
-        }
-    };
-
-    useEffect(() => {
-        allFriendRequests();
-    }, [outgoingFriendRequests.length]);
-
     const answer = async ({ id }: any, accepted: boolean) => {
         accepted ? await AxiosHttpRequest('POST', `${API_URL}/user/acceptfriend`, { otherUserId: id })
         : await AxiosHttpRequest('POST', `${API_URL}/user/rejectfriend`, { otherUserId: id });
 
-        const afterAnswering = [...outgoingFriendRequests].filter(request => request.id !== id);
+        const afterAnswering = [...incomingFriendRequests].filter(request => request.id !== id);
         setIncomingFriendRequests(afterAnswering);
         getFriends();
     };
+
+    const cancelRequest = async ({ id }: any) => {
+        await AxiosHttpRequest('POST', `${API_URL}/user/cancelrequest`, { otherUserId: id });
+
+        const afterAnswering = [...outgoingFriendRequests].filter(request => request.id !== id);
+        setOutgoingFriendRequests(afterAnswering);
+        getFriends();
+    };
+
+    // refresh(allFriendRequests());
 
     return (
         <ScrollView>
@@ -53,6 +48,8 @@ const FriendRequests = ({ getFriends }: any) => {
                         return (
                             <SafeAreaView key={request.id}>
                                 <Text>{ request.firstName } { request.lastName }</Text>
+                                <Button onPress={ () => cancelRequest(request) } 
+                                title='Cancel friend request' />
                             </SafeAreaView>
                         )
                     }
