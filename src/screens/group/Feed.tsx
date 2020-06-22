@@ -4,7 +4,7 @@ import { API_URL } from 'react-native-dotenv';
 import * as Permissions from 'expo-permissions';
 import React, {useState, useEffect} from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView } from 'react-native';
 
 // components
 import EventCard from '../../cards/EventCard'
@@ -38,12 +38,12 @@ const Feed = ({ navigation }: any) => {
         getCurrentLocation();
     }, []);
     return (
-        <SafeAreaView>
+        <ScrollView>
             <Text>Feed. Radius: {radius}</Text>
             {
                 events.map((event, index) => <EventCard key={ index } event={event } navigation={ navigation } /> )
             }
-        </SafeAreaView>
+        </ScrollView>
     );
 };
 
