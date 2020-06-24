@@ -2,8 +2,11 @@ import moment from 'moment';
 import { API_URL } from 'react-native-dotenv';
 import React, {useState, useEffect} from 'react';
 import { AxiosHttpRequest } from '../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, Modal } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+//components 
+import SingleEventMap from '../screens/group/SingleEventMap';
 
 const EventCard = ({ event, navigation }: any) => {
     const [ mapRegion, setGeolocation ] = useState({
@@ -13,10 +16,10 @@ const EventCard = ({ event, navigation }: any) => {
         longitudeDelta: 0.01
     });
     const [ address, setAddress ] = useState('');
+    const [ modalVisible, setModalVisible ] = useState(false);
 
     useEffect(() => {
         const getGeolocation = async() => {
-            const token = await AsyncStorage.getItem('token');
             try { 
                 const region = (await AxiosHttpRequest('GET', `${API_URL}/event/${event.id}/geolocation`))?.data;
                 setGeolocation({ 
@@ -26,6 +29,7 @@ const EventCard = ({ event, navigation }: any) => {
                     longitudeDelta: 0.01,
                 });
                 setAddress(region.localized_address);
+                console.log(region);
             } catch(err) {
                 console.log(err);
             }
@@ -34,12 +38,23 @@ const EventCard = ({ event, navigation }: any) => {
     }, [address]);
 
     return (
-        <TouchableOpacity onPress={ () => navigation.navigate('PlannerMap', { date: moment(event.startTime).format('YYYY-mm-DD'), mapRegion, address, event })  }>
+        <TouchableOpacity onPress={ () => setModalVisible(true) }>
             <View style={ event.isPrivate ? styles.privateEvent : styles.publicEvent }>
+                <Text>{address}</Text>
                 <Text style={{ fontSize: 30 }}>{ event.name }</Text>
                 <Text>{ event.description }</Text>
                 <Text>{ new Date(event.startTime).toDateString() }</Text>
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false);
+                }}
+            >  
+                <SingleEventMap event={ event } address={ address } mapRegion={ mapRegion } setModalVisible={ setModalVisible } />
+            </Modal>
         </TouchableOpacity>
     );
 };

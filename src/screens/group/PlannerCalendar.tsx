@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, Modal } from 'react-native';
 
 // components
 import Today from './Today';
+import TodayEventMap from './TodayEventMap';
 
 const PlannerCalendar = ({ route, navigation, group }: any) => {
+    const [ modalVisible, setModalVisible ] = useState(false);
+    const [ pressedDate, setDate ] = useState('');
     const goToMap = (date: any) => {
-        navigation.navigate('PlannerMap', { date: date.dateString })
+        setDate(date.dateString);
+        setModalVisible(true);
     };
 
     return (
@@ -19,6 +23,16 @@ const PlannerCalendar = ({ route, navigation, group }: any) => {
                 onDayPress={goToMap}
             />
             <Today route={ route } group={ group } navigation={ navigation } />
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false);
+                }}
+            >  
+                <TodayEventMap group={ group } date={ pressedDate } setModalVisible={ setModalVisible } />
+            </Modal>
         </SafeAreaView>
     );
 };

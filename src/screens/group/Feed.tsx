@@ -4,24 +4,25 @@ import { API_URL } from 'react-native-dotenv';
 import * as Permissions from 'expo-permissions';
 import React, {useState, useEffect} from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView, RefreshControl, Modal } from 'react-native';
 
 // components
 import EventCard from '../../cards/EventCard'
+import RadiusMap from './RadiusMap';
 
-const Feed = ({ navigation }: any) => {
+const Feed = ({ route, navigation }: any) => {
     const [ mapRegion, setMapRegion ] = useState({
         latitude: 0,
         longitude: 0
     });
-    
+
     const [ events, setEvents ] = useState([]);
     const [ refreshing, setRefreshing ] = useState(false);
     const [ latitude, setLatitude ] = useState(0.0);
     const [ longitude, setLongitude ] = useState(0.0);
-
-    const radius = 10;
-
+    const [ radius, setFeedRadius ] = useState(1);
+    const [ modalVisible, setModalVisible ] = useState(false);
+    
     useEffect(() => {
         getCurrentLocation();
         findEvents();
@@ -36,6 +37,10 @@ const Feed = ({ navigation }: any) => {
     const findEvents = async() => {
         const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data;
         setEvents(foundEvents);
+    };
+
+    const changeRadius = async() => {
+        setModalVisible(true);
     };
 
     const getCurrentLocation = async() => {
@@ -60,7 +65,18 @@ const Feed = ({ navigation }: any) => {
                 refreshing={refreshing}
                 onRefresh={refresh} />
             }>
-            <Text>Feed. Radius: {radius}</Text>
+            <Text>Feed. Radius: {radius} miles</Text>
+            <Button onPress={ changeRadius } title="Change radius" />
+            <Modal 
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setModalVisible(false);
+                }}
+            >
+                <RadiusMap setFeedRadius={setFeedRadius} setModalVisible={setModalVisible} />
+            </Modal>
             {
                 events.length !== 0 && events.map((event, index) => <EventCard key={ index } event={event } navigation={ navigation } /> )
             }
