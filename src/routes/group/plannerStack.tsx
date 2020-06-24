@@ -3,12 +3,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 // screens
 import PlannerCalendar from '../../screens/group/PlannerCalendar';
-import PlannerMap from '../../screens/group/PlannerMap';
 
 interface PlannerStackProps {}
 type PlannerParamList = {
   PlannerCalendar: undefined;
-  PlannerMap: undefined;
 }
 
 const Stack = createStackNavigator<PlannerParamList>();
@@ -20,9 +18,6 @@ export const PlannerStack: React.FC<PlannerStackProps> = ({navigation, group}: a
     }}>
       <Stack.Screen name='PlannerCalendar'>
         { ({route}: any) => <PlannerCalendar route={ route } group={ group } navigation={ navigation } /> }
-      </Stack.Screen>
-      <Stack.Screen name='PlannerMap'>
-        { ({route}: any) => <PlannerMap group={ group } navigation={ navigation } route={route}/> }
       </Stack.Screen>
     </Stack.Navigator>
   );

@@ -1,7 +1,7 @@
 import { API_URL } from 'react-native-dotenv';
 import React, {useState, useEffect} from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, RefreshControl } from 'react-native';
 
 // components
 import EventCard from '../../cards/EventCard';
@@ -9,6 +9,7 @@ import EventCard from '../../cards/EventCard';
 const Today = ({ route, group, navigation }: any) => {
     const today = new Date();
     const [ events, setEvents ] = useState([]);
+    const [ refreshing, setRefreshing ] = useState(false);
 
     const getTodaysEvents = async() => {
         const token = await AsyncStorage.getItem('token');
@@ -20,8 +21,11 @@ const Today = ({ route, group, navigation }: any) => {
         }
     };  
 
-    // console.log(route);
-    // console.log('hello');
+    const refresh = async () => {
+        setRefreshing(true);
+        getTodaysEvents();
+        setRefreshing(false);
+    };
 
     useEffect(() => {
         getTodaysEvents();
@@ -36,7 +40,15 @@ const Today = ({ route, group, navigation }: any) => {
             <View style={{ alignItems: 'center' }}>
                 {
                     events.length === 0 ? <Text>You don't have any events for the day!</Text> :
-                    <ScrollView style={{ height: Dimensions.get('window').height / 3.5, }}>
+                    <ScrollView 
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={refresh} 
+                            />
+                        }
+                        style={{ height: Dimensions.get('window').height / 3.5, }}
+                    >
                         {
                             events.map((event, index) => <EventCard key={ index } event={ event } navigation={ navigation } /> )
                         }

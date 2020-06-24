@@ -49,7 +49,7 @@ const AddEvent = ({ navigation, route }: any) => {
         if(startTime < now) alert('Cannot create an event in the past!');
         else {
             try {
-                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPrivate, startTime, addressOfEvent, coordsOfEvent }))?.data;
+                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPrivate, startTime, address: addressOfEvent, coordsOfEvent }))?.data;
 
                 await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.id });
 

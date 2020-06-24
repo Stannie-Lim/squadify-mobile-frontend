@@ -5,12 +5,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Button, Text, AsyncStorage, Modal } from "react-native";
 
 // screens
-import Auth from '../screens/auth/Auth';
-import Login from '../screens/auth/Login';
-import Register from '../screens/auth/Register';
 import Home from '../screens/Home';
+import Auth from '../screens/auth/Auth';
 import Chat from '../screens/group/Chat';
+import Login from '../screens/auth/Login';
 import Search from '../screens/group/Search';
+import Register from '../screens/auth/Register';
+import RadiusMap from '../screens/group/RadiusMap';
 import AddFriend from '../screens/friend/AddFriend';
 import CreateGroup from '../screens/group/CreateGroup';
 import SetLocation from '../screens/group/SetLocation';
@@ -32,6 +33,7 @@ type RoutesParamList = {
     "Add friend": undefined;
     "Create group": undefined;
     'Set Location': undefined;
+    "Radius map": undefined;
 };
 
 const Stack = createStackNavigator<RoutesParamList>();
@@ -50,7 +52,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
               return <Button title="Create Group" onPress={ () => navigation.push('Create group', { groups, friends, navigation, route }) } />
     
             //if you're currently in friends tab
-            case 1:
+            case 2:
               return <Button title="Add Friend" onPress={ () => navigation.push('Add friend',{ friends, navigation, route } ) } />
           }
         } else {
@@ -62,12 +64,12 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
         if(route.state) {
           switch(route.state.index) {
             case 0:
-              return <Button title='Search' onPress={ () => navigation.navigate('Search') } />
-            case 1:
               return <Button title='Chat' onPress={ () => navigation.navigate('Chat') } />
+            case 1:
+              return <Button title='Search' onPress={ () => navigation.navigate('Search') } />
           }
         } else {
-          return <Button title='Search' onPress={ () => navigation.navigate('Search') } />
+          return <Button title='Chat' onPress={ () => navigation.navigate('Chat') } />
         }
     };
     return (
@@ -95,6 +97,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                 <Stack.Screen name="Add friend" component={ AddFriend } />
                 <Stack.Screen name='Create group' component={ CreateGroup } />
                 <Stack.Screen name="Set Location" component={ SetLocation } />
+                <Stack.Screen name="Radius map" component={ RadiusMap } />
 
                 { /* swiped right */ } 
                 <Stack.Screen name="Group" component={ Group }
