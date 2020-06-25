@@ -25,11 +25,9 @@ const Today = ({ route, group, navigation }: any) => {
         getTodaysEvents();
         setRefreshing(false);
     };
-    console.log(group.id);
 
     useEffect(() => {
         getTodaysEvents();
-        // return () => setEvents([]);
     }, [group.id]);
 
     return (

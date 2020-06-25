@@ -9,7 +9,7 @@ import FriendCard from '../../cards/FriendCard';
 const InviteMember = ({ route, navigation }: any) => {
     const { group, user } = route.params;
 
-    const [ chosen, setChosen ] = useState([{ id: 0 }]);
+    const [ chosen, setChosen ] = useState([]);
     const [ friends, setFriends ] = useState([])
 
     useEffect( () => {
@@ -23,7 +23,7 @@ const InviteMember = ({ route, navigation }: any) => {
     const addMember = async() => {
         try {
             chosen.forEach(async friend => {
-                await AxiosHttpRequest('POST', `${API_URL}/groups/invitations/${group.id}/send`, { inviteeId: friend.id });
+                await AxiosHttpRequest('POST', `${API_URL}/groups/invitations/${group.id}/send`, { inviteeId: friend });
             });
             navigation.navigate('Planner');
         } catch(err) {
