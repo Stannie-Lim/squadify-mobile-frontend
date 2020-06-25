@@ -28,12 +28,13 @@ type GroupParamList = {
 const Tab = createBottomTabNavigator<GroupParamList>();
 const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
   const { group } = route.params;
-  
+
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
-        if (route.name === "Planner") return <Ionicons name={"ios-calendar"} size={size} color={color} />;
+        if (route.name === "Feed") return <FontAwesome5 name={"book"} size={size} color={color} />;
+        else if (route.name === "Planner") return <Ionicons name={"ios-calendar"} size={size} color={color} />;
         else if (route.name === "Chat") return <Ionicons name={"ios-people"} size={size} color={color} />;
         else if (route.name === "Add Event") return <MaterialIcons name={"place"} size={size} color={color} />;
         else if (route.name === "IOUs") return <FontAwesome5 name={"money-bill"} size={size} color={color} />;
@@ -44,6 +45,8 @@ const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
         activeTintColor: "tomato",
         inactiveTintColor: "gray"
       }}>
+        <Tab.Screen name='Feed' component={Feed} />
+        {/* <Tab.Screen name="Chat" component={Chat} /> */}
         <Tab.Screen name="Planner">
           { () => <PlannerStack navigation={ navigation } group={ group } /> }
         </Tab.Screen>
@@ -51,7 +54,9 @@ const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
           { () => <AddEvent navigation={ navigation } route={ route }/> }
         </Tab.Screen>
         <Tab.Screen name="IOUs" component={Iou} />
-        <Tab.Screen name="My Profile" component={Profile} />
+        <Tab.Screen name="My Profile">
+          { () => <Profile navigation={ navigation } route={ route } group={ group } /> }
+        </Tab.Screen>
     </Tab.Navigator>
   );  
 };

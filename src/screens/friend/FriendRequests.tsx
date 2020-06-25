@@ -6,6 +6,14 @@ import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView 
 const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoingFriendRequests }: any) => {
     const [ incomingFriendRequests, setIncomingFriendRequests ]: any = useState([]);
     
+    useEffect(() => {
+        const getRequests = async() => {
+            const data = (await AxiosHttpRequest('GET', `${API_URL}/user/friendrequests`))?.data;
+            setIncomingFriendRequests(data.incomingRequests);
+        };
+        getRequests();
+    }, []);
+
     const answer = async ({ id }: any, accepted: boolean) => {
         accepted ? await AxiosHttpRequest('POST', `${API_URL}/user/acceptfriend`, { otherUserId: id })
         : await AxiosHttpRequest('POST', `${API_URL}/user/rejectfriend`, { otherUserId: id });
@@ -22,8 +30,6 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
         setOutgoingFriendRequests(afterAnswering);
         getFriends();
     };
-
-    // refresh(allFriendRequests());
 
     return (
         <ScrollView>

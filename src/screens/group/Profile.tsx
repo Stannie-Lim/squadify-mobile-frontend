@@ -79,11 +79,19 @@ const Profile = ({ navigation }: any) => {
     getUserInfo();
   }, [])
 
+/* 
+  modal stuff because idk where else to put this for testing
+*/
+
+const [ modalVisible, setModalVisible ] = useState(false);
+
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={ pickImage }>
         { user.avatarUrl.length !== 0 && <Image source={{ uri: user.avatarUrl }} style={ styles.avatar } /> }
       </TouchableOpacity>
+      
 
       {/* <TextInput 
           style={styles.inputField}

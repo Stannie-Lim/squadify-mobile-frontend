@@ -57,7 +57,6 @@ const Friends = ({ navigation, route }: any) => {
             ],
             { cancelable: true }
         );
-        
     };
 
     useEffect(() => {

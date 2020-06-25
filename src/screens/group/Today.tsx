@@ -12,7 +12,6 @@ const Today = ({ route, group, navigation }: any) => {
     const [ refreshing, setRefreshing ] = useState(false);
 
     const getTodaysEvents = async() => {
-        const token = await AsyncStorage.getItem('token');
         try { 
             const data = (await AxiosHttpRequest('GET', `${API_URL}/event/group_events/${group.id}`))?.data;
             setEvents(data);
@@ -26,11 +25,13 @@ const Today = ({ route, group, navigation }: any) => {
         getTodaysEvents();
         setRefreshing(false);
     };
+    console.log(group.id);
 
     useEffect(() => {
         getTodaysEvents();
-        return () => setEvents([]);
+        // return () => setEvents([]);
     }, [group.id]);
+
     return (
         <View>
             <View style={ styles.top }>

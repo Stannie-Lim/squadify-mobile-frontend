@@ -13,7 +13,7 @@ import ChooseImage from '../auth/ChooseImage';
 
 const CreateGroup = ({ navigation, route }: any) => {
     const [ name, setName ] = useState('');
-    const [ isPrivate, setPrivate ] = useState(false);
+    const [ isPublic, setPublic ] = useState(false);
     const [ chosenFriends, setChosenFriends ] = useState([]);
     const [ avatarUrl, setImage ] = useState('');
 
@@ -42,8 +42,9 @@ const CreateGroup = ({ navigation, route }: any) => {
 
             const url = (await RNS3.put(file, config)).body.postResponse.location;
 
-            const newGroup = (await AxiosHttpRequest('POST', `${API_URL}/groups/create`, { name, isPrivate, friendIds: chosenFriends, avatarUrl: url }))?.data;
-            const setGroups = [...groups, newGroup.group.raw[0]];
+            const newGroup = (await AxiosHttpRequest('POST', `${API_URL}/groups/create`, { name, isPublic, friendIds: chosenFriends, avatarUrl: url }))?.data;
+            console.log(newGroup);
+            const setGroups = [...groups, newGroup.group];
             navigation.replace('Your Account', { groups: setGroups, navigation, route });
         } catch(err) {
             console.log(err);
@@ -59,11 +60,11 @@ const CreateGroup = ({ navigation, route }: any) => {
                 placeholder='Name of Group'
             />
             <CheckBox 
-                title='Private'
-                checked={isPrivate}
+                title='Public'
+                checked={isPublic}
                 checkedIcon='dot-circle-o'
                 uncheckedIcon='circle-o'
-                onPress={ () => setPrivate(!isPrivate) }
+                onPress={ () => setPublic(!isPublic) }
             />
             <ChooseImage setImage={setImage} />
             <Text style={{ fontSize: 30 }}>Add friends</Text>

@@ -78,9 +78,10 @@ const RadiusMap = ({ setFeedRadius, setModalVisible }: any) => {
                         />
                         <Text>25 miles</Text>
                     </View>
-                    <View style={ styles.slidercontainer }>
-                        <Button onPress={ changeRadius } title="Submit" />
-                    </View>
+                </View>
+
+                <View style={ styles.submit }>
+                    <Button onPress={ changeRadius } title="Submit" />
                 </View>
                 
             </MapView>
@@ -109,6 +110,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         alignItems: 'center',
+    },
+    submit: {
+        backgroundColor: 'white',
+        marginTop: Dimensions.get('window').height / 1.3,
+        borderRadius: 50,
+        marginLeft: 50,
+        marginRight: 50,
     }
 });
 

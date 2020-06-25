@@ -7,15 +7,15 @@ import { Ionicons, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 
 // screens
 import Home from '../screens/Home';
-import Feed from '../screens/group/Feed';
 import Friends from '../screens/friend/Friends';
+import GroupInvitations from '../screens/group/GroupInvitations';
 
 interface UserTabsProps {};
 type UserParamList = {
   Group: undefined;
   Groups: undefined;
-  Friends: undefined;
-  Feed: undefined;
+  Pending: undefined;
+  "Group Invites": undefined;
 };
 
 const Tab = createBottomTabNavigator<UserParamList>();
@@ -27,9 +27,9 @@ export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
       tabBarIcon: ({ focused, color, size }) => {
         if (route.name === "Groups") {
           return <Ionicons name={"ios-people"} size={size} color={color} />;
-        } 
-        else if (route.name === "Feed") return <FontAwesome5 name={"book"} size={size} color={color} />;
-        else if (route.name === "Friends") {
+        } else if (route.name === "Pending") {
+          return <Ionicons name={"ios-people"} size={size} color={color} />;
+        } else if (route.name === "Group Invites") {
           return <Ionicons name={"ios-people"} size={size} color={color} />;
         }
       }
@@ -41,9 +41,11 @@ export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
         <Tab.Screen name="Groups">
           { ({ navigation, route }: any) => <Home route={ route } navigation={navigation} groups={groups} /> }
         </Tab.Screen>
-        <Tab.Screen name='Feed' component={Feed} />
-        <Tab.Screen name="Friends">
-          { ({ navigation, route }: any) => <Friends route={ route }navigation={navigation} friends={friends} /> }
+        <Tab.Screen name="Pending">
+          { ({ navigation, route }: any) => <Friends route={ route } navigation={navigation} friends={friends} /> }
+        </Tab.Screen>
+        <Tab.Screen name="Group Invites">
+          { ({ navigation, route }: any) => <GroupInvitations route={ route } navigation={ navigation } /> }
         </Tab.Screen>
     </Tab.Navigator>
   );  

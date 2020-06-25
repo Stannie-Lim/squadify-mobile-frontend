@@ -5,17 +5,19 @@ import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button, TouchableOpac
 
 const Home = ({ navigation, route }: any) => {
   const [ groups, setGroups ] = useState([]);
+
+  const getGroups = async() => {
+    try {
+      const groupsData = (await AxiosHttpRequest('GET', `${API_URL}/user/groups`))?.data;
+      setGroups(groupsData);
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    const getGroups = async() => {
-      try {
-        const groupsData = (await AxiosHttpRequest('GET', `${API_URL}/user/groups`))?.data;
-        setGroups(groupsData);
-      } catch(err) {
-        console.log(err);
-      }
-    };
     getGroups();
-  }, [groups.length]);
+  }, []);
   return (
     groups.length === 0 ? 
     <Text>You have no groups!</Text> :
