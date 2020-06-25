@@ -34,7 +34,8 @@ export const AxiosHttpRequest = async (method: string, url: string, data?: objec
         {
           headers: {
             'Authorization': `Bearer ${await getJwt()}`
-          }
+          },
+          data
         })
     case 'PUT':
       return axios.put(url, data,

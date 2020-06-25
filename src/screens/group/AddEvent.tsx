@@ -16,7 +16,7 @@ const AddEvent = ({ navigation, route }: any) => {
     const [ timeOfEvent, setTime ] = useState('');
     const [ addressOfEvent, setAddress ] = useState('');
     const [ coordsOfEvent, setCoords ] = useState({});
-    const [ isPrivate, setPrivate ] = useState(false);
+    const [ isPublic, setPublic ] = useState(false);
     const [ isDatePickerVisible, setDatePickerVisibility ] = useState(false);
     const [ isTimePickerVisible, setTimePickerVisibility ] = useState(false);
     const disabled = !(name && description && dateOfEvent && timeOfEvent && addressOfEvent.length !== 0);
@@ -49,7 +49,7 @@ const AddEvent = ({ navigation, route }: any) => {
         if(startTime < now) alert('Cannot create an event in the past!');
         else {
             try {
-                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPrivate, startTime, address: addressOfEvent, coordsOfEvent }))?.data;
+                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPublic, startTime, address: addressOfEvent, coordsOfEvent }))?.data;
 
                 await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.id });
 
@@ -59,7 +59,7 @@ const AddEvent = ({ navigation, route }: any) => {
                 setTime('');
                 setAddress('');
                 setCoords({});
-                setPrivate(false);
+                setPublic(false);
                 navigation.navigate('Planner', { newEvent: data.event });
             } catch(err) {
                 console.log(err);
@@ -104,11 +104,11 @@ const AddEvent = ({ navigation, route }: any) => {
             <Button title='Choose Location' onPress={ () => navigation.navigate('Set Location') } />
 
             <CheckBox 
-                title='Private'
-                checked={isPrivate}
+                title='Public'
+                checked={isPublic}
                 checkedIcon='dot-circle-o'
                 uncheckedIcon='circle-o'
-                onPress={ () => setPrivate(!isPrivate) }
+                onPress={ () => setPublic(!isPublic) }
             />
 
             <Button title='Create event' onPress={ createEvent } disabled={ disabled } />
