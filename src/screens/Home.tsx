@@ -1,10 +1,15 @@
 import { API_URL } from 'react-native-dotenv';
 import { AxiosHttpRequest } from '../utils/axios';
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button, TouchableOpacity, Image, AsyncStorage } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button, TouchableOpacity, Image, AsyncStorage, RefreshControl } from 'react-native';
 
 const Home = ({ navigation, route }: any) => {
   const [ groups, setGroups ] = useState([]);
+  const [ refreshing, setRefreshing ] = useState(false);
+
+  useEffect(() => {
+    getGroups();
+  }, []);
 
   const getGroups = async() => {
     try {
@@ -15,13 +20,33 @@ const Home = ({ navigation, route }: any) => {
     }
   };
 
-  useEffect(() => {
+  const refresh = () => {
+    setRefreshing(true);
     getGroups();
-  }, []);
+    setRefreshing(false);
+  };
+
   return (
     groups.length === 0 ? 
-    <Text>You have no groups!</Text> :
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refresh} 
+        />
+      }
+    >
+      <Text>You have no groups!</Text>
+    </ScrollView>
+    :
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refresh} 
+        />
+      }
+    >
       {
         route.params 
         ? route.params.groups.map((group: any, index: number) => 
