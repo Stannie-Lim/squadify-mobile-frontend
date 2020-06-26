@@ -12,8 +12,20 @@ const Chat = ({ navigation, route }: any) => {
 
     const { group, user } = route.params
     const getMessages = async () => {
-        const messages = (await AxiosHttpRequest('GET', `${API_URL}/groups/chat/${group.id}/messages`))?.data
+        let messages = (await AxiosHttpRequest('GET', `${API_URL}/groups/chat/${group.id}/messages`))?.data
         if (messages) {
+            messages = messages.map((message: any) => {
+                return {
+                    _id: message.id,
+                    text: message.text,
+                    createdAt: message.createdAt,
+                    user: {
+                        _id: message.user.id,
+                        name: message.user.firstName,
+                        avatar: message.user.avatarUrl
+                    }
+                }
+            })
             setMessages(messages)
         }
     }
@@ -22,19 +34,20 @@ const Chat = ({ navigation, route }: any) => {
     }, [])
 
     const onSend = useCallback((messages = []) => {
+        messages.forEach(async (message: any) => {
+            await AxiosHttpRequest('POST', `${API_URL}/groups/chat/${group.id}`, { text: message.text })
+        })
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     }, [])
 
     return (
-        <SafeAreaView>
-            <GiftedChat
-                messages={messages}
-                onSend={messages => onSend(messages)}
-                user={{
-                    _id: user.id
-                }}
-            />
-        </SafeAreaView>
+        <GiftedChat
+            messages={messages}
+            onSend={messages => onSend(messages)}
+            user={{
+                _id: user.id
+            }}
+        />
     );
 };
 
