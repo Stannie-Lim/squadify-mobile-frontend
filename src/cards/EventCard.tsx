@@ -29,7 +29,6 @@ const EventCard = ({ event, navigation }: any) => {
                     longitudeDelta: 0.01,
                 });
                 setAddress(region.localized_address);
-                console.log(region);
             } catch(err) {
                 console.log(err);
             }
@@ -47,7 +46,6 @@ const EventCard = ({ event, navigation }: any) => {
             </View>
             <Modal
                 animationType="slide"
-                transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
                     setModalVisible(false);

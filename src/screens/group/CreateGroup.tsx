@@ -43,7 +43,6 @@ const CreateGroup = ({ navigation, route }: any) => {
             const url = (await RNS3.put(file, config)).body.postResponse.location;
 
             const newGroup = (await AxiosHttpRequest('POST', `${API_URL}/groups/create`, { name, isPublic, friendIds: chosenFriends, avatarUrl: url }))?.data;
-            console.log(newGroup);
             const setGroups = [...groups, newGroup.group];
             navigation.replace('Your Account', { groups: setGroups, navigation, route });
         } catch(err) {

@@ -25,7 +25,6 @@ const PlannerCalendar = ({ route, navigation, group }: any) => {
             <Today route={ route } group={ group } navigation={ navigation } />
             <Modal
                 animationType="slide"
-                transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
                     setModalVisible(false);

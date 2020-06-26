@@ -1,14 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 
-const IouCard = ({ user, color }: any) => {
-    const you = user.owe;
-    let owedtoyou, totalowed;
-    if(you) {
-        owedtoyou = user.owe.reduce((acc: number, now: any) => acc += now.theyOweYou, 0);
-        totalowed = user.owe.reduce((acc: number, now: any) => acc += now.youOweThem, 0);
-    }
+const IouCard = ({ user, color, setModalVisible }: any) => {
+    const you = user.me;
     return (
         <View style={ you ? styles.youcontainer : {...styles.container, backgroundColor: color} }>
             {
@@ -17,35 +12,28 @@ const IouCard = ({ user, color }: any) => {
                     <TouchableOpacity onPress={ () => alert('filter') }>
                     <Text style={ styles.bar }>Filter</Text>
                         </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => alert('add') }>
+                    <TouchableOpacity onPress={ () => setModalVisible(true) }>
                         <MaterialIcons size={100} name='add-circle-outline' style={ styles.bar } />
                     </TouchableOpacity>
                 </View> : 
                 <Text></Text>
             }
-            <Image style={ styles.avatar } source={{ uri: user.avatarUrl }} />
-            <Text style={ styles.name }>{`${user.firstName} ${user.lastName}`}</Text>
+            { user.payer ? <Image style={ styles.avatar } source={{ uri: user.payer.avatarUrl }} /> : <Text></Text> }
+            { user.payer ? <Text style={ styles.name }>{`${user.payer.firstName} ${user.payer.lastName}`}</Text> : <Text></Text> }
             {
                 you ? 
                 <View style={ styles.owe }>
                     <View style={ styles.owes }>
-                        <Text>OWED TO YOU</Text>
-                        <Text style={ styles.oweText }>{ `$${ owedtoyou }` }</Text>
-                    </View>
-                    <View style={ styles.owes }>
                         <Text>YOU OWE OTHERS</Text>
-                        <Text style={ styles.oweText }>{ `$${ totalowed }` }</Text>
+                        {/* <Text style={ styles.oweText }>{ `$${ totalowed }` }</Text> */}
                     </View>
                 </View>
                 : 
                 <View style={ styles.owe }>
                     <View style={ styles.owes }>
-                        <Text>OWE THEM</Text>
-                        <Text style={ styles.oweText }>{ `$${ user.youOweThem }` }</Text>
-                    </View>
-                    <View style={ styles.owes }>
                         <Text>OWE YOU</Text>
-                        <Text style={ styles.oweText }>{ `$${ user.theyOweYou }` }</Text>
+                        <Text style={ styles.oweText }>{ `$${ user.amount }` }</Text>
+                        <Text>{ `${ user.description }` }</Text>
                     </View>
                 </View>
             }
