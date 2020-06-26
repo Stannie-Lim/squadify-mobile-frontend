@@ -1,26 +1,54 @@
-import React, {useState} from 'react';
+import io from 'socket.io-client'
+import { API_URL } from 'react-native-dotenv'
+import React, { useState, useEffect, useCallback } from 'react';
+import { GiftedChat } from 'react-native-gifted-chat'
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
 
-const Chat = () => {
-    const [ value, setValue ] = useState('');
+
+const Chat = ({ navigation, route }: any) => {
+    const [value, setValue] = useState('');
+    const [messages, setMessages] = useState([])
+
+    const { group, user } = route.params
+    const getMessages = async () => {
+        const messages = (await AxiosHttpRequest('GET', `${API_URL}/groups/chat/${group.id}/messages`))?.data
+        if (messages) {
+            setMessages(messages)
+        }
+    }
+    useEffect(() => {
+        getMessages()
+    }, [])
+
+    const onSend = useCallback((messages = []) => {
+        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    }, [])
+
     return (
         <SafeAreaView>
-            <TextInput 
-            style={ styles.inputField }
-            onChangeText={text => setValue(text)}
-            value={value} />
-            <Button title="Send" onPress={ () => console.log(value) } />
+            <GiftedChat
+                messages={messages}
+                onSend={messages => onSend(messages)}
+                user={{
+                    _id: user.id
+                }}
+            />
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     inputField: {
-        height: 40, 
-        borderColor: 'gray', 
+        height: 40,
+        borderColor: 'gray',
         borderWidth: 1,
     },
+    messages: {
+        height: Dimensions.get('window').height / 1.3,
+        borderColor: 'gray',
+        borderWidth: 1,
+    }
 });
 
 export default Chat;
