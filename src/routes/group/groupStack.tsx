@@ -53,7 +53,9 @@ const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
         <Tab.Screen name="Add Event">
           { () => <AddEvent navigation={ navigation } route={ route }/> }
         </Tab.Screen>
-        <Tab.Screen name="IOUs" component={Iou} />
+        <Tab.Screen name="IOUs">
+          { () => <Iou navigation={ navigation } route={ route } group={ group } /> }
+        </Tab.Screen>
         <Tab.Screen name="My Profile">
           { () => <Profile navigation={ navigation } route={ route } group={ group } /> }
         </Tab.Screen>

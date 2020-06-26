@@ -24,7 +24,6 @@ const Members = ({ route }: any) => {
         setMembers(data);
     };
     const kickMembers = async() => {
-        console.log(chosen);
         Alert.alert(
         'Remove members',
         `Are you sure you want to remove the selected members?`,
@@ -38,11 +37,10 @@ const Members = ({ route }: any) => {
                 try {
                     chosen.forEach(async (member: any) => {
                         const data = (await AxiosHttpRequest('DELETE', `${API_URL}/groups/removeuser/${group.id}`, { removerId: user.id, userId: member }))?.data;
-                        console.log(data);
                     });
                     setMembers(members.filter((member: any) => !chosen.includes(member.id)));
                 } catch(err) {
-                    console.log('123123123123');
+                    console.log(err);
                 }
             }}
         ],
