@@ -2,17 +2,25 @@ import React from 'react';
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 
-const IouCard = ({ debt, color }: any) => {
+const MeIouCard = ({ user, setModalVisible, setFilterModal }: any) => {
     return (
-        <View style={{...styles.container, backgroundColor: color} }>
-            <Image style={ styles.avatar } source={{ uri: debt.payer.avatarUrl }} />
-            <Text>{ `${debt.payer.firstName} ${debt.payer.lastName}` }</Text>
-            <Text>{ debt.description }</Text>
-            <Text>{ debt.createdAt }</Text>
-            <Text>${debt.amount} paid to</Text>
-            {
-                debt.payees && debt.payees.map((payee: any) => <Text>{ payee.email }</Text> )
-            }
+        <View style={ styles.youcontainer }>
+            <View style={ styles.owe }>
+                <TouchableOpacity onPress={ () => setFilterModal(true) }>
+                <Text style={ styles.bar }>Filter</Text>
+                    </TouchableOpacity>
+                <TouchableOpacity onPress={ () => setModalVisible(true) }>
+                    <MaterialIcons size={100} name='add-circle-outline' style={ styles.bar } />
+                </TouchableOpacity>
+            </View>
+            <Image style={ styles.avatar } source={{ uri: user.avatarUrl }} /> 
+            <Text style={ styles.name }>{`${user.firstName} ${user.lastName}`}</Text>
+            <View style={ styles.owe }>
+                <View style={ styles.owes }>
+                    {/* <Text>YOU PAID OTHERS</Text> */}
+                    {/* <Text style={ styles.oweText }>{ `$${ totalowed }` }</Text> */}
+                </View>
+            </View>
         </View>
     );
 };
@@ -76,4 +84,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default IouCard;
+export default MeIouCard;

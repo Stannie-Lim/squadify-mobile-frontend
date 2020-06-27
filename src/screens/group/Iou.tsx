@@ -1,36 +1,29 @@
 import { API_URL } from 'react-native-dotenv'
 import React, { useState, useEffect } from 'react';
+import { MenuProvider } from 'react-native-popup-menu';
 import { AxiosHttpRequest, getUser } from '../../utils/axios';
 import { Button, StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, Modal, TextInput } from 'react-native';
 
 // components
 import IouCard from '../../cards/IouCard';
+import MeIouCard from '../../cards/MeIouCard';
 import ChooseIouCard from '../../cards/ChooseIouCard';
 
-const Iou = ({ group }: any) => {
-    const [ user, setUser ] = useState({});
+const Iou = ({ group, user }: any) => {
     const [ ious, setIous ]: any = useState([]);
     const [ chosen, setChosen ] = useState([]);
-    const [ description, setDescription ] = useState('');
     const [ groupMembers, setGroupMembers ] = useState([]);
     const [ modalVisible, setModalVisible ] = useState(false);
-
+    const [ filterModal, setFilterModal ] = useState(false);
+    
     //inputs 
-    const [ amount, setAmount ] = useState(0);
+    const [ amount, setAmount ] = useState('');
+    const [ description, setDescription ] = useState('');
 
     useEffect(() => {
-        getUserFromDb();
         getIous();
         getGroupMembers();
     }, []);
-
-    const getUserFromDb = async() => {
-        try { 
-            await getUser(setUser);
-        } catch(err) {
-            console.log(err);
-        }
-    }
 
     const getIous = async() => {
         try {
@@ -43,7 +36,7 @@ const Iou = ({ group }: any) => {
 
     const getGroupMembers = async() => {
         try {
-            const data = (await AxiosHttpRequest('GET', `${API_URL}/groups/${group.id}/users`))?.data;
+            const data = (await AxiosHttpRequest('GET', `${API_URL}/groups/${group.id}/users`))?.data.filter((groupmember: any) => groupmember.id !== user.id);
             setGroupMembers(data);
         } catch(err) {
             console.log(err);
@@ -53,32 +46,31 @@ const Iou = ({ group }: any) => {
     const createIou = async() => {
         try {
             const data = (await AxiosHttpRequest('POST', `${API_URL}/iou/create/${group.id}`, { amount, payeeIds: chosen, description }))?.data;
+            setChosen([]);
+            setAmount('');
+            setDescription('');
             setIous([...ious, data.iou.raw[0]]);
         } catch(err) {
             console.log(err);
         }
     };
 
-    const you = {
-        payer: {...user},
-        me: true,
-    };
     const colors = ['seagreen', 'purple', 'red', 'blue', 'tomato', 'dodgerblue', 'yellow'];
     return (
         <SafeAreaView>
             {
-                you && <IouCard user={ you } setModalVisible={ setModalVisible } />
+                user && <MeIouCard user={ user } setFilterModal={ setFilterModal } />
             } 
             <ScrollView style={{ height: Dimensions.get('window').height / 1.8, }}>  
                 {
-                    ious && ious.map((user, index) => <IouCard key={ index } color={ colors[index] } user={ user } /> )
+                    ious && ious.map((debt: any, index: number) => <IouCard key={ index } color={ colors[index] } debt={ debt } /> )
                 }
             </ScrollView>
             <Modal 
                 animationType="slide"
                 visible={modalVisible}
                 onRequestClose={() => {
-                  setModalVisible(false);
+                    setModalVisible(false);
                 }}
             >
                <SafeAreaView>
@@ -96,7 +88,7 @@ const Iou = ({ group }: any) => {
                         <TextInput 
                             keyboardType='numeric'
                             style={styles.numberInput}
-                            onChangeText={text => setAmount(Number(text))}
+                            onChangeText={text => setAmount(text)}
                             value={amount} 
                             placeholder='Amount'
                         />
@@ -135,7 +127,12 @@ const styles = StyleSheet.create({
         borderWidth: 2,  
         borderColor: '#009688',  
         marginBottom: 10  
-    }  
+    },
+    filtermodal: {
+        height: Dimensions.get('window').height / 3,
+        borderColor: 'black',
+        borderWidth: 2,
+    }
 }); 
 
 export default Iou;
