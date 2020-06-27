@@ -25,14 +25,14 @@ const InviteMember = ({ route, navigation }: any) => {
             chosen.forEach(async friend => {
                 await AxiosHttpRequest('POST', `${API_URL}/groups/invitations/${group.id}/send`, { inviteeId: friend });
             });
-            navigation.navigate('Planner');
+            navigation.navigate('Group');
         } catch(err) {
             console.log(err);
         }
     };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ marginTop: 100 }}> 
             <View style={ styles.container }>
                 {
                     friends.length !== 0 ? friends.map((friend: any) => <FriendCard key={ friend.id } friend={ friend } chosenFriends={ chosen } setChosenFriends={ setChosen } />) : <Text></Text>

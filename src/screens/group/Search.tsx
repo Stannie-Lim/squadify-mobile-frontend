@@ -26,7 +26,7 @@ const Search = () => {
     };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ marginTop: 100 }}>
             <TextInput 
             style={ styles.inputField }
             onChangeText={text => setValue(text)}

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import * as Location from 'expo-location';
 import Geocoder from 'react-native-geocoding';
 import { API_URL } from 'react-native-dotenv';
@@ -35,7 +36,7 @@ const Feed = ({ route, navigation }: any) => {
     };
 
     const findEvents = async() => {
-        const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data;
+        const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data.filter((event: any) => moment(event.startTime).format('YYYY-MM-DD') === moment(new Date()).format('YYYY-MM-DD'));
         setEvents(foundEvents);
     };
 
@@ -64,14 +65,16 @@ const Feed = ({ route, navigation }: any) => {
                 <RefreshControl
                 refreshing={refreshing}
                 onRefresh={refresh} />
-            }>
-            <Text>Feed. Radius: {radius} miles</Text>
+            }
+            contentContainerStyle={ styles.center }
+            >
+            <Text>Radius: {radius} miles</Text>
             <Button onPress={ changeRadius } title="Change radius" />
             <Modal 
                 animationType="slide"
                 visible={modalVisible}
                 onRequestClose={() => {
-                  setModalVisible(false);
+                setModalVisible(false);
                 }}
             >
                 <RadiusMap setFeedRadius={setFeedRadius} setModalVisible={setModalVisible} />
@@ -88,6 +91,10 @@ const styles = StyleSheet.create({
         height: 40, 
         borderColor: 'gray', 
         borderWidth: 1,
+    },
+    center: {
+        alignItems: 'center',
+        paddingTop: 100
     },
 });
 

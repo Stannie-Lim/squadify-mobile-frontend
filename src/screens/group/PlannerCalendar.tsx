@@ -15,10 +15,7 @@ const PlannerCalendar = ({ route, navigation, group }: any) => {
     };
 
     return (
-        <SafeAreaView>
-            <View style={ styles.center }>
-                <Text style={ styles.text }>Planner</Text>
-            </View>
+        <SafeAreaView style={{ marginTop: 100 }}>
             <Calendar 
                 onDayPress={goToMap}
             />

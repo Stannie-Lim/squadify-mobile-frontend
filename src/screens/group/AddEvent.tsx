@@ -49,8 +49,7 @@ const AddEvent = ({ navigation, route }: any) => {
         if(startTime < now) alert('Cannot create an event in the past!');
         else {
             try {
-                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPublic, startTime, address: addressOfEvent, coordsOfEvent }))?.data;
-
+                const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPrivate: !isPublic, startTime, address: addressOfEvent, coordsOfEvent }))?.data;
                 await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.id });
 
                 setName('');
@@ -60,7 +59,7 @@ const AddEvent = ({ navigation, route }: any) => {
                 setAddress('');
                 setCoords({});
                 setPublic(false);
-                navigation.navigate('Planner', { newEvent: data.event });
+                navigation.navigate('Group', { newEvent: data.event });
             } catch(err) {
                 console.log(err);
             }
@@ -68,7 +67,7 @@ const AddEvent = ({ navigation, route }: any) => {
     };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ marginTop: 100 }}>
             <TextInput 
                 style={styles.inputField} 
                 onChangeText={ text => setName(text) } 

@@ -9,7 +9,6 @@ import { Ionicons, AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-i
 //screens 
 import Iou from '../../screens/group/Iou';
 import Feed from '../../screens/group/Feed';
-// import Chat from '../../screens/group/Chat';
 import Profile from '../../screens/group/Profile';
 import AddEvent from '../../screens/group/AddEvent';
 import PlannerCalendar from '../../screens/group/PlannerCalendar';

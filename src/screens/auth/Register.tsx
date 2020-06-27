@@ -1,20 +1,26 @@
 import moment from 'moment';
 import React, { useState } from 'react';
 import { RNS3 } from 'react-native-aws3';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
-import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image, ImageBackground, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 
-// component
-import ChooseImage from './ChooseImage';
+// styles
+const bg = require('../../../assets/images/login.jpg');
+const noimage = require('../../../assets/images/noimage.jpg');
+
+// icons
+import { AntDesign, FontAwesome, Entypo, Feather } from '@expo/vector-icons'; 
 
 const Register = ({ navigation }: any) => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ lastName, setLastName ] = useState('');
   const [ firstName, setFirstName ] = useState('');
-  const [ dob, setDob ] = useState({});
+  const [ dob, setDob ]: any = useState('');
   const [ image, setImage ] = useState(null);
   const [ isDatePickerVisible, setDatePickerVisibility ] = useState(false);
 
@@ -24,6 +30,13 @@ const Register = ({ navigation }: any) => {
   };
 
   const register = async() => {
+    if(!image) {
+      alert('Please set a profile picture');
+      return;
+    } else if(!(email && password && firstName && lastName && dob && image)) {
+      alert('Please fill out all fields');
+      return;
+    }
     try {
       const file = {
         uri: image,
@@ -50,63 +63,163 @@ const Register = ({ navigation }: any) => {
     }
   };
 
+  const pickImage = async () => {
+    try {
+        await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
+        if(!cancelled) setImage(uri);
+    } catch(err) {
+        console.log(err);
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <TextInput 
-          style={styles.inputField}
-          onChangeText={text => setFirstName(text)}
-          value={firstName} 
-          placeholder='First Name'
-      />
-       <TextInput 
-          style={styles.inputField}
-          onChangeText={text => setLastName(text)}
-          value={lastName} 
-          placeholder='Last Name'
-      />
-       <Text>{moment(dob).format('dddd, MMMM Do YYYY')}</Text>
-          <Button title="Set Date" onPress={ () => setDatePickerVisibility(true) } />
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleDate}
-            onCancel={ () => setDatePickerVisibility(false) }
-      />
-      <TextInput 
-          autoCapitalize="none"
-          style={styles.inputField}
-          onChangeText={text => setEmail(text)}
-          value={email} 
-          placeholder='Email'
-      />
-      <TextInput 
-          autoCapitalize="none"
-          style={styles.inputField}
-          onChangeText={text => setPassword(text)}
-          value={password} 
-          placeholder='Password'
-      />
-      <ChooseImage setImage={ setImage } />
-
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-
-      <Button title='Register' onPress={ register } />
-      <Button title="Already have an account? Log in here!" onPress={ () => navigation.navigate('Login') } />
-    </SafeAreaView>
+    <ImageBackground source={bg} style={styles.image}>
+      <ScrollView>
+        <SafeAreaView style={styles.container}>
+          <View style={ styles.imagecircle }>
+            <TouchableOpacity onPress={pickImage}>
+              <Image source={image ? { uri: image } : noimage} style={styles.avatar} />
+            </TouchableOpacity>
+          </View>
+          <View style={ styles.inputs }>
+            <AntDesign name="user" size={24} color="white" />
+            <TextInput 
+                style={styles.inputField}
+                onChangeText={text => setFirstName(text)}
+                value={firstName} 
+                placeholder='First Name'
+                placeholderTextColor='grey'
+            />
+          </View>
+          <View style={ styles.inputs }>
+            <AntDesign name="user" size={24} color="white" />
+            <TextInput 
+                style={styles.inputField}
+                onChangeText={text => setLastName(text)}
+                value={lastName} 
+                placeholder='Last Name'
+                placeholderTextColor='grey'
+            />
+          </View>
+          <View style={ styles.inputs }>
+            <FontAwesome name="birthday-cake" size={24} color="white" />
+            <TouchableOpacity onPress={ () => setDatePickerVisibility(true) } style={ styles.birthday }>
+              <Text style={styles.birthday}>{dob.length !== 0 ? moment(dob).format('dddd, MMMM Do YYYY') : 'Date of Birth'}</Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleDate}
+              onCancel={ () => setDatePickerVisibility(false) }
+            />
+          </View>
+          <View style={ styles.inputs }>
+            <Entypo name="email" size={24} color="white" />
+            <TextInput 
+                autoCapitalize="none"
+                style={styles.inputField}
+                onChangeText={text => setEmail(text)}
+                value={email} 
+                placeholder='Email'
+                placeholderTextColor='grey'
+            />
+          </View>
+          <View style={ styles.inputs }>
+            <Feather name="lock" size={24} color="white" />
+            <TextInput 
+                autoCapitalize="none"
+                style={styles.inputField}
+                onChangeText={text => setPassword(text)}
+                value={password} 
+                secureTextEntry={true}
+                placeholder='Password'
+                placeholderTextColor='grey'
+            />
+          </View>
+          
+          <View style={styles.buttongroup}>
+            <TouchableOpacity onPress={ register } style={styles.signin}>
+              <Text style={styles.text}>Register</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttongroup}>
+            <TouchableOpacity onPress={ () => navigation.navigate('Login') }>
+              <Text style={styles.login}>Already have an account? Log in here!</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   inputField: {
     height: 40, 
-    borderBottomWidth: 2,
-    borderColor: 'lightseagreen', 
+    borderBottomWidth: 1,
+    borderColor: 'white', 
     fontSize: 20,
     marginBottom: 30,
+    width: Dimensions.get('window').width / 1.5,
+    color: 'white',
   },
   container: {
-      flex: 1,
-      justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    opacity: 1
+  },
+  inputs: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  birthday: {
+    height: 40, 
+    borderBottomWidth: 1,
+    borderColor: 'white', 
+    fontSize: 20,
+    marginBottom: 30,
+    width: Dimensions.get('window').width / 1.5,
+    color: 'grey',
+  },
+  avatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+  }, 
+  imagecircle: {
+    margin: 30,
+  },
+  buttongroup: {
+    alignItems: 'center',
+    marginTop: 20
+  },
+  text: {
+    color: 'white',
+    fontSize: 20
+  },
+  signin: {
+    alignItems: 'center',
+    width: Dimensions.get('window').width / 1.5,
+    paddingTop: 15,
+    paddingBottom: 15,
+    borderRadius: 50,
+    borderColor: 'white',
+    borderWidth: 2
+  },
+  login: {
+    backgroundColor: 'lightseagreen',
+    width: Dimensions.get('window').width,
+    textAlign: 'center',
+    padding: 20,
+    color: 'white',
+    fontSize: 20
   }
 });
 

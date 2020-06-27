@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { API_URL } from 'react-native-dotenv';
 import React, {useState, useEffect} from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
@@ -13,7 +14,7 @@ const Today = ({ route, group, navigation }: any) => {
 
     const getTodaysEvents = async() => {
         try { 
-            const data = (await AxiosHttpRequest('GET', `${API_URL}/event/group_events/${group.id}`))?.data;
+            const data = (await AxiosHttpRequest('GET', `${API_URL}/event/group_events/${group.id}`))?.data.filter((event: any) => moment(event.startTime).format('YYYY-MM-DD') === moment(new Date()).format('YYYY-MM-DD'));
             setEvents(data);
         } catch(err) {
             console.log(err);
@@ -38,7 +39,19 @@ const Today = ({ route, group, navigation }: any) => {
             </View>
             <View style={{ alignItems: 'center' }}>
                 {
-                    events.length === 0 ? <Text>You don't have any events for the day!</Text> :
+                    events.length === 0 ? 
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={refresh} 
+                            />
+                        }
+                        style={{ height: Dimensions.get('window').height / 2.6, }}
+                    >
+                        <Text>You don't have any events for the day!</Text>
+                        
+                    </ScrollView>:
                     <ScrollView 
                         refreshControl={
                             <RefreshControl
@@ -46,7 +59,7 @@ const Today = ({ route, group, navigation }: any) => {
                                 onRefresh={refresh} 
                             />
                         }
-                        style={{ height: Dimensions.get('window').height / 3.5, }}
+                        style={{ height: Dimensions.get('window').height / 2.6, }}
                     >
                         {
                             events.map((event, index) => <EventCard key={ index } event={ event } navigation={ navigation } /> )
