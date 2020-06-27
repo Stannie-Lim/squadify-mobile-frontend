@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { removeJwt, getUser } from '../utils/axios';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { Button, StyleSheet, Dimensions, Text, AsyncStorage, Modal, Alert, SafeAreaView, ScrollView } from "react-native";
+import { Button, StyleSheet, Dimensions, Text, AsyncStorage, Modal, Alert, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 
 // screens
 import Home from '../screens/Home';
@@ -23,6 +23,9 @@ import InviteMember from '../screens/group/InviteMember';
 // stacks
 import Group from './group/groupStack';
 import { UserTabsStack } from './UserTabsStack';
+
+//icons 
+import { FontAwesome, Entypo } from '@expo/vector-icons'; 
 
 interface RoutesProps { };
 type RoutesParamList = {
@@ -80,20 +83,38 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     if (route.state) {
       switch (route.state.index) {
         case 0:
-          return <Button title='Search' onPress={() => navigation.navigate('Search')} />
+          return <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                  <Entypo name="magnifying-glass" size={24} color="black" />
+                </TouchableOpacity>
         case 1:
           return <Button title='Chat' onPress={() => navigation.navigate('Chat', { group: route.params.group, user })} />
       }
     } else {
-      return <Button title='Search' onPress={() => navigation.navigate('Search')} />
+      return <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+              <Entypo name="magnifying-glass" size={24} color="black" />
+            </TouchableOpacity>
     }
   };
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator 
+        screenOptions={{
+            headerShown: true,
+            headerTransparent:true
+        }}>
         <Stack.Screen name="Welcome to Squadify!" component={Auth} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Login" component={Login} 
+          options={{
+            title: '',
+            headerBackTitle: ' '
+          }}
+        />
+        <Stack.Screen name="Register" component={Register} 
+          options={{
+            title: '',
+            headerBackTitle: ' '
+          }}
+        />
         <Stack.Screen name="Your Groups" component={Home} />
         <Stack.Screen name="Search" component={Search} />
 
@@ -135,7 +156,10 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
           options={({ navigation, route }) => ({
             title: route.params.group.name,
             headerLeft: () => (
-              <Button title='Your Groups' onPress={() => navigation.navigate('Your Account', { groups: route.params.groups, friends: route.params.friends })} />
+              <TouchableOpacity onPress={() => navigation.navigate('Your Account', { groups: route.params.groups, friends: route.params.friends })}>
+                <FontAwesome name="group" size={24} color="black" />
+              </TouchableOpacity>
+             
             ),
             headerRight: () => (
               getHeaderRight(route, navigation)

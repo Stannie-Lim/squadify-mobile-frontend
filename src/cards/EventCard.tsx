@@ -39,20 +39,22 @@ const EventCard = ({ event, navigation }: any) => {
     return (
         <TouchableOpacity onPress={ () => setModalVisible(true) }>
             <View style={ event.isPrivate ? styles.privateEvent : styles.publicEvent }>
-                <Text>{address}</Text>
-                <Text style={{ fontSize: 30 }}>{ event.name }</Text>
-                <Text>{ event.description }</Text>
-                <Text>{ new Date(event.startTime).toDateString() }</Text>
+                <View style={ styles.information }>
+                    <Text>{address}</Text>
+                    <Text style={{ fontSize: 30 }}>{ event.name }</Text>
+                    <Text>{ event.description }</Text>
+                    <Text>{ new Date(event.startTime).toDateString() }</Text>
+                </View>
             </View>
-            <Modal
-                animationType="slide"
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(false);
-                }}
-            >  
-                <SingleEventMap event={ event } address={ address } mapRegion={ mapRegion } setModalVisible={ setModalVisible } />
-            </Modal>
+                <Modal
+                    animationType="slide"
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(false);
+                    }}
+                >  
+                    <SingleEventMap event={ event } address={ address } mapRegion={ mapRegion } setModalVisible={ setModalVisible } />
+                </Modal>
         </TouchableOpacity>
     );
 };
@@ -60,23 +62,27 @@ const EventCard = ({ event, navigation }: any) => {
 const styles = StyleSheet.create({
     privateEvent: {
         alignItems: 'center',
-        marginTop: 10,
         borderColor: 'tomato',
-        borderWidth: 3,
+        borderLeftWidth: 10,
         width: Dimensions.get('window').width - 30,
         height: Dimensions.get('window').height / 3.7,
-        borderRadius: 20,
-        marginBottom: 50
+        borderRadius: 5,
+        marginBottom: 30,
+        backgroundColor: '#ffd0c7'
     },
     publicEvent: {
         alignItems: 'center',
-        marginTop: 10,
         borderColor: 'lightseagreen',
-        borderWidth: 3,
+        borderLeftWidth: 10,
         width: Dimensions.get('window').width - 30,
         height: Dimensions.get('window').height / 3.7,
-        borderRadius: 20,
-        marginBottom: 50
+        borderRadius: 5,
+        marginBottom: 30,
+        backgroundColor: '#bce7e5'
+    },
+    information: {
+        paddingTop: 20,
+        width: Dimensions.get('window').width - 80,
     }
 });
 

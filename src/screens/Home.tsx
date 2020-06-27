@@ -29,6 +29,7 @@ const Home = ({ navigation, route }: any) => {
   return (
     groups.length === 0 ? 
     <ScrollView
+      style={{ marginTop: 100 }}
       refreshControl={
         <RefreshControl
             refreshing={refreshing}
@@ -40,6 +41,7 @@ const Home = ({ navigation, route }: any) => {
     </ScrollView>
     :
     <ScrollView
+      style={{ marginTop: 100 }}
       refreshControl={
         <RefreshControl
             refreshing={refreshing}
@@ -58,7 +60,8 @@ const Home = ({ navigation, route }: any) => {
             <Image source={{ uri: group.avatarUrl }} style={ styles.avatar } />
             <Text style={ group.isPrivate ? styles.private : styles.public }>{group.name}</Text>
           </TouchableOpacity> 
-        ):
+        )
+        :
         groups?.map((group: any, index: number) => 
           <TouchableOpacity 
             style={ styles.container }
@@ -80,8 +83,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
     padding: 20,
   },
   private: {

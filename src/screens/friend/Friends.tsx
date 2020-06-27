@@ -66,6 +66,7 @@ const Friends = ({ navigation, route }: any) => {
 
     return (
         <ScrollView
+            style={{ marginTop: 100 }}
             refreshControl={
             <RefreshControl
               refreshing={refreshing}

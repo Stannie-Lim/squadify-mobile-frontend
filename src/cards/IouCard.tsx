@@ -5,13 +5,13 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpaci
 const IouCard = ({ debt, color }: any) => {
     return (
         <View style={{...styles.container, backgroundColor: color} }>
-            <Image style={ styles.avatar } source={{ uri: debt.payer.avatarUrl }} />
-            <Text>{ `${debt.payer.firstName} ${debt.payer.lastName}` }</Text>
+            <Image style={ styles.avatar } source={{ uri: debt.payer[0].avatarUrl }} />
+            <Text>{ `${debt.payer[0].firstName} ${debt.payer[0].lastName}` }</Text>
             <Text>{ debt.description }</Text>
             <Text>{ debt.createdAt }</Text>
             <Text>${debt.amount} paid to</Text>
             {
-                debt.payees && debt.payees.map((payee: any) => <Text>{ payee.email }</Text> )
+                debt.payees && debt.payees.map((payee: any, index: number) => <Text key={ index }>{ payee.email }</Text> )
             }
         </View>
     );

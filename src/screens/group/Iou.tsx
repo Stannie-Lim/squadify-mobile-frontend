@@ -49,7 +49,7 @@ const Iou = ({ group, user }: any) => {
             setChosen([]);
             setAmount('');
             setDescription('');
-            setIous([...ious, data.iou.raw[0]]);
+            setIous([...ious, data]);
         } catch(err) {
             console.log(err);
         }
@@ -57,9 +57,9 @@ const Iou = ({ group, user }: any) => {
 
     const colors = ['seagreen', 'purple', 'red', 'blue', 'tomato', 'dodgerblue', 'yellow'];
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ marginTop: 100 }}>
             {
-                user && <MeIouCard user={ user } setFilterModal={ setFilterModal } />
+                user && <MeIouCard user={ user } setModalVisible={ setModalVisible } setFilterModal={ setFilterModal } />
             } 
             <ScrollView style={{ height: Dimensions.get('window').height / 1.8, }}>  
                 {

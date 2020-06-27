@@ -7,19 +7,16 @@ import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
 import { Ionicons, AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 //screens 
+import Iou from '../../screens/group/Iou';
 import Feed from '../../screens/group/Feed';
-// import Chat from '../../screens/group/Chat';
 import Profile from '../../screens/group/Profile';
 import AddEvent from '../../screens/group/AddEvent';
-import Iou from '../../screens/group/Iou';
-
-// stacks
-import { PlannerStack } from './plannerStack';
+import PlannerCalendar from '../../screens/group/PlannerCalendar';
 
 interface GroupTabsProps {};
 type GroupParamList = {
   Feed: undefined;
-  Planner: undefined;
+  Group: undefined;
   Chat: undefined;
   "Add Event": undefined;
   IOUs: undefined;
@@ -48,7 +45,7 @@ const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         if (route.name === "Feed") return <FontAwesome5 name={"book"} size={size} color={color} />;
-        else if (route.name === "Planner") return <Ionicons name={"ios-calendar"} size={size} color={color} />;
+        else if (route.name === "Group") return <Ionicons name={"ios-calendar"} size={size} color={color} />;
         else if (route.name === "Chat") return <Ionicons name={"ios-people"} size={size} color={color} />;
         else if (route.name === "Add Event") return <MaterialIcons name={"place"} size={size} color={color} />;
         else if (route.name === "IOUs") return <FontAwesome5 name={"money-bill"} size={size} color={color} />;
@@ -61,8 +58,8 @@ const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
       }}>
         <Tab.Screen name='Feed' component={Feed} />
         {/* <Tab.Screen name="Chat" component={Chat} /> */}
-        <Tab.Screen name="Planner">
-          { () => <PlannerStack navigation={ navigation } group={ group } /> }
+        <Tab.Screen name="Group">
+          { () => <PlannerCalendar navigation={ navigation } group={ group } /> }
         </Tab.Screen>
         <Tab.Screen name="Add Event">
           { () => <AddEvent navigation={ navigation } route={ route }/> }
