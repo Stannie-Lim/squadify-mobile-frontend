@@ -17,10 +17,10 @@ const Feed = ({ route, navigation }: any) => {
     });
 
     const [ events, setEvents ] = useState([]);
-    const [ refreshing, setRefreshing ] = useState(false);
+    const [ radius, setFeedRadius ] = useState(1);
     const [ latitude, setLatitude ] = useState(0.0);
     const [ longitude, setLongitude ] = useState(0.0);
-    const [ radius, setFeedRadius ] = useState(1);
+    const [ refreshing, setRefreshing ] = useState(false);
     const [ modalVisible, setModalVisible ] = useState(false);
     
     useEffect(() => {
@@ -69,7 +69,6 @@ const Feed = ({ route, navigation }: any) => {
             <Button onPress={ changeRadius } title="Change radius" />
             <Modal 
                 animationType="slide"
-                transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
                   setModalVisible(false);
