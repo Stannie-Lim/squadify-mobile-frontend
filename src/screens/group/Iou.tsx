@@ -29,6 +29,7 @@ const Iou = ({ group, user }: any) => {
         try {
             const data = (await AxiosHttpRequest('GET', `${API_URL}/iou/group/${group.id}`))?.data;
             setIous(data);
+            console.log(data, 'hello');
         } catch(err) {
             console.log(err);
         }
@@ -59,7 +60,7 @@ const Iou = ({ group, user }: any) => {
     return (
         <SafeAreaView>
             {
-                user && <MeIouCard user={ user } setFilterModal={ setFilterModal } />
+                user && <MeIouCard user={ user } setModalVisible={ setModalVisible } setFilterModal={ setFilterModal } />
             } 
             <ScrollView style={{ height: Dimensions.get('window').height / 1.8, }}>  
                 {
