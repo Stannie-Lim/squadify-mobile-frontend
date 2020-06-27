@@ -1,6 +1,7 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { getUser } from '../../utils/axios';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
 
 // icons
 import { Ionicons, AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
@@ -28,6 +29,19 @@ type GroupParamList = {
 const Tab = createBottomTabNavigator<GroupParamList>();
 const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
   const { group } = route.params;
+  const [ user, setUser ] = useState({});
+
+  useEffect(() => {
+    getUserFromDb();
+}, []);
+
+  const getUserFromDb = async() => {
+    try { 
+        await getUser(setUser);
+    } catch(err) {
+        console.log(err);
+    }
+}
 
   return (
     <Tab.Navigator
@@ -54,7 +68,7 @@ const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
           { () => <AddEvent navigation={ navigation } route={ route }/> }
         </Tab.Screen>
         <Tab.Screen name="IOUs">
-          { () => <Iou navigation={ navigation } route={ route } group={ group } /> }
+          { () => <Iou navigation={ navigation } route={ route } group={ group } user={ user } /> }
         </Tab.Screen>
         <Tab.Screen name="My Profile">
           { () => <Profile navigation={ navigation } route={ route } group={ group } /> }
