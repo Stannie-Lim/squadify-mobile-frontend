@@ -16,7 +16,6 @@ const GroupInvitations = () => {
         const data = (await AxiosHttpRequest('GET', `${API_URL}/user/invitations`))?.data;
         setSent(data.sentInvitations);
         setReceived(data.receivedInvitations);
-        console.log(data.receivedInvitations[0].inviter, '123123');
     };
 
     const respond = async (groupId: string, acceptordeny: boolean) => {

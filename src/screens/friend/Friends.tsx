@@ -74,7 +74,7 @@ const Friends = ({ navigation, route }: any) => {
                     refreshing={refreshing}
                     onRefresh={refresh} />
             }>
-            <Text style={{ fontSize: 30, }}>Friends</Text>
+            <Text style={{ fontSize: 40, textAlign: "center" }}>Friends</Text>
             {
                 friends && friends.map((friend: any) => (
                     <RemoveFriendCard deleteFriend={deleteFriend} friend={friend} key={friend.id} />

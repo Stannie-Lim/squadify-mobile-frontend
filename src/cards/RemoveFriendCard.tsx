@@ -26,15 +26,17 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flexDirection: 'row',
-        borderColor: 'black',
-        borderWidth: 1,
         height: Dimensions.get('window').height / 15,
-        borderRadius: 10,
+        borderStyle: 'solid',
+        borderTopColor: 'lightgray',
+        borderTopWidth: 1
     },
     avatar: {
         height: 50,
         width: 50,
         borderRadius: 50,
+        marginLeft: 10,
+        marginRight: 10
     },
 });
 
