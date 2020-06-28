@@ -24,13 +24,10 @@ const Feed = ({ route, navigation }: any) => {
     const [refreshing, setRefreshing] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
-    console.log(latitude)
-    console.log(longitude)
-
     useEffect(() => {
         getCurrentLocation();
         findEvents();
-    }, [latitude, longitude]);
+    }, []);
 
     const refresh = async () => {
         setRefreshing(true);

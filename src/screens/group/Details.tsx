@@ -19,7 +19,7 @@ const Details = ({date, setShowModal}: any) => {
     }, []);
     return (
         <SafeAreaView>
-            <TouchableOpacity style={ styles.button }onPress={ () => setShowModal(false) }>
+            <TouchableOpacity style={ styles.button } onPress={ () => setShowModal(false) }>
                 <Text style={ styles.done } >Done</Text>
             </TouchableOpacity>
             <View style={ styles.container }>
@@ -40,6 +40,10 @@ const styles = StyleSheet.create({
         color: 'teal',
         fontWeight: '500',
     },
+    button: {
+        alignItems: 'flex-end',
+        marginRight: 10,
+    },
     container: {
         alignItems: 'center',
         backgroundColor: 'lightseagreen',
@@ -51,10 +55,6 @@ const styles = StyleSheet.create({
     events: {
         alignItems: 'center',
     },
-    button: {
-        alignItems: 'flex-end',
-        marginRight: 10,
-    }
 });
 
 export default Details;

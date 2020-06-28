@@ -1,5 +1,4 @@
 import React from 'react';
-import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 
 const IouCard = ({ debt, color }: any) => {

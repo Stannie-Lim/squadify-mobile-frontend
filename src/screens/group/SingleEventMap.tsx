@@ -1,6 +1,4 @@
 import moment from 'moment';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
 import React, { useState, useEffect } from 'react';
 import MapView, { AnimatedRegion } from 'react-native-maps';
 import { StyleSheet, Text, SafeAreaView, View, Dimensions, Button } from 'react-native';
