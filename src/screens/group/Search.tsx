@@ -4,6 +4,7 @@ import { AxiosHttpRequest } from '../../utils/axios';
 import { API_KEY, API_URL } from 'react-native-dotenv'
 import MapView, { AnimatedRegion } from 'react-native-maps';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions, Switch, Modal, Slider, FlatList } from 'react-native';
+import EventCard from '../../cards/EventCard';
 
 
 const Search = () => {
@@ -16,8 +17,8 @@ const Search = () => {
 
     const [searchByRadius, setSearchByRadius] = useState(false)
     const [viewMap, setViewMap] = useState(false)
-    const [radius, setRadius] = useState(1);
-    const [sliderValue, setSliderValue] = useState(1);
+    const [radius, setRadius] = useState(1.00);
+    const [sliderValue, setSliderValue] = useState(1.00);
 
     const [searchByName, setSearchByName] = useState(true)
     const [searchByHashtag, setSearchByHashtag] = useState(false)
@@ -57,6 +58,7 @@ const Search = () => {
             if (latitude && longitude) {
                 console.log(latitude)
                 console.log(longitude)
+                console.log(radius)
                 const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data
                 console.log(foundEvents)
                 setEvents(foundEvents);
@@ -92,21 +94,11 @@ const Search = () => {
         }
     };
 
-    const ListItem = ({ name, startTime, geolocation }: any) => {
+    const ListItem = ({ event }: any) => {
+        console.log('EVENT', event)
         return (
             <View style={styles.listItem}>
-                <View style={styles.listItemTextContainer}>
-                    <Text style={styles.listItemName}>{name}</Text>
-                    <Text style={styles.listItemTime}>{geolocation && geolocation.localized_address}</Text>
-                    <Text style={styles.listItemTime}>{moment(startTime).format('MMMM Do YYYY, h:mm a')}</Text>
-                </View>
-                <Button title='Map' onPress={() => {
-                    if (geolocation && geolocation.localized_address) {
-                        setSearchValue(geolocation.localized_address)
-                        findLocation()
-                        setViewMap(true)
-                    }
-                }} />
+                <EventCard event={event} />
             </View>
         )
     }
@@ -168,7 +160,7 @@ const Search = () => {
                             minimumValue={1}
                             maximumValue={25}
                             onValueChange={value => {
-                                const miles = 1609.34 * value;
+                                const miles = ((1609.34 * value) / 1000)
                                 setRadius(miles);
                                 setSliderValue(value);
                             }}
@@ -194,7 +186,7 @@ const Search = () => {
                         />
                     </MapView>
                     :
-                    <FlatList data={events} renderItem={({ item }: any) => <ListItem name={item.name} startTime={item.startTime} geolocation={item.geolocation} />} />
+                    <FlatList style={styles.flatList} data={events} renderItem={({ item }: any) => <ListItem event={item} />} />
             }
         </SafeAreaView>
     );
@@ -269,6 +261,9 @@ const styles = StyleSheet.create({
     listItemTime: {
         fontSize: 10,
         margin: 3
+    },
+    flatList: {
+        height: Dimensions.get('window').height / 1.28,
     }
 });
 
