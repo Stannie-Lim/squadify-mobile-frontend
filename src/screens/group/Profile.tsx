@@ -9,15 +9,15 @@ import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, Touch
 //components 
 
 const Profile = ({ navigation }: any) => {
-  const [ user, setUser ] = useState({
+  const [user, setUser] = useState({
     firstName: '',
     lastName: '',
     password: '',
-    email: '', 
+    email: '',
     avatarUrl: ''
   });
 
-  const Update = async() => {
+  const Update = async () => {
     try {
       //wait until we're not too lazy to do the password hashing first 
 
@@ -35,63 +35,63 @@ const Profile = ({ navigation }: any) => {
       //   email: updated.raw[0].email,
       //   avatarUrl: updated.raw[0].avatarUrl
       // });
-    } catch(err) { 
+    } catch (err) {
       console.log(err);
     }
   };
 
   const pickImage = async () => {
     try {
-        await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
-        if(!cancelled) {
-          const file = {
-            uri,
-            name: `${user.email.replace('.', '').replace('@', '')}_avatar`, 
-            type: 'image/jpg',
-          };
-          const config = {
-              keyPrefix: 'users/',
-              bucket: 'squadify-avatars',
-              region: REGION,
-              accessKey: ACCESS_KEY_ID,
-              secretKey: SECRET_ACCESS_KEY
-          };
-          const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
-          setUser({ 
-            firstName: user.firstName, 
-            lastName: user.lastName,
-            password: user.password,
-            email: user.email,
-            avatarUrl 
-          });
-          Update();
-        }
-    } catch(err) {
-        console.log(err);
+      await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
+      if (!cancelled) {
+        const file = {
+          uri,
+          name: `${user.email.replace('.', '').replace('@', '')}_avatar`,
+          type: 'image/jpg',
+        };
+        const config = {
+          keyPrefix: 'users/',
+          bucket: 'squadify-avatars',
+          region: REGION,
+          accessKey: ACCESS_KEY_ID,
+          secretKey: SECRET_ACCESS_KEY
+        };
+        const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
+        setUser({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          password: user.password,
+          email: user.email,
+          avatarUrl
+        });
+        Update();
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  useEffect( () => {
+  useEffect(() => {
     const getUserInfo = async () => {
       await getUser(setUser);
     };
     getUserInfo();
   }, [])
 
-/* 
-  modal stuff because idk where else to put this for testing
-*/
+  /* 
+    modal stuff because idk where else to put this for testing
+  */
 
-const [ modalVisible, setModalVisible ] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={ pickImage }>
-        { user.avatarUrl.length !== 0 && <Image source={{ uri: user.avatarUrl }} style={ styles.avatar } /> }
+      <TouchableOpacity onPress={pickImage}>
+        {user.avatarUrl.length !== 0 && <Image source={{ uri: user.avatarUrl }} style={styles.avatar} />}
       </TouchableOpacity>
-      
+
 
       {/* <TextInput 
           style={styles.inputField}
@@ -130,22 +130,22 @@ const [ modalVisible, setModalVisible ] = useState(false);
 
 const styles = StyleSheet.create({
   inputField: {
-    height: 40, 
+    height: 40,
     borderBottomWidth: 2,
-    borderColor: 'lightseagreen', 
+    borderColor: 'lightseagreen',
     fontSize: 20,
     marginBottom: 30,
   },
   container: {
-      flex: 1,
-      alignItems: 'center',
-      marginTop: 100,
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 100,
   },
   avatar: {
     height: 100,
     width: 100,
     borderRadius: 50,
-  }, 
+  },
 });
 
 export default Profile;

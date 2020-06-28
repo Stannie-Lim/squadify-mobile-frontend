@@ -21,7 +21,7 @@ const Chat = ({ navigation, route }: any) => {
                     createdAt: message.createdAt,
                     user: {
                         _id: message.user.id,
-                        name: message.user.firstName,
+                        name: message.user.firstName.split('#')[0],
                         avatar: message.user.avatarUrl
                     }
                 }
@@ -34,19 +34,19 @@ const Chat = ({ navigation, route }: any) => {
         const socket = io(API_URL)
         socket.on('message', (response: any) => {
             if (response.groupId === group.id && response.user.id !== user.id) {
-                const message: any = [{ 
+                const message: any = [{
                     _id: response.message.id,
                     text: response.message.text,
                     createdAt: response.message.createdAt,
                     user: {
                         _id: response.user.id,
-                        name: response.user.firstName,
+                        name: response.user.firstName.split('#')[0],
                         avatar: response.user.avatarUrl
                     }
                 }]
                 setMessages(previousMessages => GiftedChat.append(previousMessages, message))
             }
-          })
+        })
     }, [])
     const onSend = useCallback((messages = []) => {
         messages.forEach(async (message: any) => {
@@ -56,15 +56,15 @@ const Chat = ({ navigation, route }: any) => {
     }, [])
 
     return (
-    
-            <GiftedChat
-                messages={messages}
-                onSend={messages => onSend(messages)}
-                user={{
-                    _id: user.id
-                }}
-            />
-       
+
+        <GiftedChat
+            messages={messages}
+            onSend={messages => onSend(messages)}
+            user={{
+                _id: user.id
+            }}
+        />
+
     );
 };
 

@@ -4,10 +4,10 @@ import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView } from 'react-native';
 
 const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoingFriendRequests }: any) => {
-    const [ incomingFriendRequests, setIncomingFriendRequests ]: any = useState([]);
-    
+    const [incomingFriendRequests, setIncomingFriendRequests]: any = useState([]);
+
     useEffect(() => {
-        const getRequests = async() => {
+        const getRequests = async () => {
             const data = (await AxiosHttpRequest('GET', `${API_URL}/user/friendrequests`))?.data;
             setIncomingFriendRequests(data.incomingRequests);
         };
@@ -16,7 +16,7 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
 
     const answer = async ({ id }: any, accepted: boolean) => {
         accepted ? await AxiosHttpRequest('POST', `${API_URL}/user/acceptfriend`, { otherUserId: id })
-        : await AxiosHttpRequest('POST', `${API_URL}/user/rejectfriend`, { otherUserId: id });
+            : await AxiosHttpRequest('POST', `${API_URL}/user/rejectfriend`, { otherUserId: id });
 
         const afterAnswering = [...incomingFriendRequests].filter(request => request.id !== id);
         setIncomingFriendRequests(afterAnswering);
@@ -33,29 +33,29 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
 
     return (
         <ScrollView>
-            <Text style={{ fontSize: 30, }}>Friend requests</Text>
+            <Text style={{ fontSize: 30, }}>Sent requests</Text>
             {
                 !!incomingFriendRequests.length && incomingFriendRequests.map(request => {
-                    if(request) {
+                    if (request) {
                         return (
                             <SafeAreaView key={request.id}>
-                                <Text>{ request.firstName } { request.lastName }</Text>
-                                <Button onPress={ () => answer(request, true) } title='Accept friend' />
-                                <Button onPress={ () => answer(request, false) } title='Decline friend' />
+                                <Text>{request.firstName.split('#')[0]} {request.lastName.split('#')[0]} #{request.lastName.split('#')[1]}</Text>
+                                <Button onPress={() => answer(request, true)} title='Accept friend' />
+                                <Button onPress={() => answer(request, false)} title='Decline friend' />
                             </SafeAreaView>
                         )
                     }
                 })
             }
-            <Text style={{ fontSize: 30, }}>Outgoing friend requests</Text>
+            <Text style={{ fontSize: 30, }}>Received requests</Text>
             {
                 !!outgoingFriendRequests.length && outgoingFriendRequests.map(request => {
-                    if(request) {
+                    if (request) {
                         return (
                             <SafeAreaView key={request.id}>
-                                <Text>{ request.firstName } { request.lastName }</Text>
-                                <Button onPress={ () => cancelRequest(request) } 
-                                title='Cancel friend request' />
+                                <Text>{request.firstName.split('#')[0]} {request.lastName.split('#')[0]} #{request.lastName.split('#')[1]}</Text>
+                                <Button onPress={() => cancelRequest(request)}
+                                    title='Cancel friend request' />
                             </SafeAreaView>
                         )
                     }
