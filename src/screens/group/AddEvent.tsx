@@ -67,7 +67,7 @@ const AddEvent = ({ navigation, route }: any) => {
     };
 
     return (
-        <SafeAreaView style={{ marginTop: 100 }}>
+        <SafeAreaView style={{ marginTop: 100, backgroundColor: '#b6d2dd' }}>
             <TextInput 
                 style={styles.inputField} 
                 onChangeText={ text => setName(text) } 
@@ -122,6 +122,9 @@ const styles = StyleSheet.create({
       borderColor: 'lightseagreen', 
       fontSize: 20,
       marginBottom: 10,
+      width: 350,
+      alignSelf: "center",
+      textAlign: 'center',
     },
     mapStyle: {
         width: Dimensions.get('window').width,

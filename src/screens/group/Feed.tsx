@@ -64,7 +64,9 @@ const Feed = ({ route, navigation }: any) => {
     };
 
     return (
+        
         <ScrollView
+            style={{flex: 1,backgroundColor: '#b6d2dd'}}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}
