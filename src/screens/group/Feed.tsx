@@ -39,8 +39,14 @@ const Feed = ({ route, navigation }: any) => {
     };
 
     const findEvents = async () => {
-        const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data.filter((event: any) => moment(event.startTime).format('YYYY-MM-DD') === moment(new Date()).format('YYYY-MM-DD'));
-        console.log(foundEvents)
+        const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data.filter((event: any) => {
+            const now = moment(new Date()).format('YYYY-MM-DD')
+            const startTime = moment(event.startTime).format('YYYY-MM-DD')
+            const isBefore = moment(startTime).isBefore(now)
+            const isAfterDays = moment().add(1, 'M').isAfter(startTime)
+            return !isBefore && !isAfterDays
+        });
+
         setEvents(foundEvents);
     };
 
