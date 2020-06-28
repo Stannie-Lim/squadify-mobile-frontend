@@ -37,13 +37,13 @@ const EventCard = ({ event, navigation }: any) => {
     }, [address]);
 
     return (
-        <TouchableOpacity onPress={ () => setModalVisible(true) }>
+        <TouchableOpacity style={ styles.card } onPress={ () => setModalVisible(true) }>
             <View style={ event.isPrivate ? styles.privateEvent : styles.publicEvent }>
                 <View style={ styles.information }>
                     <Text>{address}</Text>
                     <Text style={{ fontSize: 30 }}>{ event.name }</Text>
                     <Text>{ event.description }</Text>
-                    <Text>{ new Date(event.startTime).toDateString() }</Text>
+                    <Text>{ moment(event.startTime).format('MMMM Do YYYY, hh:m A') }</Text>
                 </View>
             </View>
                 <Modal
@@ -83,6 +83,16 @@ const styles = StyleSheet.create({
     information: {
         paddingTop: 20,
         width: Dimensions.get('window').width - 80,
+    },
+    card: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 9,
+        },
+        shadowOpacity: 0.48,
+        shadowRadius: 11.95,
+        elevation: 18,
     }
 });
 

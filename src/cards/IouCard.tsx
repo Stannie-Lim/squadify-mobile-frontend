@@ -18,21 +18,6 @@ const IouCard = ({ debt, color }: any) => {
 };
 
 const styles = StyleSheet.create({
-    youcontainer: {
-        borderColor: 'black',
-        borderWidth: 1,
-        padding: 5,
-        backgroundColor: 'grey',
-        alignItems: 'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 9,
-        },
-        shadowOpacity: 0.48,
-        shadowRadius: 11.95,
-        elevation: 18,
-    },
     container: {
         borderColor: 'black',
         borderWidth: 1,
