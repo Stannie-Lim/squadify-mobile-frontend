@@ -25,6 +25,16 @@ const CreateGroup = ({ navigation, route }: any) => {
     }, []);
 
     const createGroup = async () => {
+        if(!avatarUrl) {
+            alert('Please choose a group picture');
+            return;
+        } else if(chosenFriends.length === 0) {
+            alert('Please invite friends');
+            return;
+        } else if(!(name && avatarUrl)) {
+            alert('Please fill all empty fields!');
+            return;
+        }
         const { groups } = route.params;
         try {
             const file = {
@@ -44,7 +54,7 @@ const CreateGroup = ({ navigation, route }: any) => {
 
             const newGroup = (await AxiosHttpRequest('POST', `${API_URL}/groups/create`, { name, isPrivate: !isPublic, friendIds: chosenFriends, avatarUrl: url }))?.data;
             const setGroups = [...groups, newGroup.group];
-            navigation.replace('Your Account', { groups: setGroups, navigation, route });
+            navigation.replace('Groups', { groups: setGroups, navigation, route });
         } catch(err) {
             console.log(err);
         }
@@ -52,6 +62,9 @@ const CreateGroup = ({ navigation, route }: any) => {
 
     return (
         <SafeAreaView style={{ marginTop: 100 }}>
+            <View style={ styles.container }>
+                <ChooseImage setImage={setImage} image={ avatarUrl } />
+            </View>
             <TextInput 
                 style={ styles.inputField }
                 onChangeText={text => setName(text)}
@@ -65,7 +78,6 @@ const CreateGroup = ({ navigation, route }: any) => {
                 uncheckedIcon='circle-o'
                 onPress={ () => setPublic(!isPublic) }
             />
-            <ChooseImage setImage={setImage} />
             <Text style={{ fontSize: 30 }}>Add friends</Text>
             <ScrollView style={ styles.listOfFriends }>
                 {
@@ -89,12 +101,15 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     listOfFriends: {
-        height: Dimensions.get('window').height / 2,
+        height: Dimensions.get('window').height / 2.5,
         borderTopColor: 'black',
         borderBottomColor: 'black',
         borderTopWidth: 1,
         borderBottomWidth: 1,
-    }
+    },
+    container: {
+        alignItems: 'center',
+    },
 });
 
 export default CreateGroup;

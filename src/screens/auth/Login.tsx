@@ -4,7 +4,7 @@ import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 
 // styles
-const image = require('../../../assets/images/login.gif');
+const image = require('../../../assets/images/login.jpg');
 
 // icons
 import { AntDesign, Feather } from '@expo/vector-icons'; 
@@ -30,7 +30,7 @@ const Login = ({ navigation, route }: any) => {
             if(groupsData.length !== 0) {
                 navigation.replace('Group', { group: groupsData[0], groups: groupsData, friends: friendsData });
             } else {
-                navigation.replace('Your Account', { groups, friends });
+                navigation.replace('Groups', { groups, friends });
             }
         } catch(err) {
             alert("Incorrect information or backend not running right now :)");

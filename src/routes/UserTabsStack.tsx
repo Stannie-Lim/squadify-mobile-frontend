@@ -14,7 +14,7 @@ interface UserTabsProps {};
 type UserParamList = {
   Group: undefined;
   Groups: undefined;
-  Pending: undefined;
+  Friends: undefined;
   "Group Invites": undefined;
 };
 
@@ -27,8 +27,8 @@ export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
       tabBarIcon: ({ focused, color, size }) => {
         if (route.name === "Groups") {
           return <Ionicons name={"ios-people"} size={size} color={color} />;
-        } else if (route.name === "Pending") {
-          return <Ionicons name={"ios-people"} size={size} color={color} />;
+        } else if (route.name === "Friends") {
+          return <FontAwesome5 name="user-friends" size={size} color={color} />
         } else if (route.name === "Group Invites") {
           return <Ionicons name={"ios-people"} size={size} color={color} />;
         }
@@ -41,7 +41,7 @@ export const UserTabsStack: React.FC<UserTabsProps> = ({ route }: any) => {
         <Tab.Screen name="Groups">
           { ({ navigation, route }: any) => <Home route={ route } navigation={navigation} groups={groups} /> }
         </Tab.Screen>
-        <Tab.Screen name="Pending">
+        <Tab.Screen name="Friends">
           { ({ navigation, route }: any) => <Friends route={ route } navigation={navigation} friends={friends} /> }
         </Tab.Screen>
         <Tab.Screen name="Group Invites">
