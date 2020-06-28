@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 //components 
 import SingleEventMap from '../screens/group/SingleEventMap';
+import SingleEventDetail from '../screens/group/SingleEventDetail';
 
 const EventCard = ({ event, navigation }: any) => {
     const [mapRegion, setGeolocation] = useState({
@@ -45,6 +46,7 @@ const EventCard = ({ event, navigation }: any) => {
                     <Text>{ event.description }</Text>
                     <Text>{event.localized_address}</Text>
                     <Text>{ moment(event.startTime).format('MMMM Do YYYY, hh:m A') }</Text>
+
                 </View>
             </View>
             <Modal
@@ -54,7 +56,7 @@ const EventCard = ({ event, navigation }: any) => {
                     setModalVisible(false);
                 }}
             >
-                <SingleEventMap event={event} address={address} mapRegion={mapRegion} setModalVisible={setModalVisible} />
+                <SingleEventDetail event={ event } address={ address } mapRegion={ mapRegion } setModalVisible={ setModalVisible } />
             </Modal>
         </TouchableOpacity>
     );
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
         borderColor: 'tomato',
         borderLeftWidth: 10,
         width: Dimensions.get('window').width - 30,
-        height: Dimensions.get('window').height / 3.7,
+        height: Dimensions.get('window').height / 5,
         borderRadius: 5,
         marginBottom: 30,
         backgroundColor: '#ffd0c7'
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
         borderColor: 'lightseagreen',
         borderLeftWidth: 10,
         width: Dimensions.get('window').width - 30,
-        height: Dimensions.get('window').height / 3.7,
+        height: Dimensions.get('window').height / 5,
         borderRadius: 5,
         marginBottom: 30,
         backgroundColor: '#bce7e5'
