@@ -8,9 +8,11 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
 import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image, ImageBackground, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 
+// components
+import ChooseImage from './ChooseImage';
+
 // styles
 const bg = require('../../../assets/images/login.jpg');
-const noimage = require('../../../assets/images/noimage.jpg');
 
 // icons
 import { AntDesign, FontAwesome, Entypo, Feather } from '@expo/vector-icons'; 
@@ -56,20 +58,10 @@ const Register = ({ navigation }: any) => {
 
       setJwt(token);
 
-      navigation.replace('Your Account', { groups: [] });
+      navigation.replace('Groups', { groups: [] });
 
     } catch(err) { 
       alert("backend is not running right now");
-    }
-  };
-
-  const pickImage = async () => {
-    try {
-        await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
-        if(!cancelled) setImage(uri);
-    } catch(err) {
-        console.log(err);
     }
   };
 
@@ -77,11 +69,7 @@ const Register = ({ navigation }: any) => {
     <ImageBackground source={bg} style={styles.image}>
       <ScrollView>
         <SafeAreaView style={styles.container}>
-          <View style={ styles.imagecircle }>
-            <TouchableOpacity onPress={pickImage}>
-              <Image source={image ? { uri: image } : noimage} style={styles.avatar} />
-            </TouchableOpacity>
-          </View>
+          <ChooseImage setImage={ setImage } image={ image } />
           <View style={ styles.inputs }>
             <AntDesign name="user" size={24} color="white" />
             <TextInput 

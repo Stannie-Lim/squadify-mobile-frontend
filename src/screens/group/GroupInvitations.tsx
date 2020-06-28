@@ -16,6 +16,7 @@ const GroupInvitations = () => {
         const data = (await AxiosHttpRequest('GET', `${API_URL}/user/invitations`))?.data;
         setSent(data.sentInvitations);
         setReceived(data.receivedInvitations);
+        console.log(data.receivedInvitations[0].inviter, '123123');
     };
 
     const respond = async(groupId: string, acceptordeny: boolean) => {
@@ -59,7 +60,7 @@ const GroupInvitations = () => {
                 received.length !== 0 && received.map((user, index): any => 
                     <View key={ index }>
                         <Text>{ user.group.name }</Text>
-                        <Text>{ user.inviter.email }</Text>
+                        <Text>{ user.inviter ? user.inviter.email : '' }</Text>
                         <Button title="Accept invite" onPress={ () => respond(user.group.id, true) } />
                         <Button title="Decline invite" onPress={ () => respond(user.group.id, false) } />
                     </View>

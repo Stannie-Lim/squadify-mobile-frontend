@@ -25,7 +25,7 @@ import Group from './group/groupStack';
 import { UserTabsStack } from './UserTabsStack';
 
 //icons 
-import { FontAwesome, Entypo } from '@expo/vector-icons'; 
+import { AntDesign, Entypo, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 interface RoutesProps { };
 type RoutesParamList = {
@@ -35,7 +35,7 @@ type RoutesParamList = {
   Chat: undefined;
   "Your Groups": undefined;
   Group: undefined;
-  "Your Account": undefined;
+  "Groups": undefined;
   Search: undefined;
   "Add friend": undefined;
   "Create group": undefined;
@@ -67,14 +67,20 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
       switch (route.state.index) {
         // if you're currently in groups tab
         case 0:
-          return <Button title="Create Group" onPress={() => navigation.push('Create group', { groups, friends, navigation, route })} />
+          return <TouchableOpacity onPress={() => navigation.push('Create group', { groups, friends, navigation, route })}>
+            <MaterialIcons style={{ marginLeft: 10, }} name="group-add" size={30} color="black" />
+          </TouchableOpacity>
 
         //if you're currently in friends tab
         case 1:
-          return <Button title="Add Friend" onPress={() => navigation.push('Add friend', { friends, navigation, route })} />
+          return <TouchableOpacity onPress={() => navigation.push('Add friend', { friends, navigation, route })}>
+            <AntDesign style={{ marginLeft: 10 }} name="plus" size={24} color="black" />
+          </TouchableOpacity>
       }
     } else {
-      return <Button title="Create Group" onPress={() => navigation.push('Create group', { groups, friends, navigation, route })} />
+      return <TouchableOpacity onPress={() => navigation.push('Create group', { groups, friends, navigation, route })}>
+      <MaterialIcons style={{ marginLeft: 10, }} name="group-add" size={30} color="black" />
+    </TouchableOpacity>
     }
   }
 
@@ -84,14 +90,16 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
       switch (route.state.index) {
         case 0:
           return <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                  <Entypo name="magnifying-glass" size={24} color="black" />
+                  <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="black" />
                 </TouchableOpacity>
         case 1:
-          return <Button title='Chat' onPress={() => navigation.navigate('Chat', { group: route.params.group, user })} />
+          return <TouchableOpacity onPress={() => navigation.navigate('Chat', { group: route.params.group, user })}>
+                  <Entypo style={{ marginRight: 10, }} name="chat" size={24} color="black" />
+                </TouchableOpacity>
       }
     } else {
       return <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-              <Entypo name="magnifying-glass" size={24} color="black" />
+              <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="black" />
             </TouchableOpacity>
     }
   };
@@ -116,7 +124,12 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
           }}
         />
         <Stack.Screen name="Your Groups" component={Home} />
-        <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen name="Search" component={Search} 
+          options={{
+            title: '',
+            headerBackTitle: ' '
+          }}
+        />
 
         <Stack.Screen name="Chat" component={Chat}
           options={({ navigation, route }: any) => ({
@@ -135,11 +148,13 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         <Stack.Screen name='Invite' component={InviteMember} />
 
         { /* swiped left */}
-        <Stack.Screen name='Your Account' component={UserTabsStack}
+        <Stack.Screen name='Groups' component={UserTabsStack}
           options={({ navigation, route }) => ({
             headerLeft: () => getHeaderLeft(route, navigation),
             headerRight: () => (
-              <Button title='Log Out' onPress={() => logout(navigation)} />
+              <TouchableOpacity onPress={() => logout(navigation)}>
+                <MaterialCommunityIcons style={{ marginRight: 15, }} name="logout" size={24} color="black" />
+              </TouchableOpacity>
             ),
             gestureEnabled: true,
           })
@@ -147,7 +162,12 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         />
 
         <Stack.Screen name="Add friend" component={AddFriend} />
-        <Stack.Screen name='Create group' component={CreateGroup} />
+        <Stack.Screen name='Create group' component={CreateGroup} 
+          options={{
+            title: 'New Group',
+            headerBackTitle: ' '
+          }}
+        />
         <Stack.Screen name="Set Location" component={SetLocation} />
         <Stack.Screen name="Radius map" component={RadiusMap} />
 
@@ -156,8 +176,8 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
           options={({ navigation, route }) => ({
             title: route.params.group.name,
             headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('Your Account', { groups: route.params.groups, friends: route.params.friends })}>
-                <FontAwesome name="group" size={24} color="black" />
+              <TouchableOpacity onPress={() => navigation.navigate('Groups', { groups: route.params.groups, friends: route.params.friends })}>
+                <MaterialIcons style={{ marginLeft: 20 }} name="group" size={30} color="black" />
               </TouchableOpacity>
              
             ),

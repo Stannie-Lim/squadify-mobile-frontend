@@ -57,7 +57,6 @@ const GroupStack: React.FC<GroupTabsProps> = ({route, navigation}: any) => {
         inactiveTintColor: "gray"
       }}>
         <Tab.Screen name='Feed' component={Feed} />
-        {/* <Tab.Screen name="Chat" component={Chat} /> */}
         <Tab.Screen name="Group">
           { () => <PlannerCalendar navigation={ navigation } group={ group } /> }
         </Tab.Screen>

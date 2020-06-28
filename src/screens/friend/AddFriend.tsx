@@ -37,7 +37,7 @@ const AddFriend = ({ navigation }: any) => {
                 return;
             }
 
-            navigation.navigate('Pending');
+            navigation.navigate('Friends');
         } catch(err) {
             console.log(err);
         }
@@ -49,7 +49,7 @@ const AddFriend = ({ navigation }: any) => {
     };  
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ marginTop: 100, }}>
             <View style={ styles.container }>
                 <TextInput 
                     autoCapitalize="none"
