@@ -4,15 +4,15 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpaci
 
 const IouCard = ({ debt, color }: any) => {
     return (
-        <View style={{...styles.container, backgroundColor: color} }>
-            <Image style={ styles.avatar } source={{ uri: debt.payer[0].avatarUrl }} />
-            <Text>{ `${debt.payer[0].firstName} ${debt.payer[0].lastName}` }</Text>
-            <Text>{ debt.description }</Text>
-            <Text>{ debt.createdAt }</Text>
-            <Text>${debt.amount} paid to</Text>
+        <View style={{ ...styles.container, backgroundColor: color }}>
+            <Image style={styles.avatar} source={{ uri: debt.payer[0].avatarUrl }} />
+            <Text>{`${debt.payer[0].firstName.split('#')[0]} ${debt.payer[0].lastName.split('#')[0]}`}</Text>
+            <Text>Paid ${debt.amount}</Text>
             {
-                debt.payees && debt.payees.map((payee: any, index: number) => <Text key={ index }>{ payee.email }</Text> )
+                debt.payees && debt.payees.map((payee: any, index: number) => <Text key={index}>{payee.firstName}</Text>)
             }
+            <Text>for: {debt.description}</Text>
+            <Text>on: {debt.createdAt}</Text>
         </View>
     );
 };
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         marginRight: 80,
     },
     oweText: {
-       fontSize: 30,
+        fontSize: 30,
     },
     bar: {
         fontSize: 20,
