@@ -36,6 +36,7 @@ const EventCard = ({ event, navigation }: any) => {
         getGeolocation();
     }, [address]);
 
+    console.log(event);
     return (
         <TouchableOpacity onPress={ () => setModalVisible(true) }>
             <View style={ event.isPrivate ? styles.privateEvent : styles.publicEvent }>
@@ -43,7 +44,7 @@ const EventCard = ({ event, navigation }: any) => {
                     <Text>{address}</Text>
                     <Text style={{ fontSize: 30 }}>{ event.name }</Text>
                     <Text>{ event.description }</Text>
-                    <Text>{ new Date(event.startTime).toDateString() }</Text>
+                    <Text>{ moment(event.startTime).format('MMMM Do YYYY, hh:m A') }</Text>
                 </View>
             </View>
                 <Modal
