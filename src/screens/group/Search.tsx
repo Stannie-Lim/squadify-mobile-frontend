@@ -1,13 +1,79 @@
-import React, {useState} from 'react';
-import { API_KEY } from 'react-native-dotenv'
+import moment from 'moment';
+import React, { useState } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
+import { API_KEY, API_URL } from 'react-native-dotenv'
 import MapView, { AnimatedRegion } from 'react-native-maps';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions, Switch, Modal, Slider, FlatList } from 'react-native';
+
 
 const Search = () => {
-    const [ value, setValue ] = useState('');
-    const [ latitude, setLatitude ] = useState('');
-    const [ longitude, setLongitude ] = useState('');
+    const [events, setEvents] = useState([])
+    console.log(events)
+
+    const [searchValue, setSearchValue] = useState('');
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+
+    const [searchByRadius, setSearchByRadius] = useState(false)
+    const [viewMap, setViewMap] = useState(false)
+    const [radius, setRadius] = useState(1);
+    const [sliderValue, setSliderValue] = useState(1);
+
+    const [searchByName, setSearchByName] = useState(true)
+    const [searchByHashtag, setSearchByHashtag] = useState(false)
+
+    const toggleRadiusSwitch = () => {
+        if (searchByRadius) {
+            setSearchByRadius(false)
+            setLatitude('')
+            setLongitude('')
+        } else {
+            setSearchByRadius(true)
+            setSearchByName(false)
+            setSearchByHashtag(false)
+        }
+    }
+    const toggleNameSwitch = () => {
+        if (searchByName) {
+            setSearchByName(false)
+        } else {
+            setSearchByRadius(false)
+            setSearchByName(true)
+            setSearchByHashtag(false)
+        }
+    }
+    const toggleHashtagsSwitch = () => {
+        if (searchByHashtag) {
+            setSearchByHashtag(false)
+        } else {
+            setSearchByRadius(false)
+            setSearchByName(false)
+            setSearchByHashtag(true)
+        }
+    }
+
+    const search = async () => {
+        if (searchByRadius) {
+            if (latitude && longitude) {
+                console.log(latitude)
+                console.log(longitude)
+                const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data
+                console.log(foundEvents)
+                setEvents(foundEvents);
+            }
+        } else if (searchByName) {
+            if (searchValue) {
+                const events = (await AxiosHttpRequest('GET', `${API_URL}/event/search/name/${searchValue}`))?.data
+                setEvents(events)
+            }
+        } else if (searchByHashtag) {
+            if (searchValue) {
+                const events = (await AxiosHttpRequest('GET', `${API_URL}/event/search/hashtag/${searchValue}`))?.data
+                setEvents(events)
+            }
+        }
+    }
+
     const mapRegion = {
         latitude,
         longitude,
@@ -16,51 +82,194 @@ const Search = () => {
     }
     const findLocation = async () => {
         try {
-            const address = value.replace(' ', '+');
+            const address = searchValue.replaceAll(',', '').replaceAll(' ', '+')
             const location = (await AxiosHttpRequest('GET', `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${API_KEY}`))?.data;
+            console.log('LOCATION', location)
             setLatitude(location.results[0].geometry.location.lat);
             setLongitude(location.results[0].geometry.location.lng);
-        } catch(err) {
+        } catch (err) {
             console.log(err);
         }
     };
 
+    const ListItem = ({ name, startTime, geolocation }: any) => {
+        return (
+            <View style={styles.listItem}>
+                <View style={styles.listItemTextContainer}>
+                    <Text style={styles.listItemName}>{name}</Text>
+                    <Text style={styles.listItemTime}>{geolocation && geolocation.localized_address}</Text>
+                    <Text style={styles.listItemTime}>{moment(startTime).format('MMMM Do YYYY, h:mm a')}</Text>
+                </View>
+                <Button title='Map' onPress={() => {
+                    if (geolocation && geolocation.localized_address) {
+                        setSearchValue(geolocation.localized_address)
+                        findLocation()
+                        setViewMap(true)
+                    }
+                }} />
+            </View>
+        )
+    }
+
     return (
-        <SafeAreaView style={{ marginTop: 100 }}>
-            <TextInput 
-            style={ styles.inputField }
-            onChangeText={text => setValue(text)}
-            value={value} />
-            <Button title="Search" onPress={ findLocation } />
+        <SafeAreaView style={{ marginTop: 50 }}>
+            <Text style={styles.title}>Search events</Text>
+            <View style={styles.searchContainer}>
+                <TextInput
+                    style={styles.inputField}
+                    onChangeText={text => {
+                        setSearchValue(text)
+                        if (searchByRadius) {
+                            findLocation()
+                        }
+                    }}
+                    clearButtonMode='while-editing'
+                    placeholder={searchByRadius ? 'Address or location' : 'Name or hashtag'}
+                    value={searchValue} />
+                <Button title="Search" onPress={search} />
+            </View>
+            <SafeAreaView style={styles.buttonsContainer}>
+                <SafeAreaView style={styles.singleButtonContainer}>
+                    <Switch
+                        style={styles.switch}
+                        value={searchByRadius}
+                        onValueChange={toggleRadiusSwitch}
+                    ></Switch>
+                    <Text>By location</Text>
+                </SafeAreaView>
+                <SafeAreaView style={styles.singleButtonContainer}>
+                    <Switch
+                        style={styles.switch}
+                        value={searchByName}
+                        onValueChange={toggleNameSwitch}
+                    ></Switch>
+                    <Text>By name</Text>
+                </SafeAreaView>
+                <SafeAreaView style={styles.singleButtonContainer}>
+                    <Switch
+                        style={styles.switch}
+                        value={searchByHashtag}
+                        onValueChange={toggleHashtagsSwitch}
+                    ></Switch>
+                    <Text>By hashtags</Text>
+                </SafeAreaView>
+            </SafeAreaView>
             {
-                latitude && longitude ?
-                <MapView 
-                    style={styles.mapStyle}
-                    zoomEnabled={true}
-                    region={mapRegion}
-                    showsUserLocation={true}
-                >
-                    <MapView.Marker
-                        coordinate={mapRegion}
-                        title={"title"}
-                        description={"description"}
-                    />
-                </MapView> : <Text></Text>
+                searchByRadius &&
+                <View style={styles.sliderparent}>
+                    <View style={styles.slidercontainer}>
+                        <Text>{sliderValue.toFixed(2)} miles</Text>
+                    </View>
+                    <View style={styles.slidercontainer}>
+                        <Text>1 mile</Text>
+                        <Slider
+                            style={styles.slider}
+                            value={sliderValue}
+                            minimumValue={1}
+                            maximumValue={25}
+                            onValueChange={value => {
+                                const miles = 1609.34 * value;
+                                setRadius(miles);
+                                setSliderValue(value);
+                            }}
+                        />
+                        <Text>25 miles</Text>
+                    </View>
+                </View>
+            }
+            {searchByRadius && !viewMap && searchValue ? <Button title="View on map" onPress={() => setViewMap(!viewMap)} /> : <Text></Text>}
+            {
+                viewMap ?
+                    <MapView
+                        style={styles.mapStyle}
+                        zoomEnabled={true}
+                        region={mapRegion}
+                        showsUserLocation={true}
+                    >
+                        <Button title='Close map' onPress={() => setViewMap(false)} />
+                        <MapView.Marker
+                            coordinate={mapRegion}
+                            title={"title"}
+                            description={"description"}
+                        />
+                    </MapView>
+                    :
+                    <FlatList data={events} renderItem={({ item }: any) => <ListItem name={item.name} startTime={item.startTime} geolocation={item.geolocation} />} />
             }
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    title: {
+        fontSize: 30,
+        textAlign: "center"
+    },
     inputField: {
-        height: 40, 
-        borderColor: 'gray', 
+        backgroundColor: 'white',
+        height: 40,
+        borderRadius: 5,
+        borderColor: 'lightgray',
         borderWidth: 1,
+        width: 300,
+        padding: 8,
+        marginTop: 6
+    },
+    switch: {
+        transform: [{ scaleX: .75 }, { scaleY: .75 }]
     },
     mapStyle: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
     },
+    buttonsContainer: {
+        display: "flex",
+        flexDirection: 'row',
+        justifyContent: "space-evenly",
+        margin: 10
+    },
+    singleButtonContainer: {
+        display: "flex",
+        flexDirection: 'row',
+        alignItems: "center",
+
+    },
+    slidercontainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    slider: {
+        width: Dimensions.get('window').width / 1.5
+    },
+    sliderparent: {
+        flexDirection: 'column',
+        backgroundColor: 'white',
+        alignItems: 'center',
+    },
+    searchContainer: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly"
+    },
+    listItem: {
+        display: "flex",
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'space-evenly'
+    },
+    listItemTextContainer: {
+        display: "flex",
+
+    },
+    listItemName: {
+        fontSize: 22,
+        margin: 3
+    },
+    listItemTime: {
+        fontSize: 10,
+        margin: 3
+    }
 });
 
 export default Search;

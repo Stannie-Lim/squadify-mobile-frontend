@@ -13,11 +13,11 @@ const RemoveFriendCard = ({ friend, deleteFriend }: any) => {
     return (
         <Swipeout
             right={swipeBtns}
-            backgroundColor= 'transparent'>
-                <View style={ styles.container }>
-                    <Image source={{ uri: friend.avatarUrl }} style={ styles.avatar } />
-                    <Text style={{ fontSize: 20 }} key={friend.id}>{friend.firstName} {friend.lastName}</Text>
-                </View>
+            backgroundColor='transparent'>
+            <View style={styles.container}>
+                <Image source={{ uri: friend.avatarUrl }} style={styles.avatar} />
+                <Text style={{ fontSize: 20 }} key={friend.id}>{friend.firstName.split('#')[0]} {friend.lastName.split('#')[0]} #{friend.lastName.split('#')[1]}</Text>
+            </View>
         </Swipeout>
     );
 };
@@ -26,16 +26,18 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flexDirection: 'row',
-        borderColor: 'black',
-        borderWidth: 1,
         height: Dimensions.get('window').height / 15,
-        borderRadius: 10,
+        borderStyle: 'solid',
+        borderTopColor: 'lightgray',
+        borderTopWidth: 1
     },
     avatar: {
         height: 50,
         width: 50,
         borderRadius: 50,
-    }, 
+        marginLeft: 10,
+        marginRight: 10
+    },
 });
 
 export default RemoveFriendCard;
