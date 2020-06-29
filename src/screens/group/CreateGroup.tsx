@@ -21,7 +21,11 @@ const CreateGroup = ({ navigation, route }: any) => {
     const [myFriends, setFriends] = useState([]);
 
     useEffect(() => {
-        setFriends(route.params.friends);
+        const getFriends = async() => {
+            const data = (await AxiosHttpRequest('GET', `${API_URL}/user/friends`))?.data;
+            setFriends(data);
+        };
+        getFriends();
     }, []);
 
     const createGroup = async () => {
