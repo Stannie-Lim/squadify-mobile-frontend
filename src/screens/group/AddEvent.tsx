@@ -78,7 +78,9 @@ const AddEvent = ({ navigation, route }: any) => {
     return (
         <ImageBackground source={bg} style={styles.image}>
             <SafeAreaView>
-                <Text style={styles.title}>Create New Event</Text>
+                <View style={styles.title}>
+                    <Text style={ styles.titletext }>Create New Event</Text>
+                </View>
                 <TextInput
                     style={styles.inputField}
                     onChangeText={text => setName(text)}
@@ -151,10 +153,10 @@ const AddEvent = ({ navigation, route }: any) => {
 
 const styles = StyleSheet.create({
     inputField: {
+        fontSize: 20,
         height: 40,
         borderBottomWidth: 2,
         borderColor: 'white',
-        fontSize: 20,
         marginBottom: 10,
         width: 350,
         alignSelf: "center",
@@ -176,15 +178,18 @@ const styles = StyleSheet.create({
         opacity: 1
     },
     title: {
-        fontSize: 40,
-        textAlign: "center",
-        marginBottom: 25,
+        marginBottom: 5,
         backgroundColor: '#FFFFFF50',
-        width: 370,
-        height: 100,
+        width: Dimensions.get('window').width / 1.2,
+        height: 70,
         alignSelf: "center",
+        justifyContent: 'center',
         borderRadius: 10,
         overflow: 'hidden',
+    },
+    titletext: {
+        fontSize: 40,
+        textAlign: "center",
     },
     button: {
         textAlign: "center",
