@@ -34,19 +34,20 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
 
     return (
         <ScrollView style={styles.container}>
-            <Text style={styles.title}>Friend requests</Text>
+            <Text style={styles.title}>Friend Requests</Text>
             <SafeAreaView style={styles.subcontainer}>
-                <Text style={styles.subtitle}>Received</Text>
+                <Text style={styles.subtitle}>Received Requests</Text>
                 {
                     !!incomingFriendRequests.length && incomingFriendRequests.map(request => {
                         if (request) {
                             return (
                                 <SafeAreaView key={request.id} style={styles.cardContainer}>
-                                    <Text>{request.firstName.split('#')[0]} {request.lastName.split('#')[0]} #{request.lastName.split('#')[1]}</Text>
+                                    <Text style={styles.friendRequestBox}>{request.firstName.split('#')[0]} {request.lastName.split('#')[0]} {"\n"}
+                                    has sent you a friend request </Text>
                                     <TouchableOpacity style={styles.acceptButtonContainer} onPress={() => answer(request, true)}>
                                         <Text style={styles.acceptButtonText}>Accept</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => answer(request, false)}>
+                                    <TouchableOpacity style={styles.rejectButtonContainer} onPress={() => answer(request, false)}>
                                         <Text style={styles.cancelButtonText}>Reject</Text>
                                     </TouchableOpacity>
                                 </SafeAreaView>
@@ -56,13 +57,13 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
                 }
             </SafeAreaView>
             <SafeAreaView style={styles.subcontainer}>
-                <Text style={styles.subtitle}>Sent</Text>
+                <Text style={styles.subtitle}>Pending Requests</Text>
                 {
                     !!outgoingFriendRequests.length && outgoingFriendRequests.map(request => {
                         if (request) {
                             return (
                                 <SafeAreaView key={request.id} style={styles.cardContainer}>
-                                    <Text>{request.firstName.split('#')[0]} {request.lastName.split('#')[0]} #{request.lastName.split('#')[1]}</Text>
+                                    <Text style={styles.friendRequestBox}>You have sent {request.firstName.split('#')[0]} {request.lastName.split('#')[0]} {"\n"} a freind request</Text>
                                     <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => cancelRequest(request)}>
                                         <Text style={styles.cancelButtonText}>Cancel</Text>
                                     </TouchableOpacity>
@@ -78,14 +79,14 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 30
+        marginTop: 30,
     },
     title: {
         fontSize: 40,
-        textAlign: "center"
+        textAlign: "center",
     },
     subtitle: {
-        fontSize: 27,
+        fontSize: 20,
         textAlign: "center",
     },
     subcontainer: {
@@ -96,27 +97,52 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-around",
-        margin: 10
+        textAlign: 'center',
+        backgroundColor: '#bdbdbd',
+        margin: 5,
+        borderRadius: 10
     },
     acceptButtonText: {
-        color: '#1aff1a'
+        color: 'white'
+
+    },
+    rejectButtonText: {
+        color: 'white'
     },
     cancelButtonText: {
-        color: '#ff0000'
+        color: 'white'
     },
     acceptButtonContainer: {
-        borderColor: "#1aff1a",
+        borderColor: "#a1a1a1",
         borderRadius: 5,
         borderStyle: 'solid',
         borderWidth: 1,
-        padding: 10
+        padding: 10,
+        backgroundColor: '#33891f'
     },
     cancelButtonContainer: {
-        borderColor: "#ff0000",
+        borderColor: "#a1a1a1",
         borderRadius: 5,
         borderStyle: 'solid',
         borderWidth: 1,
-        padding: 10
+        padding: 10,
+        backgroundColor: '#63a4c5'
+    },
+    rejectButtonContainer: {
+        borderColor: "#a1a1a1",
+        borderRadius: 5,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        padding: 10,
+        backgroundColor: '#963131'
+    },
+    friendRequestBox: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        margin: 10,
+        textAlign: 'center',
     }
 })
 
