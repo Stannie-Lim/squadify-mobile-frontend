@@ -34,9 +34,11 @@ const InviteMember = ({ route, navigation }: any) => {
     return (
         <SafeAreaView style={{ marginTop: 100 }}>
             <View style={styles.container}>
-                {
-                    friends.length !== 0 ? friends.map((friend: any) => <FriendCard key={friend.id} friend={friend} chosenFriends={chosen} setChosenFriends={setChosen} />) : <Text></Text>
-                }
+                <ScrollView style={styles.scroll}>
+                    {
+                        friends.length !== 0 ? friends.map((friend: any) => <FriendCard key={friend.id} friend={friend} chosenFriends={chosen} setChosenFriends={setChosen} />) : <Text></Text>
+                    }
+                </ScrollView>
             </View>
             <View style={styles.buttoncontainer} >
                 <TouchableOpacity style={styles.kickmember} onPress={addMember}>
@@ -48,13 +50,18 @@ const InviteMember = ({ route, navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
+    scroll: {
+
+    },
     inputField: {
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
     },
     container: {
-        height: Dimensions.get('window').height / 4,
+        height: Dimensions.get('window').height / 1.25,
+        borderColor: 'black',
+        borderWidth: 1,
     },
     kickmember: {
         backgroundColor: 'white',
@@ -71,7 +78,7 @@ const styles = StyleSheet.create({
     },
     buttoncontainer: {
         alignItems: 'center',
-        paddingTop: Dimensions.get('window').width / 0.9,
+        marginTop: 5
     },
 });
 

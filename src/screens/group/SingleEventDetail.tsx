@@ -86,7 +86,7 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
             alert("You are already attending");
 
         } else {
-            await AxiosHttpRequest('POST', `${API_URL}/event/assign_self`, { eventId: event.id });
+            await AxiosHttpRequest('POST', `${API_URL}/event/${event.id}/assign_self`);
             setModalVisible(false);
         }
     };
@@ -185,10 +185,13 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                         }
                     </ScrollView>
                 </View>
-                {!users.find((relation: any) => relation.user.id === me.id) ?
+                {users.find((relation: any) => relation.user.id === me.id) ?
+                    <TouchableOpacity onPress={attend} style={styles.attendButton}>
+                        <Text style={styles.attendtext}>I'm not going anymore!</Text>
+                    </TouchableOpacity> :
                     <TouchableOpacity onPress={attend} style={styles.attendButton}>
                         <Text style={styles.attendtext}>I'm going!</Text>
-                    </TouchableOpacity> : <Text style={{ marginTop: 20 }}>You're attending this event!</Text>
+                    </TouchableOpacity>
                 }
 
             </View>
