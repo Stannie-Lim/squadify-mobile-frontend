@@ -9,9 +9,7 @@ const icon = require('../../../assets/images/Squadify_Icon.png');
 const Auth = ({ navigation }: any) => (
   <ImageBackground source={ bg } style={ styles.image }>
     <View style={ styles.iconcontainer }>
-      <Image source={ text } style={ styles.icon }/>
-      <Image source={ icon } style={ styles.icon }/>
-      
+      <Image source={ text } style={ styles.icon }/>  
     </View>
     <SafeAreaView style={styles.container}>
       <View style={ styles.buttons }>
