@@ -3,12 +3,15 @@ import { Dimensions, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Ima
 
 // images
 const bg = require('../../../assets/images/home.gif');
-const icon = require('../../../assets/images/icon.png');
+const text = require('../../../assets/images/squadify.png')
+const icon = require('../../../assets/images/Squadify_Icon.png');
 
 const Auth = ({ navigation }: any) => (
   <ImageBackground source={ bg } style={ styles.image }>
     <View style={ styles.iconcontainer }>
+      <Image source={ text } style={ styles.icon }/>
       <Image source={ icon } style={ styles.icon }/>
+      
     </View>
     <SafeAreaView style={styles.container}>
       <View style={ styles.buttons }>
@@ -53,10 +56,11 @@ const styles = StyleSheet.create({
   },
   icon: {
     resizeMode: 'cover',
+    marginBottom: 50
   },
   iconcontainer: {
     alignItems: 'center',
-    marginTop: 150,
+    marginTop: 100,
   }
 });
 
