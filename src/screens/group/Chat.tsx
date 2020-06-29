@@ -56,7 +56,6 @@ const Chat = ({ navigation, route }: any) => {
     }, [])
 
     return (
-
         <GiftedChat
             messages={messages}
             onSend={messages => onSend(messages)}
@@ -64,7 +63,6 @@ const Chat = ({ navigation, route }: any) => {
                 _id: user.id
             }}
         />
-
     );
 };
 

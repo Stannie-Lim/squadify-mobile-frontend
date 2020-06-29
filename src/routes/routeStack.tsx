@@ -110,12 +110,12 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
           headerShown: true,
           headerTransparent: true
         }}>
-        <Stack.Screen name="Welcome to Squadify!" component={Auth} 
+        <Stack.Screen name="Welcome to Squadify!" component={Auth}
           options={{
             title: '',
           }}
         />
-        <Stack.Screen name="Login" component={Login} 
+        <Stack.Screen name="Login" component={Login}
           options={{
             title: '',
             headerBackTitle: ' '
@@ -137,7 +137,8 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
 
         <Stack.Screen name="Chat" component={Chat}
           options={({ navigation, route }: any) => ({
-            headerRight: () => <Button title='Group members' onPress={() => navigation.navigate('Members', { group: route.params.group, user })} />
+            headerRight: () => <Button title='Group members' onPress={() => navigation.navigate('Members', { group: route.params.group, user })} />,
+            headerTransparent: false
           })
           }
         />
