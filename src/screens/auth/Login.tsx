@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { API_URL } from '../../secrets';
 import { AxiosHttpRequest, setJwt } from '../../utils/axios';
-import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
+import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput, ImageBackground, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 // styles
 const image = require('../../../assets/images/login.jpg');
@@ -14,9 +14,11 @@ const Login = ({ navigation, route }: any) => {
     const [password, setPassword] = useState('');
     const [friends, setFriends] = useState([]);
     const [groups, setGroups] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     const login = async () => {
         try {
+            setLoading(true)
             const { token } = (await AxiosHttpRequest('POST', `${API_URL}/auth/login`, { email, password }))?.data;
             setJwt(token);
 
@@ -32,7 +34,9 @@ const Login = ({ navigation, route }: any) => {
             } else {
                 navigation.replace('Groups', { groups, friends });
             }
+            setLoading(false)
         } catch (err) {
+            setLoading(false)
             alert("Incorrect information or backend not running right now :)");
         }
     };
@@ -68,6 +72,11 @@ const Login = ({ navigation, route }: any) => {
                         <Text style={styles.text}>Sign In</Text>
                     </TouchableOpacity>
                 </View>
+                {loading &&
+                    <View style={styles.loading}>
+                        <ActivityIndicator size='large' />
+                    </View>
+                }
                 <View style={styles.buttongroup}>
                     <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                         <Text style={styles.registertext}>Don't have an account? Register here!</Text>
@@ -127,6 +136,15 @@ const styles = StyleSheet.create({
         padding: 20,
         color: 'white',
         fontSize: 20
+    },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 

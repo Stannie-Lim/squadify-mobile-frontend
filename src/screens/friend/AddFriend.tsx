@@ -67,7 +67,7 @@ const AddFriend = ({ navigation }: any) => {
                     <TextInput
                         autoCapitalize="none"
                         style={styles.inputField}
-                        placeholder='Email'
+                        placeholder={searchType ? 'Name/hash' : 'Email'}
                         value={friendEmail}
                         onChangeText={text => setFriendEmail(text)}
                     />
@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        padding: 10
     },
     switchContainer: {
         display: 'flex',
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
 
     },
     flatListContainer: {
-        height: 600
+        height: Dimensions.get('window').height / 1.55
     }
 });
 

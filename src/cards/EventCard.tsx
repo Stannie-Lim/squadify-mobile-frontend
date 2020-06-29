@@ -2,7 +2,7 @@ import moment from 'moment';
 import { API_URL } from '../secrets';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, Modal } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, Modal, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 //components 
@@ -23,7 +23,6 @@ const EventCard = ({ event, navigation }: any) => {
         const getGeolocation = async () => {
             try {
                 const region = (await AxiosHttpRequest('GET', `${API_URL}/geolocation/event/${event.id}`))?.data;
-                console.log(region)
                 setGeolocation({
                     latitude: region.latitude * 1,
                     longitude: region.longitude * 1,
@@ -46,7 +45,15 @@ const EventCard = ({ event, navigation }: any) => {
                     <Text>{event.description}</Text>
                     <Text>{event.localized_address}</Text>
                     <Text>{moment(event.startTime).format('MMMM Do YYYY, hh:m A')}</Text>
-
+                    <TouchableOpacity onPress={() => setModalVisible(true)}>
+                        <SafeAreaView style={styles.imagesContainer}>
+                            <ScrollView horizontal={true}>
+                                {
+                                    event.imageUrls && event.imageUrls.split('####$$$$####').map((url: string, idx: number) => idx < 20 ? <TouchableOpacity onPress={() => setModalVisible(true)}><Image source={{ uri: url }} style={styles.eventMiniatureImage} /></TouchableOpacity> : null)
+                                }
+                            </ScrollView>
+                        </SafeAreaView>
+                    </TouchableOpacity>
                 </View>
             </View>
             <Modal
@@ -63,12 +70,24 @@ const EventCard = ({ event, navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
+    imagesContainer: {
+        backgroundColor: '#c0edeb',
+        width: Dimensions.get('window').width / 1.25,
+        height: Dimensions.get('window').height / 11,
+        marginTop: 3
+    },
+    eventMiniatureImage: {
+        width: Dimensions.get('window').width / 4.5,
+        height: Dimensions.get('window').height / 12,
+        margin: 2,
+        marginTop: 4
+    },
     privateEvent: {
         alignItems: 'center',
         borderColor: 'tomato',
         borderLeftWidth: 10,
         width: Dimensions.get('window').width - 30,
-        height: Dimensions.get('window').height / 5,
+        height: Dimensions.get('window').height / 4.1,
         borderRadius: 5,
         marginBottom: 30,
         backgroundColor: '#ffd0c7'
@@ -78,7 +97,7 @@ const styles = StyleSheet.create({
         borderColor: 'lightseagreen',
         borderLeftWidth: 10,
         width: Dimensions.get('window').width - 30,
-        height: Dimensions.get('window').height / 5,
+        height: Dimensions.get('window').height / 4.1,
         borderRadius: 5,
         marginBottom: 30,
         backgroundColor: '#bce7e5'

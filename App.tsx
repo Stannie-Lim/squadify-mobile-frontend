@@ -4,9 +4,11 @@ import { StyleSheet, Text, View } from 'react-native';
 // navigator
 import { Routes } from './src/routes/routeStack';
 
-interface ProvidersProps {}
+interface ProvidersProps { }
 
-const App: React.FC<ProvidersProps> = ({}) => {
+console.disableYellowBox = true
+
+const App: React.FC<ProvidersProps> = ({ }) => {
   return (
     <Routes />
   );
