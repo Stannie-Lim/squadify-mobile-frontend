@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 50,
+        fontSize: 30,
         marginBottom: 5
     },
     descriptionContainer: {
