@@ -15,7 +15,7 @@ const TodayEventMap = ({ group, setModalVisible, date }: any) => {
         longitudeDelta: 0.05
     });
 
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState([] as any);
     const [eventGeolocation, setEventGeolocation]: any = useState([]);
 
     useEffect(() => {
