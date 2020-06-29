@@ -85,7 +85,7 @@ const AddEvent = ({ navigation, route }: any) => {
                     value={name}
                     placeholder='Name of Event'
                     placeholderTextColor="white"
-                    maxLength={22}
+                    maxLength={18}
                 />
                 <TextInput
                     style={styles.inputField}
