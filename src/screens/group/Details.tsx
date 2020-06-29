@@ -3,7 +3,7 @@ import { API_URL } from '../../secrets'
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, TouchableOpacity, View, Text, ScrollView, ImageBackground } from 'react-native';
+import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, TouchableOpacity, View, Text, ScrollView, ImageBackground, Dimensions } from 'react-native';
 
 // components
 import EventCard from '../../cards/EventCard';
@@ -25,7 +25,7 @@ const Details = ({ date, setShowModal }: any) => {
             <View style={styles.container}>
                 <Text style={styles.date} >{date}</Text>
             </View>
-            <ScrollView contentContainerStyle={styles.events} >
+            <ScrollView contentContainerStyle={styles.events}>
                 {
                     events.map((event: object, index: number) => <EventCard key={index} event={event} />)
                 }
@@ -54,6 +54,8 @@ const styles = StyleSheet.create({
     },
     events: {
         alignItems: 'center',
+        height: Dimensions.get('window').height / 1.16,
+        marginTop: 20
     },
 });
 
