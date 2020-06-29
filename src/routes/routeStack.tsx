@@ -137,7 +137,9 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
 
         <Stack.Screen name="Chat" component={Chat}
           options={({ navigation, route }: any) => ({
-            headerRight: () => <Button title='Group members' onPress={() => navigation.navigate('Members', { group: route.params.group, user })} />,
+            headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('Members', { group: route.params.group, user })}>
+                                <MaterialIcons style={{ marginRight: 10 }} name="group" size={30} color="black" />
+                              </TouchableOpacity> ,
             headerTransparent: false
           })
           }
@@ -145,7 +147,9 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
 
         <Stack.Screen name='Members' component={Members}
           options={({ navigation, route }: any) => ({
-            headerRight: () => <Button title='Invite' onPress={() => navigation.navigate('Invite', { group: route.params.group, user })} />
+            headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('Invite', { group: route.params.group, user })}>
+                                  <AntDesign style={{ marginRight: 10 }}name="plus" size={30} color="black" />
+                                </TouchableOpacity>
           })
           }
         />
