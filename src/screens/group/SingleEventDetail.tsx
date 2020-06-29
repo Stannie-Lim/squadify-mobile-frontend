@@ -7,6 +7,7 @@ import { AxiosHttpRequest, getUser } from '../../utils/axios';
 import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets';
 import { Dimensions, View, StyleSheet, Text, SafeAreaView, Modal, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
 
+const noimage = require('../../../assets/images/noimage.jpg');
 // components 
 import SingleEventMap from './SingleEventMap';
 import ChooseImage from '../auth/ChooseImage';
@@ -91,6 +92,10 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
         }
     };
 
+    const notGoing = async () => {
+        await AxiosHttpRequest('DELETE', `${API_URL}`)
+    }
+
     return (
         <SafeAreaView>
             <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
@@ -110,7 +115,7 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                 <View style={styles.eventImagesContainer}>
                     <ScrollView style={styles.eventImagesScroll} horizontal={true}>
                         {
-                            event.imageUrls && event.imageUrls.split('####$$$$####').map((url: string) => {
+                            event.imageUrls ? event.imageUrls.split('####$$$$####').map((url: string) => {
                                 console.log('IMAGE URL', url)
                                 return (
                                     <TouchableOpacity onPress={() => {
@@ -121,7 +126,7 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                                     </TouchableOpacity>
                                 )
                             }
-                            )
+                            ) : <View style={{ width: Dimensions.get('screen').width / 1.1, alignItems: 'center', justifyContent: 'center' }}><Image style={styles.eventImage} source={noimage} /></View>
                         }
                     </ScrollView>
                 </View>
@@ -187,7 +192,7 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                     </ScrollView>
                 </View>
                 {users.find((relation: any) => relation.user.id === me.id) ?
-                    <TouchableOpacity style={styles.attendButton}>
+                    <TouchableOpacity onPress={notGoing} style={styles.attendButton}>
                         <Text style={styles.attendtext}>I'm not going anymore!</Text>
                     </TouchableOpacity> :
                     <TouchableOpacity onPress={attend} style={styles.attendButton}>

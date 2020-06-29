@@ -2,12 +2,13 @@ import moment from 'moment';
 import { API_URL } from '../../secrets';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, RefreshControl, TouchableOpacity } from 'react-native';
 
 // components
 import EventCard from '../../cards/EventCard';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
-const Today = ({ route, group, navigation }: any) => {
+const Today = ({ route, group, navigation, setShowTodayModal, showTodayModal }: any) => {
     const today = new Date();
     const [events, setEvents] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
@@ -33,9 +34,18 @@ const Today = ({ route, group, navigation }: any) => {
 
     return (
         <View>
-            <View style={styles.top}>
-                <Text style={{ fontSize: 30 }}>Today's Events</Text>
-                <Text style={{ fontSize: 20 }}>{today.toDateString()}</Text>
+            <View style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingTop: 2,
+                paddingBottom: 2,
+                backgroundColor: 'lightseagreen',
+                marginTop: showTodayModal ? Dimensions.get('window').height / 14 : 0,
+            }}>
+                <TouchableOpacity onPress={() => showTodayModal ? setShowTodayModal(false) : setShowTodayModal(true)}>
+                    <Text style={{ fontSize: 25, color: 'white', textAlign: 'center' }}>{`${group.name.split('#')[0]}`}'s Events for today</Text>
+                    <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>{today.toDateString()}</Text>
+                </TouchableOpacity>
             </View>
             <View style={{ alignItems: 'center' }}>
                 {
@@ -59,7 +69,7 @@ const Today = ({ route, group, navigation }: any) => {
                                     onRefresh={refresh}
                                 />
                             }
-                            style={{ height: Dimensions.get('window').height / 2.6, }}
+                            style={{ height: showTodayModal ? Dimensions.get('window').height / 1.2 : Dimensions.get('window').height / 2.6, }}
                         >
                             {
                                 events.map((event, index) => <EventCard key={index} event={event} navigation={navigation} />)
@@ -67,17 +77,12 @@ const Today = ({ route, group, navigation }: any) => {
                         </ScrollView>
                 }
             </View>
-        </View>
+        </View >
     );
 };
 
 const styles = StyleSheet.create({
-    top: {
-        alignItems: 'center',
-        paddingTop: 3,
-        paddingBottom: 3,
-        backgroundColor: 'grey',
-    }
+
 });
 
 export default Today;
