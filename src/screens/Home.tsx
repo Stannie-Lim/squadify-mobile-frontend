@@ -57,7 +57,7 @@ const Home = ({ navigation, route }: any) => {
                 key={index}
                 onPress={() => navigation.navigate('Group', { group })}
               >
-                <Image source={{ uri: group.avatarUrl }} style={styles.avatar} />
+                <Image source={{ uri: group.avatarUrl ? group.avatarUrl : 'null' }} style={styles.avatar} />
                 <Text style={group.isPrivate ? styles.private : styles.public}>{group.name}</Text>
               </TouchableOpacity>
             )
@@ -68,7 +68,7 @@ const Home = ({ navigation, route }: any) => {
                 key={index}
                 onPress={() => navigation.navigate('Group', { group })}
               >
-                <Image source={{ uri: group.avatarUrl }} style={styles.avatar} />
+                <Image source={{ uri: group.avatarUrl ? group.avatarUrl : 'null' }} style={styles.avatar} />
                 <Text style={group.isPrivate ? styles.private : styles.public}>{group.name}</Text>
               </TouchableOpacity>
             )
