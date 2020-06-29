@@ -15,9 +15,10 @@ const ChooseIouCard = ({ friend, chosenFriends, setChosenFriends }: any) => {
         }
     };
 
+    const imageUri = friend.avatarUrl !=null ? friend.avatarUrl : ""
     return (
         <TouchableOpacity onPress={ select } style={ selected ? styles.selected : styles.container }>
-            <Image source={{ uri: friend.avatarUrl }} style={ styles.avatar } />
+            <Image source={imageUri.length !== 0 ? { uri: friend.avatarUrl } : null} style={ styles.avatar } />
             <Text>{friend.firstName}</Text>
         </TouchableOpacity>
     );

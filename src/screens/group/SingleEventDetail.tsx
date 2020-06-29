@@ -52,12 +52,13 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                 <Text>Attendees</Text>
                 <View style={styles.listOfUsers}>
                     {
-                        users.map((user: any, index: number) =>
-                            <View style={styles.user} key={index}>
-                                <Image source={{ uri: user.user.avatarUrl }} style={styles.avatar} />
+                        users.map((user: any, index: number) => {
+                            const imageUri = user.user.avatarUrl !== null ? user.user.avatarUrl : ""
+                            return <View style={styles.user} key={index}>
+                                <Image source={imageUri.length !== 0 ? { uri: user.user.avatarUrl }: null} style={styles.avatar} />
                                 <Text>{`${user.user.firstName.substring(0, user.user.firstName.indexOf('#'))} ${user.user.lastName.substring(0, user.user.firstName.indexOf('#'))}`}</Text>
                             </View>
-                        )
+                        })
                     }
                 </View>
 
