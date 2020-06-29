@@ -11,7 +11,8 @@ import moment from 'moment';
 import Details from './Details';
 
 const PlannerCalendar = ({ route, navigation, group }: any) => {
-    const [showModal, setShowModal] = useState(false);
+    const [showEventDetailModal, setShowEventDetailModal] = useState(false);
+    const [showTodayModal, setShowTodayModal] = useState(false)
     const [pressedDate, setDate] = useState('');
     const [marked, setMarked] = useState({});
     const [events, setEvents] = useState([]);
@@ -34,7 +35,7 @@ const PlannerCalendar = ({ route, navigation, group }: any) => {
 
     const showDetails = ({ dateString }: any) => {
         setDate(dateString);
-        setShowModal(true);
+        setShowEventDetailModal(true);
     };
 
     return (
@@ -43,15 +44,24 @@ const PlannerCalendar = ({ route, navigation, group }: any) => {
                 markedDates={marked}
                 onDayPress={showDetails}
             />
-            <Today route={route} group={group} navigation={navigation} />
+            <Today showTodayModal={showTodayModal} setShowTodayModal={setShowTodayModal} route={route} group={group} navigation={navigation} />
             <Modal
                 animationType="slide"
-                visible={showModal}
+                visible={showTodayModal}
                 onRequestClose={() => {
-                    setShowModal(false);
+                    setShowTodayModal(false);
                 }}
             >
-                <Details date={pressedDate} setShowModal={setShowModal} />
+                <Today showTodayModal={showTodayModal} setShowTodayModal={setShowTodayModal} route={route} group={group} navigation={navigation} />
+            </Modal>
+            <Modal
+                animationType="slide"
+                visible={showEventDetailModal}
+                onRequestClose={() => {
+                    setShowEventDetailModal(false);
+                }}
+            >
+                <Details date={pressedDate} setShowModal={setShowEventDetailModal} />
             </Modal>
         </SafeAreaView>
     );
