@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { useState } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { API_KEY, API_URL } from 'react-native-dotenv'
+import { API_KEY, API_URL } from '../../secrets'
 import MapView, { AnimatedRegion } from 'react-native-maps';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions, Switch, Modal, Slider, FlatList } from 'react-native';
 import EventCard from '../../cards/EventCard';
@@ -12,8 +12,8 @@ const Search = () => {
     console.log(events)
 
     const [searchValue, setSearchValue] = useState('');
-    const [latitude, setLatitude] = useState(0);
-    const [longitude, setLongitude] = useState(0);
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
 
     const [searchByRadius, setSearchByRadius] = useState(false)
     const [viewMap, setViewMap] = useState(false)

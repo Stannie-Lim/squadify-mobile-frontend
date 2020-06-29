@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import { API_URL } from 'react-native-dotenv'
+import { API_URL } from '../../secrets'
 import React, { useState, useEffect, useCallback } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { AxiosHttpRequest } from '../../utils/axios';

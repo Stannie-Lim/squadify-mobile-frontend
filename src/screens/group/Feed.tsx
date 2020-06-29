@@ -1,6 +1,6 @@
 import moment from 'moment';
 import * as Location from 'expo-location';
-import { API_URL } from 'react-native-dotenv';
+import { API_URL } from '../../secrets';
 import * as Permissions from 'expo-permissions';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';

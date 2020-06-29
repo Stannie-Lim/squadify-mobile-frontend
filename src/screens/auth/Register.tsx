@@ -5,7 +5,7 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from 'react-native-dotenv'
+import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets'
 import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image, ImageBackground, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 
 // components
@@ -15,42 +15,42 @@ import ChooseImage from './ChooseImage';
 const bg = require('../../../assets/images/login.jpg');
 
 // icons
-import { AntDesign, FontAwesome, Entypo, Feather } from '@expo/vector-icons'; 
+import { AntDesign, FontAwesome, Entypo, Feather } from '@expo/vector-icons';
 
 const Register = ({ navigation }: any) => {
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ lastName, setLastName ] = useState('');
-  const [ firstName, setFirstName ] = useState('');
-  const [ dob, setDob ]: any = useState('');
-  const [ image, setImage ] = useState(null);
-  const [ isDatePickerVisible, setDatePickerVisibility ] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [dob, setDob]: any = useState('');
+  const [image, setImage] = useState(null);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const handleDate = (dateObj: object): void => {
     setDob(dateObj);
     setDatePickerVisibility(false);
   };
 
-  const register = async() => {
-    if(!image) {
+  const register = async () => {
+    if (!image) {
       alert('Please set a profile picture');
       return;
-    } else if(!(email && password && firstName && lastName && dob && image)) {
+    } else if (!(email && password && firstName && lastName && dob && image)) {
       alert('Please fill out all fields');
       return;
     }
     try {
       const file = {
         uri: image,
-        name: `${email.replace('.', '').replace('@', '')}_avatar`, 
+        name: `${email.replace('.', '').replace('@', '')}_avatar`,
         type: 'image/jpg',
       };
       const config = {
-          keyPrefix: 'users/',
-          bucket: 'squadify-avatars',
-          region: REGION,
-          accessKey: ACCESS_KEY_ID,
-          secretKey: SECRET_ACCESS_KEY
+        keyPrefix: 'users/',
+        bucket: 'squadify-avatars',
+        region: REGION,
+        accessKey: ACCESS_KEY_ID,
+        secretKey: SECRET_ACCESS_KEY
       };
       const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
 
@@ -60,7 +60,7 @@ const Register = ({ navigation }: any) => {
 
       navigation.replace('Groups', { groups: [] });
 
-    } catch(err) { 
+    } catch (err) {
       alert("backend is not running right now");
     }
   };
@@ -69,70 +69,70 @@ const Register = ({ navigation }: any) => {
     <ImageBackground source={bg} style={styles.image}>
       <ScrollView>
         <SafeAreaView style={styles.container}>
-          <ChooseImage setImage={ setImage } image={ image } />
-          <View style={ styles.inputs }>
+          <ChooseImage setImage={setImage} image={image} />
+          <View style={styles.inputs}>
             <AntDesign name="user" size={24} color="white" />
-            <TextInput 
-                style={styles.inputField}
-                onChangeText={text => setFirstName(text)}
-                value={firstName} 
-                placeholder='First Name'
-                placeholderTextColor='grey'
+            <TextInput
+              style={styles.inputField}
+              onChangeText={text => setFirstName(text)}
+              value={firstName}
+              placeholder='First Name'
+              placeholderTextColor='grey'
             />
           </View>
-          <View style={ styles.inputs }>
+          <View style={styles.inputs}>
             <AntDesign name="user" size={24} color="white" />
-            <TextInput 
-                style={styles.inputField}
-                onChangeText={text => setLastName(text)}
-                value={lastName} 
-                placeholder='Last Name'
-                placeholderTextColor='grey'
+            <TextInput
+              style={styles.inputField}
+              onChangeText={text => setLastName(text)}
+              value={lastName}
+              placeholder='Last Name'
+              placeholderTextColor='grey'
             />
           </View>
-          <View style={ styles.inputs }>
+          <View style={styles.inputs}>
             <FontAwesome name="birthday-cake" size={24} color="white" />
-            <TouchableOpacity onPress={ () => setDatePickerVisibility(true) } style={ styles.birthday }>
+            <TouchableOpacity onPress={() => setDatePickerVisibility(true)} style={styles.birthday}>
               <Text style={styles.birthday}>{dob.length !== 0 ? moment(dob).format('dddd, MMMM Do YYYY') : 'Date of Birth'}</Text>
             </TouchableOpacity>
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
               onConfirm={handleDate}
-              onCancel={ () => setDatePickerVisibility(false) }
+              onCancel={() => setDatePickerVisibility(false)}
             />
           </View>
-          <View style={ styles.inputs }>
+          <View style={styles.inputs}>
             <Entypo name="email" size={24} color="white" />
-            <TextInput 
-                autoCapitalize="none"
-                style={styles.inputField}
-                onChangeText={text => setEmail(text)}
-                value={email} 
-                placeholder='Email'
-                placeholderTextColor='grey'
+            <TextInput
+              autoCapitalize="none"
+              style={styles.inputField}
+              onChangeText={text => setEmail(text)}
+              value={email}
+              placeholder='Email'
+              placeholderTextColor='grey'
             />
           </View>
-          <View style={ styles.inputs }>
+          <View style={styles.inputs}>
             <Feather name="lock" size={24} color="white" />
-            <TextInput 
-                autoCapitalize="none"
-                style={styles.inputField}
-                onChangeText={text => setPassword(text)}
-                value={password} 
-                secureTextEntry={true}
-                placeholder='Password'
-                placeholderTextColor='grey'
+            <TextInput
+              autoCapitalize="none"
+              style={styles.inputField}
+              onChangeText={text => setPassword(text)}
+              value={password}
+              secureTextEntry={true}
+              placeholder='Password'
+              placeholderTextColor='grey'
             />
           </View>
-          
+
           <View style={styles.buttongroup}>
-            <TouchableOpacity onPress={ register } style={styles.signin}>
+            <TouchableOpacity onPress={register} style={styles.signin}>
               <Text style={styles.text}>Register</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttongroup}>
-            <TouchableOpacity onPress={ () => navigation.navigate('Login') }>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <Text style={styles.login}>Already have an account? Log in here!</Text>
             </TouchableOpacity>
           </View>
@@ -144,9 +144,9 @@ const Register = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
   inputField: {
-    height: 40, 
+    height: 40,
     borderBottomWidth: 1,
-    borderColor: 'white', 
+    borderColor: 'white',
     fontSize: 20,
     marginBottom: 30,
     width: Dimensions.get('window').width / 1.5,
@@ -168,9 +168,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   birthday: {
-    height: 40, 
+    height: 40,
     borderBottomWidth: 1,
-    borderColor: 'white', 
+    borderColor: 'white',
     fontSize: 20,
     marginBottom: 30,
     width: Dimensions.get('window').width / 1.5,
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 50,
-  }, 
+  },
   imagecircle: {
     margin: 30,
   },

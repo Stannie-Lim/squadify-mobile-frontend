@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { API_URL } from 'react-native-dotenv';
+import { API_URL } from '../../secrets';
 import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 
@@ -7,13 +7,13 @@ import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput, 
 const image = require('../../../assets/images/login.jpg');
 
 // icons
-import { AntDesign, Feather } from '@expo/vector-icons'; 
+import { AntDesign, Feather } from '@expo/vector-icons';
 
 const Login = ({ navigation, route }: any) => {
-    const [ email, setEmail ] = useState('');
-    const [ password, setPassword ] = useState('');
-    const [ friends, setFriends ] = useState([]);
-    const [ groups, setGroups ] = useState([]);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [friends, setFriends] = useState([]);
+    const [groups, setGroups] = useState([]);
 
     const login = async () => {
         try {
@@ -27,12 +27,12 @@ const Login = ({ navigation, route }: any) => {
             setFriends(friendsData);
             setGroups(groupsData);
 
-            if(groupsData.length !== 0) {
+            if (groupsData.length !== 0) {
                 navigation.replace('Group', { group: groupsData[0], groups: groupsData, friends: friendsData });
             } else {
                 navigation.replace('Groups', { groups, friends });
             }
-        } catch(err) {
+        } catch (err) {
             alert("Incorrect information or backend not running right now :)");
         }
     };
@@ -40,36 +40,36 @@ const Login = ({ navigation, route }: any) => {
     return (
         <ImageBackground source={image} style={styles.image}>
             <SafeAreaView style={styles.container}>
-                <View style={ styles.inputs }>
+                <View style={styles.inputs}>
                     <AntDesign name="user" size={24} color="white" />
-                    <TextInput 
+                    <TextInput
                         autoCapitalize="none"
                         style={styles.inputField}
                         onChangeText={text => setEmail(text)}
-                        value={email} 
+                        value={email}
                         placeholder='Email'
                         placeholderTextColor='white'
                     />
                 </View>
-                <View style={ styles.inputs }>
+                <View style={styles.inputs}>
                     <Feather name="lock" size={24} color="white" />
-                    <TextInput 
+                    <TextInput
                         autoCapitalize="none"
                         style={styles.inputField}
                         onChangeText={text => setPassword(text)}
-                        value={password} 
+                        value={password}
                         placeholder='Password'
                         secureTextEntry={true}
                         placeholderTextColor='white'
                     />
                 </View>
                 <View style={styles.buttongroup}>
-                    <TouchableOpacity onPress={ login } style={styles.signin} >
+                    <TouchableOpacity onPress={login} style={styles.signin} >
                         <Text style={styles.text}>Sign In</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={ styles.buttongroup}>
-                    <TouchableOpacity onPress={ () => navigation.navigate('Register') }>
+                <View style={styles.buttongroup}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                         <Text style={styles.registertext}>Don't have an account? Register here!</Text>
                     </TouchableOpacity>
                 </View>
@@ -84,9 +84,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     inputField: {
-        height: 40, 
+        height: 40,
         borderBottomWidth: 1,
-        borderColor: 'white', 
+        borderColor: 'white',
         fontSize: 20,
         marginBottom: 30,
         width: Dimensions.get('window').width / 1.5,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         padding: 20,
         color: 'white',
         fontSize: 20
-      }
+    }
 });
 
 export default Login;
