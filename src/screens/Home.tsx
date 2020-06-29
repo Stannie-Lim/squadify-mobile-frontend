@@ -3,10 +3,14 @@ import { AxiosHttpRequest } from '../utils/axios';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button, TouchableOpacity, Image, AsyncStorage, RefreshControl } from 'react-native';
 
+// components
+import RemoveGroupCard from '../cards/RemoveGroupCard';
+
 const Home = ({ navigation, route }: any) => {
   const [groups, setGroups] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
+  console.log(groups);
   useEffect(() => {
     getGroups();
   }, []);
@@ -24,6 +28,12 @@ const Home = ({ navigation, route }: any) => {
     setRefreshing(true);
     getGroups();
     setRefreshing(false);
+  };
+
+  const deleteGroup = async(groupId: string) => {
+    await AxiosHttpRequest('DELETE', `${API_URL}/groups/${groupId}`);
+    const temp = groups.filter((group: any) => group.id !== groupId);
+    setGroups(temp);
   };
 
   return (
@@ -51,27 +61,20 @@ const Home = ({ navigation, route }: any) => {
       >
         {
           route.params
-            ? route.params.groups.map((group: any, index: number) =>
-              <TouchableOpacity
+            ? route.params.groups.map((group: any, index: number) => {
+              const imageUri = group.avatarUrl !== null ? group.avatarUrl : ""
+
+              return <TouchableOpacity
                 style={styles.container}
                 key={index}
                 onPress={() => navigation.navigate('Group', { group })}
               >
-                <Image source={{ uri: group.avatarUrl ? group.avatarUrl : 'null' }} style={styles.avatar} />
+                <Image source={imageUri.length !== 0 ? { uri: group.avatarUrl } : null} style={styles.avatar} />
                 <Text style={group.isPrivate ? styles.private : styles.public}>{group.name}</Text>
               </TouchableOpacity>
-            )
+            })
             :
-            groups?.map((group: any, index: number) =>
-              <TouchableOpacity
-                style={styles.container}
-                key={index}
-                onPress={() => navigation.navigate('Group', { group })}
-              >
-                <Image source={{ uri: group.avatarUrl ? group.avatarUrl : 'null' }} style={styles.avatar} />
-                <Text style={group.isPrivate ? styles.private : styles.public}>{group.name}</Text>
-              </TouchableOpacity>
-            )
+            groups?.map((group: any, index: number) => <RemoveGroupCard group={ group } key={ index } navigation={ navigation } deleteGroup={ deleteGroup } /> )
         }
       </ScrollView>
   );

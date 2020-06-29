@@ -50,7 +50,9 @@ const Feed = ({ route, navigation }: any) => {
     const changeRadius = async () => setModalVisible(true);
 
     return (
+        
         <ScrollView
+            style={{flex: 1}}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}

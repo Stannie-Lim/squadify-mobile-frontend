@@ -38,10 +38,12 @@ const Profile = ({ navigation }: any) => {
     setShowModal(true);
   };
 
+  const imageUri = user.avatarUrl !== null ? user.avatarUrl : ""
+
   return (
     <SafeAreaView style={styles.bigcontainer}>
       <View style={styles.container}>
-        {user.avatarUrl && <Image source={{ uri: user.avatarUrl }} style={styles.avatar} />}
+        {user.avatarUrl && <Image source={imageUri.length !== 0 ? { uri: user.avatarUrl } : null} style={styles.avatar} />}
       </View>
 
       <View style={styles.calendar}>
