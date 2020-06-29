@@ -33,13 +33,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttons: {
-    width: Dimensions.get('window').width / 1.5,
+    width: Dimensions.get('window').width / 2.5,
     padding: 10,
     margin: 10,
     borderRadius: 50,
     borderColor: 'white',
     borderWidth: 3,
     alignItems: 'center',
+    backgroundColor: 'grey'
   },  
   text: {
     color: 'white',
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
   },
   iconcontainer: {
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 75,
   }
 });
 
