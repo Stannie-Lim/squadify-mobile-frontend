@@ -1,4 +1,4 @@
-import { API_URL } from 'react-native-dotenv';
+import { API_URL } from '../../secrets';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, RefreshControl, Button } from 'react-native';
@@ -22,7 +22,7 @@ const GroupInvitations = () => {
         acceptordeny ?
             await AxiosHttpRequest('PUT', `${API_URL}/groups/invitations/${groupId}/accept`)
             : await AxiosHttpRequest('DELETE', `${API_URL}/groups/invitations/${groupId}/reject`);
-        const temp = received.filter(group => group.group.id !== groupId);
+        const temp = received.filter((group: any) => group.group.id !== groupId);
         setReceived(temp);
     };
 

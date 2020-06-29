@@ -1,4 +1,4 @@
-import { API_URL } from 'react-native-dotenv'
+import { API_URL } from '../../secrets'
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, TextInput, Button, TouchableOpacity } from 'react-native';
@@ -9,38 +9,38 @@ import FriendCard from '../../cards/FriendCard';
 const InviteMember = ({ route, navigation }: any) => {
     const { group, user } = route.params;
 
-    const [ chosen, setChosen ] = useState([]);
-    const [ friends, setFriends ] = useState([])
+    const [chosen, setChosen] = useState([]);
+    const [friends, setFriends] = useState([])
 
-    useEffect( () => {
-        const getFriends = async() => {
+    useEffect(() => {
+        const getFriends = async () => {
             const data = (await AxiosHttpRequest('GET', `${API_URL}/user/friends`))?.data;
             setFriends(data);
         };
         getFriends();
     }, []);
 
-    const addMember = async() => {
+    const addMember = async () => {
         try {
             chosen.forEach(async friend => {
                 await AxiosHttpRequest('POST', `${API_URL}/groups/invitations/${group.id}/send`, { inviteeId: friend });
             });
             navigation.navigate('Group');
-        } catch(err) {
+        } catch (err) {
             console.log(err);
         }
     };
 
     return (
-        <SafeAreaView style={{ marginTop: 100 }}> 
-            <View style={ styles.container }>
+        <SafeAreaView style={{ marginTop: 100 }}>
+            <View style={styles.container}>
                 {
-                    friends.length !== 0 ? friends.map((friend: any) => <FriendCard key={ friend.id } friend={ friend } chosenFriends={ chosen } setChosenFriends={ setChosen } />) : <Text></Text>
+                    friends.length !== 0 ? friends.map((friend: any) => <FriendCard key={friend.id} friend={friend} chosenFriends={chosen} setChosenFriends={setChosen} />) : <Text></Text>
                 }
             </View>
-            <View style={ styles.buttoncontainer} >
-                <TouchableOpacity style={ styles.kickmember } onPress={ addMember }>
-                    <Text style={ styles.kicktext }>Invite</Text>
+            <View style={styles.buttoncontainer} >
+                <TouchableOpacity style={styles.kickmember} onPress={addMember}>
+                    <Text style={styles.kicktext}>Invite</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -49,8 +49,8 @@ const InviteMember = ({ route, navigation }: any) => {
 
 const styles = StyleSheet.create({
     inputField: {
-        height: 40, 
-        borderColor: 'gray', 
+        height: 40,
+        borderColor: 'gray',
         borderWidth: 1,
     },
     container: {
