@@ -1,38 +1,23 @@
 import React from 'react';
-import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
+import moment from 'moment';
 
 const IouCard = ({ debt, color }: any) => {
     return (
-        <View style={{...styles.container, backgroundColor: color} }>
-            <Image style={ styles.avatar } source={{ uri: debt.payer[0].avatarUrl }} />
-            <Text>{ `${debt.payer[0].firstName} ${debt.payer[0].lastName}` }</Text>
-            <Text>{ debt.description }</Text>
-            <Text>{ debt.createdAt }</Text>
-            <Text>${debt.amount} paid to</Text>
+        <View style={{ ...styles.container, backgroundColor: color }}>
+            <Image style={styles.avatar} source={{ uri: debt.payer[0] ? debt.payer[0].avatarUrl : debt.payer.avatarUrl }} />
+            <Text>{`${debt.payer[0] ? debt.payer[0].firstName.split('#')[0] : debt.payer.firstName.split('#')[0]} ${debt.payer[0] ? debt.payer[0].lastName.split('#')[0] : debt.payer.lastName.split('#')[0]}`}</Text>
+            <Text>Paid ${debt.amount ? debt.amount : debt.iou.amount} to: </Text>
             {
-                debt.payees && debt.payees.map((payee: any, index: number) => <Text key={ index }>{ payee.email }</Text> )
+                debt.payees && debt.payees.map((payee: any, index: number) => <Text key={index}>{payee.firstName.split('#')[0]}</Text>)
             }
+            <Text>for: {debt.description ? debt.description : debt.iou.description}</Text>
+            <Text>on: {debt.createdAt ? moment(debt.createdAt).format('MMMM Do YYYY, hh:m A') : moment(debt.iou.createdAt).format('MMMM Do YYYY, hh:m A')}</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    youcontainer: {
-        borderColor: 'black',
-        borderWidth: 1,
-        padding: 5,
-        backgroundColor: 'grey',
-        alignItems: 'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 9,
-        },
-        shadowOpacity: 0.48,
-        shadowRadius: 11.95,
-        elevation: 18,
-    },
     container: {
         borderColor: 'black',
         borderWidth: 1,
@@ -66,7 +51,7 @@ const styles = StyleSheet.create({
         marginRight: 80,
     },
     oweText: {
-       fontSize: 30,
+        fontSize: 30,
     },
     bar: {
         fontSize: 20,

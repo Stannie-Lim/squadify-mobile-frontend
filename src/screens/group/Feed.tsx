@@ -1,7 +1,6 @@
 import moment from 'moment';
 import * as Location from 'expo-location';
-import Geocoder from 'react-native-geocoding';
-import { API_URL } from 'react-native-dotenv';
+import { API_URL } from '../../secrets';
 import * as Permissions from 'expo-permissions';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
@@ -12,25 +11,14 @@ import EventCard from '../../cards/EventCard'
 import RadiusMap from './RadiusMap';
 
 const Feed = ({ route, navigation }: any) => {
-    const [mapRegion, setMapRegion] = useState({
-        latitude: 0,
-        longitude: 0
-    });
-
     const [events, setEvents] = useState([]);
     const [radius, setFeedRadius] = useState(1);
-    const [latitude, setLatitude] = useState(0.0);
-    const [longitude, setLongitude] = useState(0.0);
     const [refreshing, setRefreshing] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
-    console.log(latitude)
-    console.log(longitude)
-
     useEffect(() => {
-        getCurrentLocation();
         findEvents();
-    }, [latitude, longitude]);
+    }, []);
 
     const refresh = async () => {
         setRefreshing(true);
@@ -39,29 +27,27 @@ const Feed = ({ route, navigation }: any) => {
     };
 
     const findEvents = async () => {
-        const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data.filter((event: any) => moment(event.startTime).format('YYYY-MM-DD') === moment(new Date()).format('YYYY-MM-DD'));
-        console.log(foundEvents)
-        setEvents(foundEvents);
-    };
-
-    const changeRadius = async () => {
-        setModalVisible(true);
-    };
-
-    const getCurrentLocation = async () => {
         const { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== 'granted') {
             alert('too bad');
         } else {
             try {
                 const location = await Location.getCurrentPositionAsync();
-                setLatitude(location.coords.latitude);
-                setLongitude(location.coords.longitude);
+                const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${location.coords.latitude}/${location.coords.longitude}`))?.data.filter((event: any) => {
+                    const now = moment(new Date()).format('YYYY-MM-DD')
+                    const startTime = moment(event.startTime).format('YYYY-MM-DD')
+                    const isBefore = moment(startTime).isBefore(now)
+                    const isAfterDays = moment().add(1, 'M').isAfter(startTime)
+                    return !isBefore && !isAfterDays
+                });
+                setEvents(foundEvents);
             } catch (err) {
                 console.log(err);
             }
         }
     };
+
+    const changeRadius = async () => setModalVisible(true);
 
     return (
         

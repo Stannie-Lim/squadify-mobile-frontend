@@ -1,4 +1,4 @@
-import { API_URL } from 'react-native-dotenv';
+import { API_URL } from '../secrets';
 import { AxiosHttpRequest } from '../utils/axios';
 import React, { useState, useEffect } from 'react';
 import { removeJwt, getUser } from '../utils/axios';
@@ -25,7 +25,7 @@ import Group from './group/groupStack';
 import { UserTabsStack } from './UserTabsStack';
 
 //icons 
-import { AntDesign, Entypo, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { AntDesign, Entypo, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface RoutesProps { };
 type RoutesParamList = {
@@ -79,8 +79,8 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
       }
     } else {
       return <TouchableOpacity onPress={() => navigation.push('Create group', { groups, friends, navigation, route })}>
-      <MaterialIcons style={{ marginLeft: 10, }} name="group-add" size={30} color="black" />
-    </TouchableOpacity>
+        <MaterialIcons style={{ marginLeft: 10, }} name="group-add" size={30} color="black" />
+      </TouchableOpacity>
     }
   }
 
@@ -90,41 +90,45 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
       switch (route.state.index) {
         case 0:
           return <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                  <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="black" />
-                </TouchableOpacity>
+            <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="black" />
+          </TouchableOpacity>
         case 1:
           return <TouchableOpacity onPress={() => navigation.navigate('Chat', { group: route.params.group, user })}>
-                  <Entypo style={{ marginRight: 10, }} name="chat" size={24} color="black" />
-                </TouchableOpacity>
+            <Entypo style={{ marginRight: 10, }} name="chat" size={24} color="black" />
+          </TouchableOpacity>
       }
     } else {
       return <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-              <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="black" />
-            </TouchableOpacity>
+        <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="black" />
+      </TouchableOpacity>
     }
   };
   return (
     <NavigationContainer>
-      <Stack.Navigator 
+      <Stack.Navigator
         screenOptions={{
-            headerShown: true,
-            headerTransparent:true
+          headerShown: true,
+          headerTransparent: true
         }}>
-        <Stack.Screen name="Welcome to Squadify!" component={Auth} />
+        <Stack.Screen name="Welcome to Squadify!" component={Auth} 
+          options={{
+            title: '',
+          }}
+        />
         <Stack.Screen name="Login" component={Login} 
           options={{
             title: '',
             headerBackTitle: ' '
           }}
         />
-        <Stack.Screen name="Register" component={Register} 
+        <Stack.Screen name="Register" component={Register}
           options={{
             title: '',
             headerBackTitle: ' '
           }}
         />
         <Stack.Screen name="Your Groups" component={Home} />
-        <Stack.Screen name="Search" component={Search} 
+        <Stack.Screen name="Search" component={Search}
           options={{
             title: '',
             headerBackTitle: ' '
@@ -162,7 +166,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         />
 
         <Stack.Screen name="Add friend" component={AddFriend} />
-        <Stack.Screen name='Create group' component={CreateGroup} 
+        <Stack.Screen name='Create group' component={CreateGroup}
           options={{
             title: 'New Group',
             headerBackTitle: ' '
@@ -173,13 +177,13 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
 
         { /* swiped right */}
         <Stack.Screen name="Group" component={Group}
-          options={({ navigation, route }) => ({
+          options={({ navigation, route }: any) => ({
             title: route.params.group.name,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.navigate('Groups', { groups: route.params.groups, friends: route.params.friends })}>
                 <MaterialIcons style={{ marginLeft: 20 }} name="group" size={30} color="black" />
               </TouchableOpacity>
-             
+
             ),
             headerRight: () => (
               getHeaderRight(route, navigation)

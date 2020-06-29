@@ -1,8 +1,7 @@
-import { API_URL } from 'react-native-dotenv'
+import { API_URL } from '../../secrets'
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView, TouchableOpacity } from 'react-native';
 
 const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoingFriendRequests }: any) => {
     const [incomingFriendRequests, setIncomingFriendRequests]: any = useState([]);
@@ -38,7 +37,7 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
             <SafeAreaView style={styles.subcontainer}>
                 <Text style={styles.subtitle}>Received Requests</Text>
                 {
-                    !!incomingFriendRequests.length && incomingFriendRequests.map(request => {
+                    !!incomingFriendRequests.length && incomingFriendRequests.map((request: any) => {
                         if (request) {
                             return (
                                 <SafeAreaView key={request.id} style={styles.cardContainer}>
@@ -59,7 +58,7 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
             <SafeAreaView style={styles.subcontainer}>
                 <Text style={styles.subtitle}>Pending Requests</Text>
                 {
-                    !!outgoingFriendRequests.length && outgoingFriendRequests.map(request => {
+                    !!outgoingFriendRequests.length && outgoingFriendRequests.map((request: any) => {
                         if (request) {
                             return (
                                 <SafeAreaView key={request.id} style={styles.cardContainer}>

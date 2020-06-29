@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { AsyncStorage } from 'react-native';
-import { API_URL } from 'react-native-dotenv';
+import { API_URL } from '../secrets';
 
 export const getJwt = (): Promise<string | null> => {
   return AsyncStorage.getItem('accessToken')
