@@ -5,15 +5,20 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets'
 import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, TouchableOpacity, View, Modal, Text } from 'react-native';
 
+const noimage = require('../../../assets/images/noimage.jpg');
 //components 
 import Details from './Details';
+import ChooseImage from '../auth/ChooseImage';
+import UpdateProfile from './UpdateProfile';
 
 const Profile = ({ navigation }: any) => {
   const [date, setDate] = useState('');
   const [events, setEvents] = useState([]);
   const [marked, setMarked] = useState({});
   const [user, setUser]: any = useState({});
-  const [showModal, setShowModal] = useState(false);
+  const [showDayModal, setShowDayModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
+
 
   useEffect(() => {
     const getUserInfo = async () => await getUser(setUser);
@@ -35,7 +40,7 @@ const Profile = ({ navigation }: any) => {
 
   const showDetails = ({ dateString }: any) => {
     setDate(dateString);
-    setShowModal(true);
+    setShowDayModal(true);
   };
 
   const imageUri = user.avatarUrl !== null ? user.avatarUrl : ""
@@ -43,9 +48,10 @@ const Profile = ({ navigation }: any) => {
   return (
     <SafeAreaView style={styles.bigcontainer}>
       <View style={styles.container}>
-        {user.avatarUrl && <Image source={imageUri.length !== 0 ? { uri: user.avatarUrl } : null} style={styles.avatar} />}
+        <Text style={styles.username}>{user && user.firstName && `${user.firstName.split('#')[0]} ${user.lastName.split('#')[0]} #${user.lastName.split('#')[1]}`}</Text>
+        {user && <Image source={imageUri && imageUri.length !== 0 ? { uri: user.avatarUrl } : noimage} style={styles.avatar} />}
       </View>
-
+      <Button title='Update info' onPress={() => setShowUpdateModal(true)} />
       <View style={styles.calendar}>
         <Calendar
           markedDates={marked}
@@ -56,18 +62,31 @@ const Profile = ({ navigation }: any) => {
       </View>
       <Modal
         animationType="slide"
-        visible={showModal}
+        visible={showDayModal}
         onRequestClose={() => {
-          setShowModal(false);
+          setShowDayModal(false);
         }}
       >
-        <Details date={date} setShowModal={setShowModal} />
+        <Details date={date} setShowModal={setShowDayModal} />
+      </Modal>
+      <Modal
+        animationType="slide"
+        visible={showUpdateModal}
+        onRequestClose={() => {
+          setShowUpdateModal(false);
+        }}
+      >
+        <UpdateProfile user={user} setShowModal={setShowUpdateModal} />
       </Modal>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  username: {
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
   inputField: {
     height: 40,
     borderBottomWidth: 2,

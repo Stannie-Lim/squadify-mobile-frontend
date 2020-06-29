@@ -9,7 +9,6 @@ import EventCard from '../../cards/EventCard';
 
 const Search = () => {
     const [events, setEvents] = useState([])
-    console.log(events)
 
     const [searchValue, setSearchValue] = useState('');
     const [latitude, setLatitude] = useState('');
@@ -56,11 +55,7 @@ const Search = () => {
     const search = async () => {
         if (searchByRadius) {
             if (latitude && longitude) {
-                console.log(latitude)
-                console.log(longitude)
-                console.log(radius)
                 const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${latitude}/${longitude}`))?.data
-                console.log(foundEvents)
                 setEvents(foundEvents);
             }
         } else if (searchByName) {
@@ -86,7 +81,6 @@ const Search = () => {
         try {
             const address = searchValue.replaceAll(',', '').replaceAll(' ', '+')
             const location = (await AxiosHttpRequest('GET', `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${API_KEY}`))?.data;
-            console.log('LOCATION', location)
             setLatitude(location.results[0].geometry.location.lat);
             setLongitude(location.results[0].geometry.location.lng);
         } catch (err) {
@@ -95,7 +89,6 @@ const Search = () => {
     };
 
     const ListItem = ({ event }: any) => {
-        console.log('EVENT', event)
         return (
             <View style={styles.listItem}>
                 <EventCard event={event} />

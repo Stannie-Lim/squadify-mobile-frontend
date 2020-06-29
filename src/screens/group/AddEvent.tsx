@@ -13,7 +13,7 @@ import SetLocation from './SetLocation';
 const bg = require('../../../assets/images/event.jpg');
 
 // icons
-import { AntDesign, FontAwesome, Entypo, Feather } from '@expo/vector-icons'; 
+import { AntDesign, FontAwesome, Entypo, Feather } from '@expo/vector-icons';
 
 const AddEvent = ({ navigation, route }: any) => {
     const [name, setName] = useState('');
@@ -76,60 +76,60 @@ const AddEvent = ({ navigation, route }: any) => {
         <ImageBackground source={bg} style={styles.image}>
             <SafeAreaView>
                 <Text style={styles.title}>Create New Event</Text>
-                <TextInput 
-                    style={styles.inputField} 
-                    onChangeText={ text => setName(text) } 
-                    value={ name } 
+                <TextInput
+                    style={styles.inputField}
+                    onChangeText={text => setName(text)}
+                    value={name}
                     placeholder='Name of Event'
-                    placeholderTextColor="#5c5c5c" 
+                    placeholderTextColor="white"
                 />
-                <TextInput 
-                    style={styles.inputField} 
-                    onChangeText={ text => setDescription(text) } 
-                    value={ description } 
+                <TextInput
+                    style={styles.inputField}
+                    onChangeText={text => setDescription(text)}
+                    value={description}
                     placeholder='Description'
-                    placeholderTextColor="#5c5c5c" 
+                    placeholderTextColor="white"
                 />
 
-                <TextInput 
-                    style={styles.inputField} 
-                    value={ dateOfEvent } 
+                <TextInput
+                    style={styles.inputField}
+                    value={dateOfEvent}
                     placeholder='Date'
-                    placeholderTextColor="#5c5c5c" 
+                    placeholderTextColor="white"
                 >{dateOfEvent && moment(dateOfEvent).format('dddd, MMMM Do YYYY')}</TextInput>
-                <Button title="Set Date" onPress={ () => setDatePickerVisibility(true) } />
+                <Button title="Set Date" onPress={() => setDatePickerVisibility(true)} />
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="date"
                     onConfirm={handleDate}
-                    onCancel={ () => setDatePickerVisibility(false) }
+                    onCancel={() => setDatePickerVisibility(false)}
                 />
-                <TextInput 
-                    style={timeOfEvent ? styles.inputField : styles.blank} 
-                    value={ timeOfEvent } 
+                <TextInput
+                    style={timeOfEvent ? styles.inputField : styles.blank}
+                    value={timeOfEvent}
                     placeholder='Time'
-                    placeholderTextColor="#5c5c5c" 
+                    placeholderTextColor="#5c5c5c"
                 >{timeOfEvent && moment(timeOfEvent).format('LT')}</TextInput>
-                <Button title="Set Time" onPress={ () => setTimePickerVisibility(true)} />
+                <Button title="Set Time" onPress={() => setTimePickerVisibility(true)} />
                 <DateTimePickerModal
                     isVisible={isTimePickerVisible}
                     mode="time"
                     onConfirm={handleTime}
-                    onCancel={ () => setTimePickerVisibility(false) }
+                    onCancel={() => setTimePickerVisibility(false)}
                 />
 
                 <Text>{addressOfEvent}</Text>
-                <Button title='Choose Location' onPress={ () => navigation.navigate('Set Location') } />
+                <Button title='Choose Location' onPress={() => navigation.navigate('Set Location')} />
 
-                <CheckBox 
+                <CheckBox
                     title='Public'
                     checked={isPublic}
                     checkedIcon='dot-circle-o'
                     uncheckedIcon='circle-o'
-                    onPress={ () => setPublic(!isPublic) }
+                    onPress={() => setPublic(!isPublic)}
                 />
 
-                <Button title='Create event' onPress={ createEvent } disabled={ disabled } />
+                <Button title='Create event' onPress={createEvent} disabled={disabled} />
             </SafeAreaView>
         </ImageBackground>
     );
@@ -137,15 +137,15 @@ const AddEvent = ({ navigation, route }: any) => {
 
 const styles = StyleSheet.create({
     inputField: {
-      height: 40, 
-      borderBottomWidth: 2,
-      borderColor: 'lightseagreen', 
-      fontSize: 20,
-      marginBottom: 10,
-      width: 350,
-      alignSelf: "center",
-      textAlign: 'center',
-      marginTop: 10,
+        height: 40,
+        borderBottomWidth: 2,
+        borderColor: 'white',
+        fontSize: 20,
+        marginBottom: 10,
+        width: 350,
+        alignSelf: "center",
+        textAlign: 'center',
+        marginTop: 10,
     },
     blank: {
         opacity: 100,

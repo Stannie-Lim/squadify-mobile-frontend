@@ -62,7 +62,7 @@ const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoi
                         if (request) {
                             return (
                                 <SafeAreaView key={request.id} style={styles.cardContainer}>
-                                    <Text style={styles.friendRequestBox}>You have sent {request.firstName.split('#')[0]} {request.lastName.split('#')[0]} {"\n"} a freind request</Text>
+                                    <Text style={styles.friendRequestBox}>You have sent {request.firstName.split('#')[0]} {request.lastName.split('#')[0]} {"\n"} a friend request</Text>
                                     <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => cancelRequest(request)}>
                                         <Text style={styles.cancelButtonText}>Cancel</Text>
                                     </TouchableOpacity>

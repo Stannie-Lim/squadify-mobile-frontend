@@ -10,7 +10,6 @@ const Home = ({ navigation, route }: any) => {
   const [groups, setGroups] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  console.log(groups);
   useEffect(() => {
     getGroups();
   }, []);
@@ -30,7 +29,7 @@ const Home = ({ navigation, route }: any) => {
     setRefreshing(false);
   };
 
-  const deleteGroup = async(groupId: string) => {
+  const deleteGroup = async (groupId: string) => {
     await AxiosHttpRequest('DELETE', `${API_URL}/groups/${groupId}`);
     const temp = groups.filter((group: any) => group.id !== groupId);
     setGroups(temp);
@@ -47,7 +46,7 @@ const Home = ({ navigation, route }: any) => {
           />
         }
       >
-        <Text>You have no groups!</Text>
+        <Text> &#8593; Click here to create a group, or join a group through invite!</Text>
       </ScrollView>
       :
       <ScrollView
@@ -74,7 +73,7 @@ const Home = ({ navigation, route }: any) => {
               </TouchableOpacity>
             })
             :
-            groups?.map((group: any, index: number) => <RemoveGroupCard group={ group } key={ index } navigation={ navigation } deleteGroup={ deleteGroup } /> )
+            groups?.map((group: any, index: number) => <RemoveGroupCard group={group} key={index} navigation={navigation} deleteGroup={deleteGroup} />)
         }
       </ScrollView>
   );

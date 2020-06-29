@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets'
-import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image, ImageBackground, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image, ImageBackground, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 
 // components
 import ChooseImage from './ChooseImage';
@@ -25,6 +25,7 @@ const Register = ({ navigation }: any) => {
   const [dob, setDob]: any = useState('');
   const [image, setImage] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const handleDate = (dateObj: object): void => {
     setDob(dateObj);
@@ -32,11 +33,14 @@ const Register = ({ navigation }: any) => {
   };
 
   const register = async () => {
+    setLoading(true)
     if (!image) {
       alert('Please set a profile picture');
+      setLoading(false)
       return;
     } else if (!(email && password && firstName && lastName && dob && image)) {
       alert('Please fill out all fields');
+      setLoading(false)
       return;
     }
     try {
@@ -54,14 +58,20 @@ const Register = ({ navigation }: any) => {
       };
       const avatarUrl = (await RNS3.put(file, config)).body.postResponse.location;
 
-      const token = (await AxiosHttpRequest('POST', `${API_URL}/auth/register`, { email, password, lastName, firstName, dob: moment(dob).format('MM-DD-YYYY'), avatarUrl }))?.data.token;
+      if (avatarUrl) {
+        const token = (await AxiosHttpRequest('POST', `${API_URL}/auth/register`, { email, password, lastName, firstName, dob: moment(dob).format('MM-DD-YYYY'), avatarUrl }))?.data.token;
 
-      setJwt(token);
+        setJwt(token);
 
-      navigation.replace('Groups', { groups: [] });
-
+        navigation.replace('Groups', { groups: [] });
+      } else {
+        alert('image wasnt uploaded');
+      }
+      setLoading(false)
+      return
     } catch (err) {
-      alert("backend is not running right now");
+      setLoading(false)
+      alert("backend is not running right now or email is already in use");
     }
   };
 
@@ -131,6 +141,11 @@ const Register = ({ navigation }: any) => {
               <Text style={styles.text}>Register</Text>
             </TouchableOpacity>
           </View>
+          {loading &&
+            <View style={styles.loading}>
+              <ActivityIndicator size='large' />
+            </View>
+          }
           <View style={styles.buttongroup}>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <Text style={styles.login}>Already have an account? Log in here!</Text>
@@ -208,6 +223,15 @@ const styles = StyleSheet.create({
     padding: 20,
     color: 'white',
     fontSize: 20
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

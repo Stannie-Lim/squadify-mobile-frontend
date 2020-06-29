@@ -82,7 +82,7 @@ const Iou = ({ group, user }: any) => {
                         title="Cancel" />
                     <ScrollView style={styles.groupmates}>
                         {
-                            groupMembers.map((member: any) => <ChooseIouCard key={member.id} friend={member} setChosenFriends={setChosen} chosenFriends={chosen} />)
+                            groupMembers && groupMembers.map((member: any) => <ChooseIouCard key={member.id} friend={member} setChosenFriends={setChosen} chosenFriends={chosen} />)
                         }
                     </ScrollView>
                     <View>
