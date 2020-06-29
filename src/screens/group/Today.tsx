@@ -74,8 +74,8 @@ const Today = ({ route, group, navigation }: any) => {
 const styles = StyleSheet.create({
     top: {
         alignItems: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingTop: 3,
+        paddingBottom: 3,
         backgroundColor: 'grey',
     }
 });
