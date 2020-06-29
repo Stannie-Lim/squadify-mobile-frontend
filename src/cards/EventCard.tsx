@@ -5,6 +5,7 @@ import { AxiosHttpRequest } from '../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, Modal, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+const noimage = require('../../assets/images/noimage.jpg');
 //components 
 import SingleEventMap from '../screens/group/SingleEventMap';
 import SingleEventDetail from '../screens/group/SingleEventDetail';
@@ -49,7 +50,9 @@ const EventCard = ({ event, navigation }: any) => {
                         <SafeAreaView style={styles.imagesContainer}>
                             <ScrollView horizontal={true}>
                                 {
-                                    event.imageUrls && event.imageUrls.split('####$$$$####').map((url: string, idx: number) => idx < 20 ? <TouchableOpacity onPress={() => setModalVisible(true)}><Image source={{ uri: url }} style={styles.eventMiniatureImage} /></TouchableOpacity> : null)
+                                    event.imageUrls ?
+                                        event.imageUrls.split('####$$$$####').map((url: string, idx: number) => idx < 20 ? <TouchableOpacity onPress={() => setModalVisible(true)}><Image source={{ uri: url }} style={styles.eventMiniatureImage} /></TouchableOpacity> : null) :
+                                        <View style={{ width: Dimensions.get('screen').width / 1.1, alignItems: 'center', justifyContent: 'center' }}><Image style={styles.eventMiniatureImage} source={noimage} /></View>
                                 }
                             </ScrollView>
                         </SafeAreaView>
