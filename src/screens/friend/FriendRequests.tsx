@@ -1,8 +1,7 @@
 import { API_URL } from '../../secrets'
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView, TouchableOpacity } from 'react-native';
 
 const FriendRequests = ({ getFriends, refresh, outgoingFriendRequests, setOutgoingFriendRequests }: any) => {
     const [incomingFriendRequests, setIncomingFriendRequests]: any = useState([]);

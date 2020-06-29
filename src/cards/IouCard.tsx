@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpaci
 const IouCard = ({ debt, color }: any) => {
     return (
         <View style={{ ...styles.container, backgroundColor: color }}>
-            <Image style={styles.avatar} source={{ uri: debt.payer[0].avatarUrl }} />
+            <Image style={styles.avatar} source={debt.payer[0].avatarUrl === undefined ? null : { uri: debt.payer[0].avatarUrl }} />
             <Text>{`${debt.payer[0].firstName.split('#')[0]} ${debt.payer[0].lastName.split('#')[0]}`}</Text>
             <Text>Paid ${debt.amount}</Text>
             {
