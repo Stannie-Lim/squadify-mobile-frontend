@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 30,
         width: Dimensions.get('window').width / 1.5,
-        color: 'white',
+        color: 'black',
     },
     container: {
         flex: 1,
