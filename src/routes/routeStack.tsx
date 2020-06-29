@@ -110,7 +110,11 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
             headerShown: true,
             headerTransparent:true
         }}>
-        <Stack.Screen name="Welcome to Squadify!" component={Auth} />
+        <Stack.Screen name="Welcome to Squadify!" component={Auth} 
+          options={{
+            title: '',
+          }}
+        />
         <Stack.Screen name="Login" component={Login} 
           options={{
             title: '',
