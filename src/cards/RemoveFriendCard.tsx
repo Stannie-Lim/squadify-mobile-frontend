@@ -10,12 +10,14 @@ const RemoveFriendCard = ({ friend, deleteFriend }: any) => {
         onPress: () => deleteFriend(`${friend.firstName} ${friend.lastName}`, friend.email, friend.id)
     }];
 
+    const imageUri = friend.avatarUrl !== null ? friend.avatarUrl : ""
+
     return (
         <Swipeout
             right={swipeBtns}
             backgroundColor='transparent'>
             <View style={styles.container}>
-                <Image source={{ uri: friend.avatarUrl }} style={styles.avatar} />
+                <Image source={imageUri.length !== 0 ? { uri: friend.avatarUrl } : null } style={styles.avatar} />
                 <Text style={{ fontSize: 20 }} key={friend.id}>{friend.firstName.split('#')[0]} {friend.lastName.split('#')[0]} #{friend.lastName.split('#')[1]}</Text>
             </View>
         </Swipeout>

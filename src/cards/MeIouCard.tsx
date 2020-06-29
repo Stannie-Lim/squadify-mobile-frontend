@@ -13,7 +13,7 @@ const MeIouCard = ({ user, setModalVisible, setFilterModal }: any) => {
                     <MaterialIcons size={100} name='add-circle-outline' style={styles.bar} />
                 </TouchableOpacity>
             </View>
-            <Image style={styles.avatar} source={{ uri: user.avatarUrl }} />
+            <Image style={styles.avatar} source={user.avatarUrl === undefined ? null : { uri: user.avatarUrl }} />
             <Text style={styles.name}>{`${user.firstName.split('#')[0]} ${user.lastName.split('#')[0]}`}</Text>
             <View style={styles.owe}>
                 <View style={styles.owes}>
