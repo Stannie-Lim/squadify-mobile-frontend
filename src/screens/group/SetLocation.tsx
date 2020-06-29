@@ -1,40 +1,40 @@
 import * as Location from 'expo-location';
 import Geocoder from 'react-native-geocoding';
-import { API_KEY } from 'react-native-dotenv';
+import { API_KEY } from '../../secrets';
 import * as Permissions from 'expo-permissions';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import MapView, { AnimatedRegion } from 'react-native-maps';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity, Dimensions, Button } from 'react-native';
 
 const SetLocation = ({ navigation }: any) => {
-    const [ mapRegion, setMapRegion ] = useState({
+    const [mapRegion, setMapRegion] = useState({
         latitude: 0,
         longitude: 0,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01
     });
-    const [ pinnedLocation, setPinnedLocation ] = useState({ 
+    const [pinnedLocation, setPinnedLocation] = useState({
         latitude: 0,
         longitude: 0,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01
     });
-    const [ address, setAddress ] = useState('');
-    
+    const [address, setAddress] = useState('');
+
     useEffect(() => {
-        const getCurrentLocation = async() => {
+        const getCurrentLocation = async () => {
             const { status } = await Permissions.askAsync(Permissions.LOCATION);
-            if(status !== 'granted') {
+            if (status !== 'granted') {
                 alert('too bad');
             } else {
                 const location = await Location.getCurrentPositionAsync();
-                setMapRegion({ 
+                setMapRegion({
                     latitude: location.coords.latitude,
-                    longitude: location.coords.longitude, 
-                    latitudeDelta: 0.01, 
-                    longitudeDelta: 0.01 
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01
                 });
-            }   
+            }
         };
         getCurrentLocation();
     }, []);
@@ -55,7 +55,7 @@ const SetLocation = ({ navigation }: any) => {
 
     return (
         <SafeAreaView>
-            <MapView 
+            <MapView
                 style={styles.mapStyle}
                 zoomEnabled={true}
                 region={mapRegion}
@@ -68,7 +68,7 @@ const SetLocation = ({ navigation }: any) => {
                     description={address ? address : 'Loading...'}
                 />
             </MapView>
-            <Button title='Submit' style={ styles.button } onPress={ () => {
+            <Button title='Submit' style={styles.button} onPress={() => {
                 navigation.navigate('Add Event', { address, pinnedLocation });
             }} />
         </SafeAreaView>
@@ -77,8 +77,8 @@ const SetLocation = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
     inputField: {
-        height: 40, 
-        borderColor: 'gray', 
+        height: 40,
+        borderColor: 'gray',
         borderWidth: 1,
     },
     mapStyle: {

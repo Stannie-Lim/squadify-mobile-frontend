@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { API_URL } from 'react-native-dotenv';
+import { API_URL } from '../secrets';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../utils/axios';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, Modal } from 'react-native';
@@ -39,13 +39,13 @@ const EventCard = ({ event, navigation }: any) => {
     }, [address]);
 
     return (
-        <TouchableOpacity style={ styles.card } onPress={ () => setModalVisible(true) }>
-            <View style={ event.isPrivate ? styles.privateEvent : styles.publicEvent }>
-                <View style={ styles.information }>
-                    <Text style={{ fontSize: 30 }}>{ event.name }</Text>
-                    <Text>{ event.description }</Text>
+        <TouchableOpacity style={styles.card} onPress={() => setModalVisible(true)}>
+            <View style={event.isPrivate ? styles.privateEvent : styles.publicEvent}>
+                <View style={styles.information}>
+                    <Text style={{ fontSize: 30 }}>{event.name}</Text>
+                    <Text>{event.description}</Text>
                     <Text>{event.localized_address}</Text>
-                    <Text>{ moment(event.startTime).format('MMMM Do YYYY, hh:m A') }</Text>
+                    <Text>{moment(event.startTime).format('MMMM Do YYYY, hh:m A')}</Text>
 
                 </View>
             </View>
@@ -56,7 +56,7 @@ const EventCard = ({ event, navigation }: any) => {
                     setModalVisible(false);
                 }}
             >
-                <SingleEventDetail event={ event } address={ address } mapRegion={ mapRegion } setModalVisible={ setModalVisible } />
+                <SingleEventDetail event={event} address={address} mapRegion={mapRegion} setModalVisible={setModalVisible} />
             </Modal>
         </TouchableOpacity>
     );
