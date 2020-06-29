@@ -50,6 +50,7 @@ const Iou = ({ group, user }: any) => {
             setAmount('');
             setDescription('');
             setIous([...ious, data]);
+            setModalVisible(false)
         } catch (err) {
             console.log(err);
         }
@@ -61,7 +62,7 @@ const Iou = ({ group, user }: any) => {
             {
                 user && <MeIouCard user={user} setModalVisible={setModalVisible} setFilterModal={setFilterModal} />
             }
-            <ScrollView style={{ height: Dimensions.get('window').height / 1.8, }}>
+            <ScrollView style={{ height: Dimensions.get('window').height / 1.6 }}>
                 {
                     ious && ious.map((debt: any, index: number) => <IouCard key={index} color={colors[index]} debt={debt} />)
                 }
