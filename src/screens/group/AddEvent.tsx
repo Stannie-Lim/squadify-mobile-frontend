@@ -81,17 +81,22 @@ const AddEvent = ({ navigation, route }: any) => {
                     onChangeText={ text => setName(text) } 
                     value={ name } 
                     placeholder='Name of Event'
-                    placeholderTextColor="#000" 
+                    placeholderTextColor="#5c5c5c" 
                 />
                 <TextInput 
                     style={styles.inputField} 
                     onChangeText={ text => setDescription(text) } 
                     value={ description } 
                     placeholder='Description'
-                    placeholderTextColor="#000" 
+                    placeholderTextColor="#5c5c5c" 
                 />
 
-                <Text>{moment(dateOfEvent).format('dddd, MMMM Do YYYY')}</Text>
+                <TextInput 
+                    style={styles.inputField} 
+                    value={ dateOfEvent } 
+                    placeholder='Date'
+                    placeholderTextColor="#5c5c5c" 
+                >{dateOfEvent && moment(dateOfEvent).format('dddd, MMMM Do YYYY')}</TextInput>
                 <Button title="Set Date" onPress={ () => setDatePickerVisibility(true) } />
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
@@ -99,8 +104,12 @@ const AddEvent = ({ navigation, route }: any) => {
                     onConfirm={handleDate}
                     onCancel={ () => setDatePickerVisibility(false) }
                 />
-
-                <Text>{moment(timeOfEvent).format('LT')}</Text>
+                <TextInput 
+                    style={timeOfEvent ? styles.inputField : styles.blank} 
+                    value={ timeOfEvent } 
+                    placeholder='Time'
+                    placeholderTextColor="#5c5c5c" 
+                >{timeOfEvent && moment(timeOfEvent).format('LT')}</TextInput>
                 <Button title="Set Time" onPress={ () => setTimePickerVisibility(true)} />
                 <DateTimePickerModal
                     isVisible={isTimePickerVisible}
@@ -136,6 +145,10 @@ const styles = StyleSheet.create({
       width: 350,
       alignSelf: "center",
       textAlign: 'center',
+      marginTop: 10,
+    },
+    blank: {
+        opacity: 100,
     },
     mapStyle: {
         width: Dimensions.get('window').width,
