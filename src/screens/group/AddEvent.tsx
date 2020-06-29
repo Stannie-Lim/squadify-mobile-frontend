@@ -85,6 +85,7 @@ const AddEvent = ({ navigation, route }: any) => {
                     value={name}
                     placeholder='Name of Event'
                     placeholderTextColor="white"
+                    maxLength={18}
                 />
                 <TextInput
                     style={styles.inputField}
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         textAlign: "center",
-        marginBottom: 100,
+        marginBottom: 25,
         backgroundColor: '#FFFFFF50',
         width: 370,
         height: 100,
