@@ -42,7 +42,7 @@ const EventCard = ({ event, navigation }: any) => {
             <View style={event.isPrivate ? styles.privateEvent : styles.publicEvent}>
                 <View style={styles.information}>
                     <Text style={{ fontSize: 30 }}>{event.name}</Text>
-                    <Text>{event.description}</Text>
+                    <Text>{event.description.slice(0, 30)}.....</Text>
                     <Text>{event.localized_address}</Text>
                     <Text>{moment(event.startTime).format('MMMM Do YYYY, hh:m A')}</Text>
                     <TouchableOpacity onPress={() => setModalVisible(true)}>

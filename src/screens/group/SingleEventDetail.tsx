@@ -101,7 +101,7 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                 <TouchableOpacity onPress={() => setMapModal(true)}>
                     <Text style={styles.location}>See Location</Text>
                 </TouchableOpacity>
-                <Text style={styles.date}>Starts at {moment(event.startTime).format('MMMM Do YYYY, hh:m A')}</Text>
+                <Text style={styles.date}>Time: {moment(event.startTime).format('MMMM Do YYYY, hh:m A')}</Text>
                 <View style={styles.descriptionContainer}>
                     <ScrollView>
                         <Text style={styles.description}>{event.description}</Text>
@@ -177,16 +177,17 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                         {
                             users.map((user: any, index: number) => {
                                 const imageUri = user.user.avatarUrl !== null ? user.user.avatarUrl : ""
-                                return index < 40 ? <View style={styles.user} key={index}>
-                                    <Image source={imageUri.length !== 0 ? { uri: user.user.avatarUrl } : null} style={styles.avatar} />
-                                    <Text>{`${user.user.firstName.split('#')[0]} ${user.user.lastName.split('#')[0]}`}</Text>
-                                </View> : null
+                                return index < 40 ?
+                                    <View style={styles.user} key={index}>
+                                        <Image source={imageUri.length !== 0 ? { uri: user.user.avatarUrl } : null} style={styles.avatar} />
+                                        <Text>{`${user.user.firstName.split('#')[0]}`}</Text>
+                                    </View> : null
                             })
                         }
                     </ScrollView>
                 </View>
                 {users.find((relation: any) => relation.user.id === me.id) ?
-                    <TouchableOpacity onPress={attend} style={styles.attendButton}>
+                    <TouchableOpacity style={styles.attendButton}>
                         <Text style={styles.attendtext}>I'm not going anymore!</Text>
                     </TouchableOpacity> :
                     <TouchableOpacity onPress={attend} style={styles.attendButton}>
@@ -285,12 +286,13 @@ const styles = StyleSheet.create({
     },
     date: {
         fontSize: 20,
-        marginBottom: 10
+        marginBottom: 2
     },
     avatar: {
-        height: 100,
-        width: 100,
+        height: 60,
+        width: 60,
         borderRadius: 50,
+
     },
     listOfUsersContainer: {
         shadowColor: "#000",
@@ -305,26 +307,29 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'lightgray',
         borderRadius: 5,
-        height: Dimensions.get('window').width / 3,
-        width: Dimensions.get('window').width / 1.2,
+        height: Dimensions.get('window').width / 3.5,
+        width: Dimensions.get('window').width / 0.95,
     },
     listOfUsers: {
         borderColor: 'lightgray',
         flexDirection: 'row',
         flexWrap: 'wrap',
         height: Dimensions.get('window').width / 3,
-        width: Dimensions.get('window').width / 1.2,
+        width: Dimensions.get('window').width / 1,
         padding: 15
     },
     user: {
         alignItems: 'center',
+        margin: 2,
+        marginLeft: 3,
+        marginRight: 3
     },
     details: {
         alignItems: 'center',
     },
     title: {
         fontSize: 50,
-        marginBottom: 20
+        marginBottom: 5
     },
     descriptionContainer: {
         shadowColor: "#000",
