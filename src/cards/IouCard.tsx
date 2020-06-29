@@ -1,17 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
+import moment from 'moment';
 
 const IouCard = ({ debt, color }: any) => {
     return (
         <View style={{ ...styles.container, backgroundColor: color }}>
-            <Image style={styles.avatar} source={debt.payer[0].avatarUrl === undefined ? null : { uri: debt.payer[0].avatarUrl }} />
-            <Text>{`${debt.payer[0].firstName.split('#')[0]} ${debt.payer[0].lastName.split('#')[0]}`}</Text>
-            <Text>Paid ${debt.amount}</Text>
+            <Image style={styles.avatar} source={{ uri: debt.payer[0] ? debt.payer[0].avatarUrl : debt.payer.avatarUrl }} />
+            <Text>{`${debt.payer[0] ? debt.payer[0].firstName.split('#')[0] : debt.payer.firstName.split('#')[0]} ${debt.payer[0] ? debt.payer[0].lastName.split('#')[0] : debt.payer.lastName.split('#')[0]}`}</Text>
+            <Text>Paid ${debt.amount ? debt.amount : debt.iou.amount} to: </Text>
             {
-                debt.payees && debt.payees.map((payee: any, index: number) => <Text key={index}>{payee.firstName}</Text>)
+                debt.payees && debt.payees.map((payee: any, index: number) => <Text key={index}>{payee.firstName.split('#')[0]}</Text>)
             }
-            <Text>for: {debt.description}</Text>
-            <Text>on: {debt.createdAt}</Text>
+            <Text>for: {debt.description ? debt.description : debt.iou.description}</Text>
+            <Text>on: {debt.createdAt ? moment(debt.createdAt).format('MMMM Do YYYY, hh:m A') : moment(debt.iou.createdAt).format('MMMM Do YYYY, hh:m A')}</Text>
         </View>
     );
 };
