@@ -1,6 +1,5 @@
 import moment from 'moment';
 import * as Location from 'expo-location';
-import Geocoder from 'react-native-geocoding';
 import { API_URL } from 'react-native-dotenv';
 import * as Permissions from 'expo-permissions';
 import React, { useState, useEffect } from 'react';
