@@ -1,71 +1,105 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../../secrets'
 import { AxiosHttpRequest, getUser } from '../../utils/axios';
-import { StyleSheet, Text, View, ScrollView, TextInput, Button, AsyncStorage, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, Button, AsyncStorage, TouchableOpacity, Dimensions, SafeAreaView, Switch, FlatList } from 'react-native';
 
 //components
 import FriendCard from '../../cards/FriendCard';
 
 const AddFriend = ({ navigation }: any) => {
+    const [friends, setFriends] = useState([])
+    const [incomingFriendRequests, setIncomingFriendRequests]: any = useState([]);
+    const [sentFriendRequests, setSentFriendRequests]: any = useState([]);
+
     const [friendEmail, setFriendEmail] = useState('');
-    const [me, setMe] = useState({ id: 0 });
-    const [foundUser, setFoundUser] = useState({} as any);
+    const [me, setMe] = useState({ id: '' });
+    const [foundUsers, setFoundUsers] = useState({} as any);
     const [chosen, setChosen] = useState([]);
+    const [searchType, setSearchType] = useState(false)
 
     useEffect(() => {
         const getMe = async () => await getUser(setMe);
-        getMe();
-    });
-
-    const addFriend = async () => {
-        try {
-            const friendId = (await AxiosHttpRequest('GET', `${API_URL}/user/findfriend/${friendEmail}`))?.data.id;
-
-            const friendrequest = (await AxiosHttpRequest('POST', `${API_URL}/user/addfriend`, { otherUserId: friendId }))?.data;
-
+        const getFriends = async () => {
             const allfriends = (await AxiosHttpRequest('GET', `${API_URL}/user/friends`))?.data;
+            setFriends(allfriends)
+        }
+        const getRequests = async () => {
+            const data = (await AxiosHttpRequest('GET', `${API_URL}/user/friendrequests`))?.data;
+            setSentFriendRequests(data.sentRequests);
+            setIncomingFriendRequests(data.incomingRequests);
+        }
+        getMe();
+        getFriends()
+    }, []);
 
-            let isCurrentFriend = false;
+    const addFriends = async () => {
+        try {
+            chosen.forEach(async (id: string) => {
+                await AxiosHttpRequest('POST', `${API_URL}/user/addfriend`, { otherUserId: id })
 
-            allfriends.forEach((friend: any) => friend.id === friendId ? isCurrentFriend = true : '')
+                if (me.id === id) {
+                    alert('You cannot add yourself a friend');
+                    return;
+                }
 
-            if (me.id === friendId) {
-                alert('You cannot add yourself a friend');
-                return;
-            } else if (isCurrentFriend) {
-                alert('You are already friends');
-                return;
-            }
-
+                setFoundUsers((previousState: any) => previousState.filter((_user: any) => id !== _user.id))
+            })
             navigation.navigate('Friends');
         } catch (err) {
             console.log(err);
         }
     };
 
+    const toggleSearchType = () => setSearchType(!searchType)
+
     const search = async () => {
-        const found = (await AxiosHttpRequest('GET', `${API_URL}/user/findfriend/${friendEmail}`))?.data;
-        setFoundUser(found);
+        let found = (await AxiosHttpRequest('GET', `${API_URL}/user/search/${searchType ? 'hash' : 'email'}/${friendEmail}`))?.data;
+        found = found.filter((user: any) => {
+            return !friends.find((friend: any) => friend.id === user.id) && !sentFriendRequests.find((friend: any) => friend.id === user.id) && !incomingFriendRequests.find((friend: any) => friend.id === user.id) && user.id !== me.id
+        })
+        setFoundUsers(found);
     };
 
     return (
-        <SafeAreaView style={{ marginTop: 100, }}>
-            <View style={styles.container}>
-                <TextInput
-                    autoCapitalize="none"
-                    style={styles.inputField}
-                    placeholder='Email'
-                    value={friendEmail}
-                    onChangeText={text => setFriendEmail(text)}
-                />
-                <Button title="Search" onPress={search} />
+        <SafeAreaView style={{ marginTop: 100, display: 'flex', flexDirection: 'column' }}>
+            <View style={styles.searchContainer}>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        autoCapitalize="none"
+                        style={styles.inputField}
+                        placeholder='Email'
+                        value={friendEmail}
+                        onChangeText={text => setFriendEmail(text)}
+                    />
+                    <Button title="Search" onPress={search} />
+                </View>
+                <SafeAreaView style={styles.switchContainer}>
+                    <Switch
+                        style={styles.switch}
+                        value={searchType}
+                        onValueChange={toggleSearchType}
+                    ></Switch>
+                    <Text>Search by {searchType ? 'hash' : 'email'}</Text>
+                </SafeAreaView>
+            </View>
+            <View style={styles.flatListContainer}>
                 {
-                    foundUser.id ? <View><FriendCard friend={foundUser} chosenFriends={chosen} setChosenFriends={setChosen} /><Text>Tap on friend to verify</Text></View> : <Text></Text>
+                    foundUsers && foundUsers.length ?
+                        <FlatList
+                            style={styles.flatList}
+                            data={foundUsers}
+                            renderItem={({ item }: any) => <FriendCard
+                                friend={item}
+                                chosenFriends={chosen}
+                                setChosenFriends={setChosen}
+                            />}
+                        /> : <Text />
                 }
             </View>
             <View style={styles.buttoncontainer} >
-                <TouchableOpacity style={styles.kickmember} onPress={addFriend}>
-                    <Text style={styles.kicktext}>Add friend</Text>
+                <Text>Tap on friend to verify</Text>
+                <TouchableOpacity style={styles.addFriendButton} onPress={addFriends}>
+                    <Text style={styles.addFriendText}>Add selected friends</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -74,32 +108,58 @@ const AddFriend = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
     inputField: {
+        backgroundColor: 'white',
         height: 40,
-        borderBottomWidth: 2,
-        borderColor: 'lightseagreen',
-        fontSize: 20,
-        marginBottom: 30,
+        borderRadius: 5,
+        borderColor: 'lightgray',
+        borderWidth: 1,
+        width: 300,
+        padding: 8,
+        marginTop: 6
     },
-    container: {
-        height: Dimensions.get('window').height / 4,
+    searchContainer: {
+        display: 'flex',
+        flexDirection: 'column'
     },
-    kickmember: {
+    inputContainer: {
+        height: 50,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+    },
+    switchContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    switch: {
+
+    },
+    addFriendButton: {
         backgroundColor: 'white',
         borderColor: 'black',
         borderRadius: 50,
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        width: Dimensions.get('window').width / 1.2,
+        width: 350,
     },
-    kicktext: {
+    addFriendText: {
         padding: 10,
         fontSize: 25
     },
     buttoncontainer: {
         alignItems: 'center',
-        paddingTop: Dimensions.get('window').width / 0.9,
+        marginBottom: 0
     },
+    flatList: {
+
+    },
+    flatListContainer: {
+        height: 600
+    }
 });
 
 export default AddFriend;

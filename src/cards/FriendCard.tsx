@@ -17,7 +17,7 @@ const FriendCard = ({ friend, chosenFriends, setChosenFriends }: any) => {
     return (
         <TouchableOpacity onPress={select} style={selected ? styles.selected : styles.container}>
             <Image source={{ uri: friend.avatarUrl }} style={styles.avatar} />
-            <Text>{friend.firstName.split('#')[0]}</Text>
+            <Text>{friend.firstName.split('#')[0]} {friend.lastName}</Text>
         </TouchableOpacity>
     );
 };
@@ -26,12 +26,14 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flexDirection: 'row',
+        justifyContent: 'space-around',
         margin: 10,
         borderColor: 'black',
         borderWidth: 1,
         height: Dimensions.get('window').height / 15,
         borderRadius: 10,
-        marginBottom: 50
+        marginBottom: 10,
+        padding: 15
     },
     avatar: {
         height: 50,
@@ -41,13 +43,15 @@ const styles = StyleSheet.create({
     selected: {
         alignItems: 'center',
         flexDirection: 'row',
+        justifyContent: 'space-around',
         margin: 10,
         borderColor: 'black',
         borderWidth: 1,
         height: Dimensions.get('window').height / 15,
         borderRadius: 10,
-        marginBottom: 50,
+        marginBottom: 10,
         backgroundColor: 'tomato',
+        padding: 4
     }
 });
 
