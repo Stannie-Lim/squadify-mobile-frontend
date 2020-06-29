@@ -74,18 +74,21 @@ const AddEvent = ({ navigation, route }: any) => {
 
     return (
         <ImageBackground source={bg} style={styles.image}>
-            <SafeAreaView style={{ marginTop: 100}}>
+            <SafeAreaView>
+                <Text style={styles.title}>Create New Event</Text>
                 <TextInput 
                     style={styles.inputField} 
                     onChangeText={ text => setName(text) } 
                     value={ name } 
                     placeholder='Name of Event'
+                    placeholderTextColor="#000" 
                 />
                 <TextInput 
                     style={styles.inputField} 
                     onChangeText={ text => setDescription(text) } 
                     value={ description } 
                     placeholder='Description'
+                    placeholderTextColor="#000" 
                 />
 
                 <Text>{moment(dateOfEvent).format('dddd, MMMM Do YYYY')}</Text>
@@ -137,6 +140,30 @@ const styles = StyleSheet.create({
     mapStyle: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+    },
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        opacity: 1
+    },
+    title: {
+        fontSize: 40,
+        textAlign: "center",
+        marginBottom: 100,
+        backgroundColor: '#FFFFFF50',
+        width: 370,
+        height: 100,
+        alignSelf: "center",
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
+    button: {
+        textAlign: "center",
+        backgroundColor: '#FFFFFF50',
+        alignSelf: "center",
+        borderRadius: 10,
+        overflow: 'hidden',
     },
 });
 
