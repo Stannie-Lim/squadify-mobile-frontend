@@ -4,7 +4,7 @@ import { CheckBox } from 'react-native-elements';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions, AsyncStorage, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions, AsyncStorage, ImageBackground, Image, TouchableOpacity } from 'react-native';
 
 // components 
 import SetLocation from './SetLocation';
@@ -45,26 +45,29 @@ const AddEvent = ({ navigation, route }: any) => {
         setTime(timeObj);
         setTimePickerVisibility(false);
     };
-
     const createEvent = async () => {
         const { group } = route.params;
         const date = moment(dateOfEvent).format('YYYY-MM-DD');
         const time = moment(timeOfEvent).format('HH:mm:ss');
         const startTime = new Date(`${date}T${time}Z`);
         const now = new Date();
+        if(disabled) {
+            alert("Please fill out all fields!");
+            return;
+        }
         if (startTime < now) alert('Cannot create an event in the past!');
         else {
             try {
                 const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPrivate: !isPublic, startTime, address: addressOfEvent, coordsOfEvent }))?.data;
                 await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.id });
-
+                
                 setName('');
                 setDescription('');
                 setDate('');
                 setTime('');
-                setAddress('');
                 setCoords({});
                 setPublic(false);
+                setAddress('');
                 navigation.navigate('Group', { newEvent: data.event });
             } catch (err) {
                 console.log(err);
@@ -90,27 +93,26 @@ const AddEvent = ({ navigation, route }: any) => {
                     placeholder='Description'
                     placeholderTextColor="white"
                 />
+                
+                <View style={ styles.timedateview }>
+                    <TouchableOpacity style={ styles.touchable } onPress={() => setDatePickerVisibility(true)}>
+                        <Text style={ styles.timedate }>{ dateOfEvent.length === 0 ? 'Date' : moment(dateOfEvent).format('YYYY-MM-DD') }</Text>
+                    </TouchableOpacity>
+                </View>
 
-                <TextInput
-                    style={styles.inputField}
-                    value={dateOfEvent}
-                    placeholder='Date'
-                    placeholderTextColor="white"
-                >{dateOfEvent && moment(dateOfEvent).format('dddd, MMMM Do YYYY')}</TextInput>
-                <Button title="Set Date" onPress={() => setDatePickerVisibility(true)} />
+                <View style={ styles.timedateview }>
+                    <TouchableOpacity style={ styles.touchable } onPress={() => setTimePickerVisibility(true)}>
+                        <Text style={ styles.timedate }>{ timeOfEvent.length === 0 ? 'Time' : moment(timeOfEvent).format('LT') }</Text>
+                    </TouchableOpacity>
+                </View>
+
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="date"
                     onConfirm={handleDate}
                     onCancel={() => setDatePickerVisibility(false)}
                 />
-                <TextInput
-                    style={timeOfEvent ? styles.inputField : styles.blank}
-                    value={timeOfEvent}
-                    placeholder='Time'
-                    placeholderTextColor="#5c5c5c"
-                >{timeOfEvent && moment(timeOfEvent).format('LT')}</TextInput>
-                <Button title="Set Time" onPress={() => setTimePickerVisibility(true)} />
+
                 <DateTimePickerModal
                     isVisible={isTimePickerVisible}
                     mode="time"
@@ -118,18 +120,29 @@ const AddEvent = ({ navigation, route }: any) => {
                     onCancel={() => setTimePickerVisibility(false)}
                 />
 
-                <Text>{addressOfEvent}</Text>
-                <Button title='Choose Location' onPress={() => navigation.navigate('Set Location')} />
+                <View style={ styles.timedateview }>
+                    <TouchableOpacity style={ styles.touchable } onPress={() => navigation.navigate('Set Location')}>
+                        <Text style={ styles.timedate }>{ addressOfEvent.length === 0 ? 'Choose Location' : addressOfEvent }</Text>
+                    </TouchableOpacity>
+                </View>
 
-                <CheckBox
-                    title='Public'
-                    checked={isPublic}
-                    checkedIcon='dot-circle-o'
-                    uncheckedIcon='circle-o'
-                    onPress={() => setPublic(!isPublic)}
-                />
+                <View style={ styles.checkboxcontainer}>
+                    <View style={ styles.checkbox }>
+                        <CheckBox
+                            title='Public'
+                            checked={isPublic}
+                            checkedIcon='dot-circle-o'
+                            uncheckedIcon='circle-o'
+                            onPress={() => setPublic(!isPublic)}
+                        />
+                    </View>
+                </View>
 
-                <Button title='Create event' onPress={createEvent} disabled={disabled} />
+                <View style={ styles.center }>
+                    <TouchableOpacity style={ styles.createContainer } onPress={createEvent} disabled={disabled}>
+                        <Text style={ styles.createEvent }>Create event</Text>
+                    </TouchableOpacity>
+                </View>
             </SafeAreaView>
         </ImageBackground>
     );
@@ -146,6 +159,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         textAlign: 'center',
         marginTop: 10,
+        color: 'white',
     },
     blank: {
         opacity: 100,
@@ -177,6 +191,44 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderRadius: 10,
         overflow: 'hidden',
+    },
+    timedate: {
+        color: 'white',
+        fontSize: 20,
+        marginBottom: 10,
+        marginTop: 10,
+    },
+    timedateview: {
+        alignItems: 'center',
+        marginBottom: 10
+    },
+    touchable: {
+        borderBottomColor: 'white',
+        borderBottomWidth: 2,
+        width: Dimensions.get('window').width / 1.2,
+        alignItems: 'center',
+    },
+    createContainer: {
+        borderColor: 'white',
+        borderRadius: 50,
+        borderWidth: 2,
+        width: Dimensions.get('window').width / 1.5,
+        alignItems: 'center',
+        padding: 15,
+    }, 
+    createEvent: {
+        color: 'white',
+        fontSize: 25,
+    },
+    center: {
+        alignItems: 'center',
+    },
+    checkbox: {
+        width: Dimensions.get('window').width / 1.15,
+    },
+    checkboxcontainer: {
+        alignItems: 'center',
+        marginBottom: 10,
     },
 });
 
