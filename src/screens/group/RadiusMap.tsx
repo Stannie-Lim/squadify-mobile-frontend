@@ -4,7 +4,7 @@ import * as Permissions from 'expo-permissions';
 import React, {useState, useEffect} from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
 import MapView, { AnimatedRegion } from 'react-native-maps';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions } from 'react-native';
 
 const RadiusMap = ({ setFeedRadius, setModalVisible }: any) => {
     const [ mapRegion, setMapRegion ] = useState({
@@ -13,8 +13,8 @@ const RadiusMap = ({ setFeedRadius, setModalVisible }: any) => {
         latitudeDelta: 0.01,
         longitudeDelta: 0.01
     });
-    const [ sliderValue, setSliderValue ] = useState(1);
-    const [ radius, setRadius ] = useState(1);
+    const [ sliderValue, setSliderValue ] = useState(0);
+    const [ radius, setRadius ] = useState(0);
 
     useEffect(() => {
         getCurrentLocation();
@@ -46,20 +46,7 @@ const RadiusMap = ({ setFeedRadius, setModalVisible }: any) => {
 
     return (
         <SafeAreaView>
-            <MapView
-                style={styles.mapStyle}
-                zoomEnabled={true}
-                region={mapRegion}
-                showsUserLocation={true}
-            >
-                <MapView.Circle
-                    center = { {latitude: mapRegion.latitude, longitude: mapRegion.longitude} }
-                    radius={ radius }
-                    strokeWidth={3}
-                    strokeColor='#3399ff'
-                />
-
-                <View style={ styles.sliderparent }>
+            <View style={ styles.sliderparent }>
                     <View style={ styles.slidercontainer }>
                         <Text>{ sliderValue.toFixed(2) } miles</Text>
                     </View>
@@ -79,12 +66,26 @@ const RadiusMap = ({ setFeedRadius, setModalVisible }: any) => {
                         <Text>25 miles</Text>
                     </View>
                 </View>
+            <MapView
+                style={styles.mapStyle}
+                zoomEnabled={true}
+                region={mapRegion}
+                showsUserLocation={true}
+            >
+                <MapView.Circle
+                    center={ {latitude: mapRegion.latitude, longitude: mapRegion.longitude} }
+                    radius={ radius }
+                    strokeWidth={3}
+                    strokeColor='#3399ff'
+                />
 
-                <View style={ styles.submit }>
-                    <Button onPress={ changeRadius } title="Submit" />
-                </View>
-                
             </MapView>
+
+            <View style={ styles.buttoncontainer }>
+                <TouchableOpacity onPress={ changeRadius }>
+                    <Text style={ styles.submit }>Submit</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     },
     mapStyle: {
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height / 1,
+        height: Dimensions.get('window').height / 1.25,
     },
     slidercontainer: {
         flexDirection: 'row',
@@ -112,12 +113,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     submit: {
-        backgroundColor: 'white',
-        marginTop: Dimensions.get('window').height / 1.3,
-        borderRadius: 50,
-        marginLeft: 50,
-        marginRight: 50,
-    }
+        fontSize: 20,
+        padding: 30,
+        width: Dimensions.get('window').width,
+        textAlign: 'center',
+        backgroundColor: 'lightseagreen',
+        color: 'white',
+    },
+    buttoncontainer: {
+        alignItems: 'center',
+    },
 });
 
 export default RadiusMap;
