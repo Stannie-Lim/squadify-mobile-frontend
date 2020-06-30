@@ -9,6 +9,9 @@ import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, Touch
 import EventCard from '../../cards/EventCard';
 
 const Details = ({ date, setShowModal, group, user }: any) => {
+    console.log('DATE TYPE', typeof date)
+    console.log('DATE', date)
+
     const [events, setEvents] = useState([]);
     useEffect(() => {
         const route = group ? `group_events/${group.id}` : `my_events`
@@ -22,7 +25,7 @@ const Details = ({ date, setShowModal, group, user }: any) => {
         <SafeAreaView style={{ backgroundColor: 'black', height: Dimensions.get('window').height / 1 }}>
             <View style={{ backgroundColor: 'white', height: Dimensions.get('window').height / 1 }}>
                 <TouchableOpacity style={styles.container} onPress={() => setShowModal(false)}>
-                    <Text style={styles.date} >{group ? `${group.name.split('#')[0]}'s` : 'Your'} {date}</Text>
+                    <Text style={styles.date} >{group ? `${group.name.split('#')[0]}'s` : 'Your'} {moment(date).format('MMMM Do YYYY')}</Text>
                 </TouchableOpacity>
                 <ScrollView contentContainerStyle={styles.events}>
                     {

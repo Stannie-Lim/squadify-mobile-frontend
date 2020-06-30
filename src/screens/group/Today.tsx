@@ -47,7 +47,7 @@ const Today = ({ route, group, navigation, setShowTodayModal, showTodayModal }: 
                     <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>{today.toDateString()}</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ alignItems: 'center', backgroundColor: 'rgb(230, 230, 230)' }}>
+            <View style={{ alignItems: 'center', backgroundColor: 'white', height: Dimensions.get('window').height / 1 }}>
                 {
                     events.length === 0 ?
                         <ScrollView

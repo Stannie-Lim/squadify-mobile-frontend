@@ -70,7 +70,7 @@ const Profile = ({ navigation }: any) => {
           setShowDayModal(false);
         }}
       >
-        <Details date={date} setShowModal={setShowDayModal} />
+        <Details user={user} date={date} setShowModal={setShowDayModal} />
       </Modal>
       <Modal
         animationType="slide"
