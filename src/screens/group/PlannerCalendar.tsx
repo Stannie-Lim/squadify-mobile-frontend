@@ -40,9 +40,6 @@ const PlannerCalendar = ({ route, navigation, group }: any) => {
 
     return (
         <SafeAreaView>
-            <TouchableOpacity style={{ backgroundColor: 'lightseagreen', padding: 2 }}>
-                <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Group Calendar</Text>
-            </TouchableOpacity>
             <Calendar
                 markedDates={marked}
                 onDayPress={showDetails}
