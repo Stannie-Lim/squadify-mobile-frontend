@@ -61,7 +61,7 @@ const PlannerCalendar = ({ route, navigation, group }: any) => {
                     setShowEventDetailModal(false);
                 }}
             >
-                <Details date={pressedDate} setShowModal={setShowEventDetailModal} />
+                <Details group={group} date={pressedDate} setShowModal={setShowEventDetailModal} />
             </Modal>
         </SafeAreaView>
     );

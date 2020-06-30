@@ -8,38 +8,33 @@ import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, Touch
 // components
 import EventCard from '../../cards/EventCard';
 
-const Details = ({ date, setShowModal }: any) => {
+const Details = ({ date, setShowModal, group, user }: any) => {
     const [events, setEvents] = useState([]);
     useEffect(() => {
+        const route = group ? `group_events/${group.id}` : `my_events`
         const getEvents = async () => {
-            const data = (await AxiosHttpRequest('GET', `${API_URL}/event/my_events`))?.data.filter((event: any) => moment(event.startTime).format('YYYY-MM-DD') === date);
+            const data = (await AxiosHttpRequest('GET', `${API_URL}/event/${route}`))?.data.filter((event: any) => moment(event.startTime).format('YYYY-MM-DD') === date);
             setEvents(data);
         };
         getEvents();
     }, []);
     return (
-        <SafeAreaView>
-            <TouchableOpacity style={styles.button} onPress={() => setShowModal(false)}>
-                <Text style={styles.done} >Done</Text>
-            </TouchableOpacity>
-            <View style={styles.container}>
-                <Text style={styles.date} >{date}</Text>
+        <SafeAreaView style={{ backgroundColor: 'black', height: Dimensions.get('window').height / 1 }}>
+            <View style={{ backgroundColor: 'white', height: Dimensions.get('window').height / 1 }}>
+                <TouchableOpacity style={styles.container} onPress={() => setShowModal(false)}>
+                    <Text style={styles.date} >{group ? `${group.name.split('#')[0]}'s` : 'Your'} {date}</Text>
+                </TouchableOpacity>
+                <ScrollView contentContainerStyle={styles.events}>
+                    {
+                        events.map((event: object, index: number) => <EventCard key={index} event={event} />)
+                    }
+                </ScrollView>
             </View>
-            <ScrollView contentContainerStyle={styles.events}>
-                {
-                    events.map((event: object, index: number) => <EventCard key={index} event={event} />)
-                }
-            </ScrollView>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    done: {
-        fontSize: 20,
-        color: 'teal',
-        fontWeight: '500',
-    },
     button: {
         alignItems: 'flex-end',
         marginRight: 10,
@@ -49,13 +44,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightseagreen',
     },
     date: {
-        fontSize: 30,
+        fontSize: 26,
         color: 'white',
     },
     events: {
         alignItems: 'center',
-        height: Dimensions.get('window').height / 1.16,
-        marginTop: 20
+        // height: Dimensions.get('window').height / 1,
+        paddingTop: 30,
+        backgroundColor: 'white'
     },
 });
 
