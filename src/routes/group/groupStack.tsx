@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getUser } from '../../utils/axios';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, Dimensions } from 'react-native';
 
 // icons
 import { Ionicons, AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
@@ -54,7 +54,14 @@ const GroupStack: React.FC<GroupTabsProps> = ({ route, navigation }: any) => {
       })}
       tabBarOptions={{
         activeTintColor: "tomato",
-        inactiveTintColor: "gray"
+        inactiveTintColor: "gray",
+        style: {
+          height: Dimensions.get('window').height / 11,
+          paddingBottom: 0
+        },
+        tabStyle: {
+          height: Dimensions.get('window').height / 15
+        }
       }}>
       <Tab.Screen name='Feed' component={Feed} />
       <Tab.Screen name="Group">
