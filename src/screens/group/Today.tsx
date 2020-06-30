@@ -47,7 +47,7 @@ const Today = ({ route, group, navigation, setShowTodayModal, showTodayModal }: 
                     <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>{today.toDateString()}</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ paddingTop: 20, alignItems: 'center', backgroundColor: 'white', height: Dimensions.get('window').height / 1 }}>
+            <View style={{ alignItems: 'center', backgroundColor: 'white', height: Dimensions.get('window').height / 1 }}>
                 {
                     events.length === 0 ?
                         <ScrollView
@@ -69,7 +69,7 @@ const Today = ({ route, group, navigation, setShowTodayModal, showTodayModal }: 
                                     onRefresh={refresh}
                                 />
                             }
-                            style={{ height: showTodayModal ? Dimensions.get('window').height / 1.1 : Dimensions.get('window').height / 2.6, }}
+                            style={{ paddingTop: 20, height: showTodayModal ? Dimensions.get('window').height / 1.1 : Dimensions.get('window').height / 2.6, }}
                         >
                             {
                                 events.map((event, index) => <EventCard key={index} event={event} navigation={navigation} />)
