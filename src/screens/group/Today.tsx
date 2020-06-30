@@ -33,21 +33,21 @@ const Today = ({ route, group, navigation, setShowTodayModal, showTodayModal }: 
     }, [group.id]);
 
     return (
-        <View style={{ backgroundColor: 'rgb(230, 230, 230)' }}>
+        <View style={{ backgroundColor: 'black' }}>
             <View style={{
                 alignItems: 'center',
                 justifyContent: 'center',
                 paddingTop: 2,
                 paddingBottom: 2,
                 backgroundColor: 'lightseagreen',
-                marginTop: showTodayModal ? Dimensions.get('window').height / 23 : 0,
+                marginTop: showTodayModal ? Dimensions.get('window').height / 19 : 0,
             }}>
                 <TouchableOpacity onPress={() => showTodayModal ? setShowTodayModal(false) : setShowTodayModal(true)}>
                     <Text style={{ fontSize: 25, color: 'white', textAlign: 'center' }}>{`${group.name.split('#')[0]}`}'s Events for today</Text>
                     <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>{today.toDateString()}</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', backgroundColor: 'rgb(230, 230, 230)' }}>
                 {
                     events.length === 0 ?
                         <ScrollView
@@ -69,7 +69,7 @@ const Today = ({ route, group, navigation, setShowTodayModal, showTodayModal }: 
                                     onRefresh={refresh}
                                 />
                             }
-                            style={{ height: showTodayModal ? Dimensions.get('window').height / 1 : Dimensions.get('window').height / 2.6, }}
+                            style={{ height: showTodayModal ? Dimensions.get('window').height / 1.1 : Dimensions.get('window').height / 2.6, }}
                         >
                             {
                                 events.map((event, index) => <EventCard key={index} event={event} navigation={navigation} />)
