@@ -33,13 +33,21 @@ const Feed = ({ route, navigation }: any) => {
         } else {
             try {
                 const location = await Location.getCurrentPositionAsync();
-                const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius}/${location.coords.latitude}/${location.coords.longitude}`))?.data.filter((event: any) => {
-                    const now = moment(new Date()).format('YYYY-MM-DD')
-                    const startTime = moment(event.startTime).format('YYYY-MM-DD')
-                    const isBefore = moment(startTime).isBefore(now)
-                    const isAfterDays = moment().add(1, 'M').isAfter(startTime)
-                    return !isBefore && !isAfterDays
-                });
+                const foundEvents = (await AxiosHttpRequest('GET', `${API_URL}/event/searcharea/${radius * 1.62}/${location.coords.latitude}/${location.coords.longitude}`))?.data
+                    .filter((event: any) => {
+                        const now = moment(new Date()).format('YYYY-MM-DD')
+                        console.log('now', now)
+                        const startTime = moment(event.startTime).format('YYYY-MM-DD')
+                        console.log('startTime', startTime)
+                        const isBefore = moment(startTime).isBefore(now)
+                        console.log('isBefore', isBefore)
+                        const inAMonth = moment(new Date()).add(1, 'months').format('YYYY-MM-DD')
+                        console.log('IN A MONTH', inAMonth)
+                        const isAfterDays = moment(startTime).isBefore(inAMonth)
+                        console.log('isAfterDays', isAfterDays)
+                        return !isBefore && isAfterDays
+                    });
+                console.log('FOUND EVENTS', foundEvents)
                 setEvents(foundEvents);
             } catch (err) {
                 console.log(err);
