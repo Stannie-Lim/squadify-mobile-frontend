@@ -71,7 +71,6 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
         try {
             await Permissions.askAsync(Permissions.CAMERA_ROLL);
             const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
-            console.log('URI', uri)
             if (!cancelled) {
                 await setImageToAdd(uri);
             }
@@ -116,7 +115,6 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                     <ScrollView style={styles.eventImagesScroll} horizontal={true}>
                         {
                             event.imageUrls ? event.imageUrls.split('####$$$$####').map((url: string) => {
-                                console.log('IMAGE URL', url)
                                 return (
                                     <TouchableOpacity onPress={() => {
                                         setImage(url)
