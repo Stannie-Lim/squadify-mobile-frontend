@@ -52,6 +52,9 @@ const Profile = ({ navigation }: any) => {
         {user && <Image source={imageUri && imageUri.length !== 0 ? { uri: user.avatarUrl } : noimage} style={styles.avatar} />}
       </View>
       <Button title='Update info' onPress={() => setShowUpdateModal(true)} />
+      <TouchableOpacity style={{ backgroundColor: 'lightseagreen', padding: 2, marginTop: 15 }}>
+        <Text style={{ fontSize: 25, color: 'white', textAlign: 'center' }}>Personal Calendar</Text>
+      </TouchableOpacity>
       <View style={styles.calendar}>
         <Calendar
           markedDates={marked}
@@ -106,9 +109,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: Dimensions.get('screen').height / 70
   },
-  calendar: {
-    marginTop: 25,
-  }
 });
 
 export default Profile;
