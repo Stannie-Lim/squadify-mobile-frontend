@@ -47,7 +47,11 @@ const EventCard = ({ event, navigation }: any) => {
                     <Text>{`${event.localized_address.slice(0, 33)}${event.localized_address.length > 33 ? '...' : ''}`}</Text>
                     <Text>{moment(event.startTime).format('MMMM Do YYYY, hh:m A')}</Text>
                     <TouchableOpacity onPress={() => setModalVisible(true)}>
-                        <SafeAreaView style={styles.imagesContainer}>
+                        <SafeAreaView style={{
+                            width: Dimensions.get('window').width / 1.25,
+                            height: Dimensions.get('window').height / 11,
+                            marginTop: 3
+                        }}>
                             <ScrollView horizontal={true}>
                                 {
                                     event.imageUrls ?
@@ -73,12 +77,6 @@ const EventCard = ({ event, navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
-    imagesContainer: {
-        backgroundColor: '#c0edeb',
-        width: Dimensions.get('window').width / 1.25,
-        height: Dimensions.get('window').height / 11,
-        marginTop: 3
-    },
     eventMiniatureImage: {
         width: Dimensions.get('window').width / 4.5,
         height: Dimensions.get('window').height / 12,

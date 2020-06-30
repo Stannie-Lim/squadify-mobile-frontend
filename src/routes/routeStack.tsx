@@ -134,7 +134,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
           }}
         />
         <Stack.Screen name='Your Groups' component={Home} options={{
-          title: 'Groups',
+          title: 'Relations',
           headerTitleStyle: {
             fontSize: 23,
             color: 'white'
@@ -188,7 +188,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         { /* swiped left */}
         <Stack.Screen name='Groups' component={UserTabsStack}
           options={({ navigation, route }) => ({
-            title: 'Groups',
+            title: 'Relations',
             headerTitleStyle: {
               fontSize: 23,
               color: 'white'

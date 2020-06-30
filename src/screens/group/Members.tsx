@@ -52,7 +52,7 @@ const Members = ({ route }: any) => {
 
 
     return (
-        <SafeAreaView style={{ marginTop: 100 }}>
+        <SafeAreaView>
             <ScrollView style={styles.container}>
                 {
                     members.length !== 0 && members.map((member, index): any => <FriendCard key={index} friend={member} chosenFriends={chosen} setChosenFriends={setChosen} />)
