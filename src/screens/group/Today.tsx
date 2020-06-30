@@ -33,14 +33,14 @@ const Today = ({ route, group, navigation, setShowTodayModal, showTodayModal }: 
     }, [group.id]);
 
     return (
-        <View>
+        <View style={{ backgroundColor: 'rgb(230, 230, 230)' }}>
             <View style={{
                 alignItems: 'center',
                 justifyContent: 'center',
                 paddingTop: 2,
                 paddingBottom: 2,
                 backgroundColor: 'lightseagreen',
-                marginTop: showTodayModal ? Dimensions.get('window').height / 14 : 0,
+                marginTop: showTodayModal ? Dimensions.get('window').height / 23 : 0,
             }}>
                 <TouchableOpacity onPress={() => showTodayModal ? setShowTodayModal(false) : setShowTodayModal(true)}>
                     <Text style={{ fontSize: 25, color: 'white', textAlign: 'center' }}>{`${group.name.split('#')[0]}`}'s Events for today</Text>
@@ -69,7 +69,7 @@ const Today = ({ route, group, navigation, setShowTodayModal, showTodayModal }: 
                                     onRefresh={refresh}
                                 />
                             }
-                            style={{ height: showTodayModal ? Dimensions.get('window').height / 1.2 : Dimensions.get('window').height / 2.6, }}
+                            style={{ height: showTodayModal ? Dimensions.get('window').height / 1 : Dimensions.get('window').height / 2.6, }}
                         >
                             {
                                 events.map((event, index) => <EventCard key={index} event={event} navigation={navigation} />)
