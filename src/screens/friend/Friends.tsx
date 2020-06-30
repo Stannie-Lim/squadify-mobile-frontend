@@ -11,11 +11,14 @@ const Friends = ({ navigation, route }: any) => {
     const [friends, setFriends] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [outgoingFriendRequests, setOutgoingFriendRequests]: any = useState([]);
+    const [incomingFriendRequests, setIncomingFriendRequests]: any = useState([]);
+
 
     const allFriendRequests = async () => {
         try {
             const requests = (await AxiosHttpRequest('GET', `${API_URL}/user/friendrequests`))?.data;
             setOutgoingFriendRequests(requests.sentRequests);
+            setIncomingFriendRequests(requests.incomingRequests);
         } catch (err) {
             console.log(err);
         }
@@ -80,7 +83,7 @@ const Friends = ({ navigation, route }: any) => {
                     <RemoveFriendCard deleteFriend={deleteFriend} friend={friend} key={friend.id} />
                 ))
             }
-            <FriendRequests getFriends={getFriends} refresh={refresh} outgoingFriendRequests={outgoingFriendRequests} setOutgoingFriendRequests={setOutgoingFriendRequests} />
+            <FriendRequests getFriends={getFriends} refresh={refresh} outgoingFriendRequests={outgoingFriendRequests} setOutgoingFriendRequests={setOutgoingFriendRequests} incomingFriendRequests={incomingFriendRequests} setIncomingFriendRequests={setIncomingFriendRequests} />
         </ScrollView>
     );
 };
