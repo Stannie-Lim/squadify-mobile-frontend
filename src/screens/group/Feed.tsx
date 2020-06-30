@@ -74,7 +74,7 @@ const Feed = ({ route, navigation }: any) => {
             {
                 events.length !== 0 ?
                     events.map((event, index) => <EventCard key={index} event={event} navigation={navigation} />) :
-                    <Text>No events in you area! Try searching for events</Text>
+                    <Text>No events in your area! Try searching for events</Text>
             }
         </ScrollView>
     );
