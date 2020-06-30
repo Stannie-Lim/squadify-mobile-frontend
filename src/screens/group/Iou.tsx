@@ -64,7 +64,7 @@ const Iou = ({ group, user }: any) => {
             }
             <ScrollView style={{ height: Dimensions.get('window').height / 1.6 }}>
                 {
-                    ious && ious.map((debt: any, index: number) => <IouCard key={index} color={colors[index]} debt={debt} />)
+                    ious.length ? ious.map((debt: any, index: number) => <IouCard key={index} color={colors[index]} debt={debt} />) : <Text style={{ textAlign: 'center', marginTop: 50, fontSize: 20 }}> No IOUs! Get Paying!</Text>
                 }
             </ScrollView>
             <Modal
