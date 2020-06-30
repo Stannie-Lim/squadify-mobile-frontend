@@ -50,7 +50,7 @@ const GroupStack: React.FC<GroupTabsProps> = ({ route, navigation }: any) => {
           else if (route.name === "Add Event") return <MaterialIcons name={"place"} size={size} color={color} />;
           else if (route.name === "IOUs") return <FontAwesome5 name={"money-bill"} size={size} color={color} />;
           else if (route.name === "My Profile") return <AntDesign name={"profile"} size={size} color={color} />;
-        }
+        },
       })}
       tabBarOptions={{
         activeTintColor: "tomato",

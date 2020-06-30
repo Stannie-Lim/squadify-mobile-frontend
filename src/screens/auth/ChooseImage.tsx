@@ -11,13 +11,13 @@ const ChooseImage = ({ setImage, image }: any) => {
         try {
             await Permissions.askAsync(Permissions.CAMERA_ROLL);
             const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
-            if(!cancelled) setImage(uri);
-        } catch(err) {
+            if (!cancelled) setImage(uri);
+        } catch (err) {
             console.log(err);
         }
     };
     return (
-        <View style={ styles.imagecircle }>
+        <View style={styles.imagecircle}>
             <TouchableOpacity onPress={pickImage}>
                 <Image source={image ? { uri: image } : noimage} style={styles.avatar} />
             </TouchableOpacity>
@@ -27,18 +27,25 @@ const ChooseImage = ({ setImage, image }: any) => {
 
 const styles = StyleSheet.create({
     inputField: {
-        height: 40, 
-        borderColor: 'gray', 
+        height: 40,
+        borderColor: 'gray',
         borderWidth: 1,
     },
     imagecircle: {
         margin: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 9,
+        },
+        shadowOpacity: 0.48,
+        shadowRadius: 11.95,
     },
     avatar: {
-        height: 100,
-        width: 100,
-        borderRadius: 50,
-    }, 
+        height: 130,
+        width: 130,
+        borderRadius: 70,
+    },
 });
 
 export default ChooseImage;

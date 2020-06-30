@@ -61,7 +61,7 @@ const AddFriend = ({ navigation }: any) => {
     };
 
     return (
-        <SafeAreaView style={{ marginTop: 100, display: 'flex', flexDirection: 'column' }}>
+        <SafeAreaView style={{ marginTop: Dimensions.get('screen').height / 80, display: 'flex', flexDirection: 'column' }}>
             <View style={styles.searchContainer}>
                 <View style={styles.inputContainer}>
                     <TextInput

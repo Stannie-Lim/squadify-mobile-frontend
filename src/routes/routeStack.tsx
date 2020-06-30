@@ -68,18 +68,18 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         // if you're currently in groups tab
         case 0:
           return <TouchableOpacity onPress={() => navigation.push('Create group', { groups, friends, navigation, route })}>
-            <MaterialIcons style={{ marginLeft: 10, }} name="group-add" size={30} color="black" />
+            <MaterialIcons style={{ marginLeft: 10, }} name="group-add" size={30} color="white" />
           </TouchableOpacity>
 
         //if you're currently in friends tab
         case 1:
           return <TouchableOpacity onPress={() => navigation.push('Add friend', { friends, navigation, route })}>
-            <AntDesign style={{ marginLeft: 10 }} name="plus" size={24} color="black" />
+            <AntDesign style={{ marginLeft: 10 }} name="plus" size={24} color="white" />
           </TouchableOpacity>
       }
     } else {
       return <TouchableOpacity onPress={() => navigation.push('Create group', { groups, friends, navigation, route })}>
-        <MaterialIcons style={{ marginLeft: 10, }} name="group-add" size={30} color="black" />
+        <MaterialIcons style={{ marginLeft: 10, }} name="group-add" size={30} color="white" />
       </TouchableOpacity>
     }
   }
@@ -90,16 +90,16 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
       switch (route.state.index) {
         case 0:
           return <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-            <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="black" />
+            <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="white" />
           </TouchableOpacity>
         case 1:
           return <TouchableOpacity onPress={() => navigation.navigate('Chat', { group: route.params.group, user })}>
-            <Entypo style={{ marginRight: 10, }} name="chat" size={24} color="black" />
+            <Entypo style={{ marginRight: 10, }} name="chat" size={24} color="white" />
           </TouchableOpacity>
       }
     } else {
       return <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-        <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="black" />
+        <Entypo style={{ marginRight: 10, }} name="magnifying-glass" size={24} color="white" />
       </TouchableOpacity>
     }
   };
@@ -108,61 +108,95 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
       <Stack.Navigator
         screenOptions={{
           headerShown: true,
-          headerTransparent: true
+          headerTransparent: false,
+          headerStyle: {
+            backgroundColor: 'lightseagreen'
+          }
         }}>
         <Stack.Screen name="Welcome to Squadify!" component={Auth}
           options={{
             title: '',
+            headerTransparent: true,
           }}
         />
         <Stack.Screen name="Login" component={Login}
           options={{
             title: '',
-            headerBackTitle: ' '
+            headerBackTitle: ' ',
+            headerTransparent: true,
           }}
         />
         <Stack.Screen name="Register" component={Register}
           options={{
             title: '',
-            headerBackTitle: ' '
+            headerBackTitle: ' ',
+            headerTransparent: true,
           }}
         />
-        <Stack.Screen name="Your Groups" component={Home} />
+        <Stack.Screen name='Your Groups' component={Home} options={{
+          title: 'Groups',
+          headerTitleStyle: {
+            fontSize: 23,
+            color: 'white'
+          }
+        }} />
         <Stack.Screen name="Search" component={Search}
           options={{
-            title: '',
-            headerBackTitle: ' '
+            title: 'Search events',
+            headerBackTitle: ' ',
+            headerTitleStyle: {
+              fontSize: 23,
+              color: 'white'
+            }
           }}
         />
-
         <Stack.Screen name="Chat" component={Chat}
           options={({ navigation, route }: any) => ({
+            title: 'Chat',
+            headerTitleStyle: {
+              fontSize: 23,
+              color: 'white'
+            },
             headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('Members', { group: route.params.group, user })}>
-                                <MaterialIcons style={{ marginRight: 10 }} name="group" size={30} color="black" />
-                              </TouchableOpacity> ,
-            headerTransparent: false
+              <MaterialIcons style={{ marginRight: 10 }} name="group" size={30} color="white" />
+            </TouchableOpacity>,
           })
           }
         />
-
         <Stack.Screen name='Members' component={Members}
           options={({ navigation, route }: any) => ({
+            title: 'Members',
+            headerTitleStyle: {
+              fontSize: 23,
+              color: 'white'
+            },
             headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('Invite', { group: route.params.group, user })}>
-                                  <AntDesign style={{ marginRight: 10 }}name="plus" size={30} color="black" />
-                                </TouchableOpacity>
+              <AntDesign style={{ marginRight: 10 }} name="plus" size={30} color="white" />
+            </TouchableOpacity>
           })
           }
         />
 
-        <Stack.Screen name='Invite' component={InviteMember} />
+        <Stack.Screen name='Invite' component={InviteMember} options={{
+          title: 'Invite to group',
+          headerTitleStyle: {
+            fontSize: 23,
+            color: 'white'
+          },
+        }} />
 
         { /* swiped left */}
         <Stack.Screen name='Groups' component={UserTabsStack}
           options={({ navigation, route }) => ({
+            title: 'Groups',
+            headerTitleStyle: {
+              fontSize: 23,
+              color: 'white'
+            },
             headerLeft: () => getHeaderLeft(route, navigation),
             headerRight: () => (
               <TouchableOpacity onPress={() => logout(navigation)}>
-                <MaterialCommunityIcons style={{ marginRight: 15, }} name="logout" size={24} color="black" />
+                <MaterialCommunityIcons style={{ marginRight: 15, }} name="logout" size={24} color="white" />
               </TouchableOpacity>
             ),
             gestureEnabled: true,
@@ -170,11 +204,21 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
           }
         />
 
-        <Stack.Screen name="Add friend" component={AddFriend} />
+        <Stack.Screen name="Add friend" component={AddFriend} options={{
+          title: 'Add friend',
+          headerTitleStyle: {
+            fontSize: 23,
+            color: 'white'
+          },
+        }} />
         <Stack.Screen name='Create group' component={CreateGroup}
           options={{
             title: 'New Group',
-            headerBackTitle: ' '
+            headerBackTitle: ' ',
+            headerTitleStyle: {
+              fontSize: 23,
+              color: 'white'
+            },
           }}
         />
         <Stack.Screen name="Set Location" component={SetLocation} />
@@ -183,10 +227,15 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         { /* swiped right */}
         <Stack.Screen name="Group" component={Group}
           options={({ navigation, route }: any) => ({
-            title: route.params.group.name,
+            title: `Selected group: ${route.params.group.name.split('#')[0]}`,
+            headerTransparent: route.state && route.state.index === 2,
+            headerTitleStyle: {
+              fontSize: 20,
+              color: 'white'
+            },
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.navigate('Groups', { groups: route.params.groups, friends: route.params.friends })}>
-                <MaterialIcons style={{ marginLeft: 20 }} name="group" size={30} color="black" />
+                <MaterialIcons style={{ marginLeft: 20 }} name="group" size={30} color="white" />
               </TouchableOpacity>
 
             ),

@@ -21,7 +21,7 @@ const CreateGroup = ({ navigation, route }: any) => {
     const [myFriends, setFriends] = useState([]);
 
     useEffect(() => {
-        const getFriends = async() => {
+        const getFriends = async () => {
             const data = (await AxiosHttpRequest('GET', `${API_URL}/user/friends`))?.data;
             setFriends(data);
         };
@@ -65,7 +65,7 @@ const CreateGroup = ({ navigation, route }: any) => {
     };
 
     return (
-        <SafeAreaView style={{ marginTop: 100 }}>
+        <SafeAreaView>
             <View style={styles.container}>
                 <ChooseImage setImage={setImage} image={avatarUrl} />
             </View>

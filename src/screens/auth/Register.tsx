@@ -77,65 +77,66 @@ const Register = ({ navigation }: any) => {
 
   return (
     <ImageBackground source={bg} style={styles.image}>
-      <ScrollView>
+      <ScrollView style={styles.scrollcontainer}>
         <SafeAreaView style={styles.container}>
           <ChooseImage setImage={setImage} image={image} />
-          <View style={styles.inputs}>
-            <AntDesign name="user" size={24} color="white" />
-            <TextInput
-              style={styles.inputField}
-              onChangeText={text => setFirstName(text)}
-              value={firstName}
-              placeholder='First Name'
-              placeholderTextColor='grey'
-            />
+          <View style={styles.inputsContainer}>
+            <View style={styles.inputs}>
+              <AntDesign name="user" size={24} color="white" />
+              <TextInput
+                style={styles.inputField}
+                onChangeText={text => setFirstName(text)}
+                value={firstName}
+                placeholder='First Name'
+                placeholderTextColor='white'
+              />
+            </View>
+            <View style={styles.inputs}>
+              <AntDesign name="user" size={24} color="white" />
+              <TextInput
+                style={styles.inputField}
+                onChangeText={text => setLastName(text)}
+                value={lastName}
+                placeholder='Last Name'
+                placeholderTextColor='white'
+              />
+            </View>
+            <View style={styles.inputs}>
+              <FontAwesome name="birthday-cake" size={24} color="white" />
+              <TouchableOpacity onPress={() => setDatePickerVisibility(true)} style={styles.inputField}>
+                <Text style={styles.birthday}>{dob.length !== 0 ? moment(dob).format('dddd, MMMM Do YYYY') : 'Date of Birth'}</Text>
+              </TouchableOpacity>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleDate}
+                onCancel={() => setDatePickerVisibility(false)}
+              />
+            </View>
+            <View style={styles.inputs}>
+              <Entypo name="email" size={24} color="white" />
+              <TextInput
+                autoCapitalize="none"
+                style={styles.inputField}
+                onChangeText={text => setEmail(text)}
+                value={email}
+                placeholder='Email'
+                placeholderTextColor='white'
+              />
+            </View>
+            <View style={styles.inputs}>
+              <Feather name="lock" size={24} color="white" />
+              <TextInput
+                autoCapitalize="none"
+                style={styles.inputField}
+                onChangeText={text => setPassword(text)}
+                value={password}
+                secureTextEntry={true}
+                placeholder='Password'
+                placeholderTextColor='white'
+              />
+            </View>
           </View>
-          <View style={styles.inputs}>
-            <AntDesign name="user" size={24} color="white" />
-            <TextInput
-              style={styles.inputField}
-              onChangeText={text => setLastName(text)}
-              value={lastName}
-              placeholder='Last Name'
-              placeholderTextColor='grey'
-            />
-          </View>
-          <View style={styles.inputs}>
-            <FontAwesome name="birthday-cake" size={24} color="white" />
-            <TouchableOpacity onPress={() => setDatePickerVisibility(true)} style={styles.birthday}>
-              <Text style={styles.birthday}>{dob.length !== 0 ? moment(dob).format('dddd, MMMM Do YYYY') : 'Date of Birth'}</Text>
-            </TouchableOpacity>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleDate}
-              onCancel={() => setDatePickerVisibility(false)}
-            />
-          </View>
-          <View style={styles.inputs}>
-            <Entypo name="email" size={24} color="white" />
-            <TextInput
-              autoCapitalize="none"
-              style={styles.inputField}
-              onChangeText={text => setEmail(text)}
-              value={email}
-              placeholder='Email'
-              placeholderTextColor='grey'
-            />
-          </View>
-          <View style={styles.inputs}>
-            <Feather name="lock" size={24} color="white" />
-            <TextInput
-              autoCapitalize="none"
-              style={styles.inputField}
-              onChangeText={text => setPassword(text)}
-              value={password}
-              secureTextEntry={true}
-              placeholder='Password'
-              placeholderTextColor='grey'
-            />
-          </View>
-
           <View style={styles.buttongroup}>
             <TouchableOpacity onPress={register} style={styles.signin}>
               <Text style={styles.text}>Register</Text>
@@ -143,7 +144,7 @@ const Register = ({ navigation }: any) => {
           </View>
           {loading &&
             <View style={styles.loading}>
-              <ActivityIndicator size='large' />
+              <ActivityIndicator size='large' color='white' />
             </View>
           }
           <View style={styles.buttongroup}>
@@ -164,8 +165,16 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     fontSize: 20,
     marginBottom: 30,
+    marginLeft: 15,
     width: Dimensions.get('window').width / 1.5,
     color: 'white',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    padding: 5,
+  },
+  scrollcontainer: {
+    paddingTop: Dimensions.get('screen').height / 10
   },
   container: {
     flex: 1,
@@ -179,8 +188,24 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   inputs: {
+    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+  },
+  inputsContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 10,
+      height: 9,
+    },
+    shadowOpacity: 0.48,
+    shadowRadius: 11.95,
+    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 24,
+    width: Dimensions.get('screen').width
   },
   birthday: {
     height: 40,
@@ -188,8 +213,11 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     fontSize: 20,
     marginBottom: 30,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
     width: Dimensions.get('window').width / 1.5,
-    color: 'grey',
+    color: 'white',
   },
   avatar: {
     height: 100,
@@ -201,11 +229,20 @@ const styles = StyleSheet.create({
   },
   buttongroup: {
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    borderRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 10,
+      height: 9,
+    },
+    shadowOpacity: 0.48,
+    shadowRadius: 11.95,
   },
   text: {
     color: 'white',
-    fontSize: 20
+    fontSize: 20,
   },
   signin: {
     alignItems: 'center',

@@ -38,7 +38,6 @@ const Home = ({ navigation, route }: any) => {
   return (
     groups.length === 0 ?
       <ScrollView
-        style={{ marginTop: 100 }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -50,7 +49,6 @@ const Home = ({ navigation, route }: any) => {
       </ScrollView>
       :
       <ScrollView
-        style={{ marginTop: 100 }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

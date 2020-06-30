@@ -44,28 +44,30 @@ const Login = ({ navigation, route }: any) => {
     return (
         <ImageBackground source={image} style={styles.image}>
             <SafeAreaView style={styles.container}>
-                <View style={styles.inputs}>
-                    <AntDesign name="user" size={24} color="white" />
-                    <TextInput
-                        autoCapitalize="none"
-                        style={styles.inputField}
-                        onChangeText={text => setEmail(text)}
-                        value={email}
-                        placeholder='Email'
-                        placeholderTextColor='white'
-                    />
-                </View>
-                <View style={styles.inputs}>
-                    <Feather name="lock" size={24} color="white" />
-                    <TextInput
-                        autoCapitalize="none"
-                        style={styles.inputField}
-                        onChangeText={text => setPassword(text)}
-                        value={password}
-                        placeholder='Password'
-                        secureTextEntry={true}
-                        placeholderTextColor='white'
-                    />
+                <View style={styles.inputsContainer}>
+                    <View style={styles.inputs}>
+                        <AntDesign name="user" size={24} color="white" />
+                        <TextInput
+                            autoCapitalize="none"
+                            style={styles.inputField}
+                            onChangeText={text => setEmail(text)}
+                            value={email}
+                            placeholder='Email'
+                            placeholderTextColor='white'
+                        />
+                    </View>
+                    <View style={styles.inputs}>
+                        <Feather name="lock" size={24} color="white" />
+                        <TextInput
+                            autoCapitalize="none"
+                            style={styles.inputField}
+                            onChangeText={text => setPassword(text)}
+                            value={password}
+                            placeholder='Password'
+                            secureTextEntry={true}
+                            placeholderTextColor='white'
+                        />
+                    </View>
                 </View>
                 <View style={styles.buttongroup}>
                     <TouchableOpacity onPress={login} style={styles.signin} >
@@ -74,7 +76,7 @@ const Login = ({ navigation, route }: any) => {
                 </View>
                 {loading &&
                     <View style={styles.loading}>
-                        <ActivityIndicator size='large' />
+                        <ActivityIndicator size='large' color='white' />
                     </View>
                 }
                 <View style={styles.buttongroup}>
@@ -88,9 +90,24 @@ const Login = ({ navigation, route }: any) => {
 };
 
 const styles = StyleSheet.create({
+    inputsContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.45)',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 10,
+            height: 9,
+        },
+        shadowOpacity: 0.48,
+        shadowRadius: 11.95,
+        padding: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 35
+    },
     inputs: {
+        display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
     },
     inputField: {
         height: 40,
@@ -98,13 +115,17 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         fontSize: 20,
         marginBottom: 30,
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 10,
         width: Dimensions.get('window').width / 1.5,
-        color: 'black',
+        color: 'white',
     },
     container: {
         flex: 1,
         justifyContent: 'center',
         opacity: 1,
+        marginTop: Dimensions.get('screen').height / 6.5
     },
     image: {
         flex: 1,
@@ -119,11 +140,19 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         borderRadius: 50,
         borderColor: 'white',
-        borderWidth: 2
+        borderWidth: 2,
+        backgroundColor: 'rgba(0, 0, 0, 0.45)',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 10,
+            height: 9,
+        },
+        shadowOpacity: 0.48,
+        shadowRadius: 11.95,
     },
     buttongroup: {
         alignItems: 'center',
-        marginTop: 20
+        marginTop: 20,
     },
     text: {
         color: 'white',

@@ -32,7 +32,7 @@ const InviteMember = ({ route, navigation }: any) => {
     };
 
     return (
-        <SafeAreaView style={{ marginTop: 100 }}>
+        <SafeAreaView>
             <View style={styles.container}>
                 <ScrollView style={styles.scroll}>
                     {

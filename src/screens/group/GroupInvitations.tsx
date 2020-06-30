@@ -73,7 +73,6 @@ const GroupInvitations = () => {
 const styles = StyleSheet.create({
     list: {
         height: Dimensions.get('window').height,
-        marginTop: 100
     },
     title: {
         fontSize: 30

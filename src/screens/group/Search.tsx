@@ -97,8 +97,7 @@ const Search = () => {
     }
 
     return (
-        <SafeAreaView style={{ marginTop: 50 }}>
-            <Text style={styles.title}>Search events</Text>
+        <SafeAreaView>
             <View style={styles.searchContainer}>
                 <TextInput
                     style={styles.inputField}
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: 'lightgray',
         borderWidth: 1,
-        width: 300,
+        width: Dimensions.get('screen').width / 1.4,
         padding: 8,
         marginTop: 6
     },
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
     },
     listItem: {
         display: "flex",

@@ -58,7 +58,7 @@ const Iou = ({ group, user }: any) => {
 
     const colors = ['seagreen', 'purple', 'red', 'blue', 'tomato', 'dodgerblue', 'yellow'];
     return (
-        <SafeAreaView style={{ marginTop: 100 }}>
+        <SafeAreaView>
             {
                 user && <MeIouCard user={user} setModalVisible={setModalVisible} setFilterModal={setFilterModal} />
             }

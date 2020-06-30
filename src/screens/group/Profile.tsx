@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest, getUser } from '../../utils/axios';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets'
-import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, TouchableOpacity, View, Modal, Text } from 'react-native';
+import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, TouchableOpacity, View, Modal, Text, Dimensions } from 'react-native';
 
 const noimage = require('../../../assets/images/noimage.jpg');
 //components 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   bigcontainer: {
     flexDirection: 'column',
-    marginTop: 100
+    marginTop: Dimensions.get('screen').height / 70
   },
   calendar: {
     marginTop: 25,

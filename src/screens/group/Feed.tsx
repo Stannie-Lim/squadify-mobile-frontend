@@ -4,7 +4,7 @@ import { API_URL } from '../../secrets';
 import * as Permissions from 'expo-permissions';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView, RefreshControl, Modal } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView, RefreshControl, Modal, Dimensions } from 'react-native';
 
 // components
 import EventCard from '../../cards/EventCard'
@@ -50,9 +50,9 @@ const Feed = ({ route, navigation }: any) => {
     const changeRadius = async () => setModalVisible(true);
 
     return (
-        
+
         <ScrollView
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
     center: {
         alignItems: 'center',
-        paddingTop: 100
+        paddingTop: Dimensions.get('screen').height / 70
     },
 });
 

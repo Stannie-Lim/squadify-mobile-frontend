@@ -112,7 +112,7 @@ const UpdateProfile = ({ user, setShowModal }: any): any => {
       </View>
       {loading &&
         <View style={styles.loading}>
-          <ActivityIndicator size='large' />
+          <ActivityIndicator size='large' color='white' />
         </View>
       }
       <View style={styles.buttongroup}>

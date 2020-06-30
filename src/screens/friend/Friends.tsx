@@ -1,7 +1,7 @@
 import { API_URL } from '../../secrets';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { StyleSheet, Text, View, ScrollView, AsyncStorage, Alert, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, AsyncStorage, Alert, RefreshControl, Dimensions } from 'react-native';
 
 //components 
 import FriendRequests from './FriendRequests';
@@ -68,7 +68,7 @@ const Friends = ({ navigation, route }: any) => {
 
     return (
         <ScrollView
-            style={{ marginTop: 100 }}
+            style={{ marginTop: Dimensions.get('screen').height / 70 }}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}

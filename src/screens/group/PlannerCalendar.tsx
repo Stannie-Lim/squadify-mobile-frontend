@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, Modal } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, Modal, TouchableOpacity } from 'react-native';
 
 // components
 import Today from './Today';
@@ -39,7 +39,10 @@ const PlannerCalendar = ({ route, navigation, group }: any) => {
     };
 
     return (
-        <SafeAreaView style={{ marginTop: 100 }}>
+        <SafeAreaView>
+            <TouchableOpacity style={{ backgroundColor: 'lightseagreen', padding: 2 }}>
+                <Text style={{ fontSize: 25, color: 'white', textAlign: 'center' }}>Group Calendar</Text>
+            </TouchableOpacity>
             <Calendar
                 markedDates={marked}
                 onDayPress={showDetails}
