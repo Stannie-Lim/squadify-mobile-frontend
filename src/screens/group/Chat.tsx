@@ -32,7 +32,10 @@ const Chat = ({ navigation, route }: any) => {
     useEffect(() => {
         getMessages()
         const socket = io(API_URL)
+        console.log('SOCKET', socket)
         socket.on('message', (response: any) => {
+            console.log('RESPONSE', response)
+            console.log('USER', user)
             if (response.groupId === group.id && response.user.id !== user.id) {
                 const message: any = [{
                     _id: response.message.id,

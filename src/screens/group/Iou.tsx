@@ -2,7 +2,7 @@ import { API_URL } from '../../secrets'
 import React, { useState, useEffect } from 'react';
 import { MenuProvider } from 'react-native-popup-menu';
 import { AxiosHttpRequest, getUser } from '../../utils/axios';
-import { Button, StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, Modal, TextInput } from 'react-native';
+import { Button, StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, AsyncStorage, Modal, TextInput, RefreshControl } from 'react-native';
 
 // components
 import IouCard from '../../cards/IouCard';
@@ -15,10 +15,17 @@ const Iou = ({ group, user }: any) => {
     const [groupMembers, setGroupMembers] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [filterModal, setFilterModal] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     //inputs 
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
+
+    const refresh = async () => {
+        setRefreshing(true);
+        await getIous();
+        setRefreshing(false);
+    };
 
     useEffect(() => {
         getIous();
@@ -62,7 +69,11 @@ const Iou = ({ group, user }: any) => {
             {
                 user && <MeIouCard user={user} setModalVisible={setModalVisible} setFilterModal={setFilterModal} />
             }
-            <ScrollView style={{ height: Dimensions.get('window').height / 1.6 }}>
+            <ScrollView refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={refresh} />
+            } style={{ height: Dimensions.get('window').height / 1.6 }}>
                 {
                     ious.length ? ious.map((debt: any, index: number) => <IouCard key={index} color={colors[index]} debt={debt} />) : <Text style={{ textAlign: 'center', marginTop: 50, fontSize: 20 }}> No IOUs! Get Paying!</Text>
                 }
