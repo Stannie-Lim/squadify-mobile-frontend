@@ -3,11 +3,10 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpaci
 import moment from 'moment';
 
 const IouCard = ({ debt, color }: any) => {
-    const imageUri = debt.payer.avatarUrl !== null || debt.payer[0].avatarUrl !== null ? `${debt.payer.avatarUrl}${debt.payer[0].avatarUrl}` : ""
     return (
         <View style={{ ...styles.container, backgroundColor: color }}>
-            <Image style={styles.avatar} source={imageUri.length !== 0 ? { uri: debt.payer[0] ? debt.payer[0].avatarUrl : debt.payer.avatarUrl } : null} />
-            <Text>{`${debt.payer[0] ? debt.payer[0].firstName.split('#')[0] : debt.payer.firstName.split('#')[0]} ${debt.payer[0] ? debt.payer[0].lastName.split('#')[0] : debt.payer.lastName.split('#')[0]}`}</Text>
+            <Image style={styles.avatar} source={{ uri: debt.payer[0] && debt.payer[0].avatarUrl }} />
+            <Text>{`${debt.payer[0] && debt.payer[0].firstName.split('#')[0]} ${debt.payer[0] && debt.payer[0].lastName.split('#')[0]}`}</Text>
             <Text>Paid ${debt.amount ? debt.amount : debt.iou.amount} to: </Text>
             {
                 debt.payees && debt.payees.map((payee: any, index: number) => <Text key={index}>{payee.firstName.split('#')[0]}</Text>)
