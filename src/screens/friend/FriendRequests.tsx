@@ -1,4 +1,4 @@
-import { API_URL } from '../../secrets'
+import { API_URL } from '../../../secrets'
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
 import { StyleSheet, Text, View, ScrollView, AsyncStorage, Button, SafeAreaView, TouchableOpacity } from 'react-native';

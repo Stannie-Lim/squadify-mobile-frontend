@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../secrets'
+import { API_URL } from '../../../secrets'
 import { AxiosHttpRequest, getUser } from '../../utils/axios';
 import { StyleSheet, Text, View, ScrollView, TextInput, Button, AsyncStorage, TouchableOpacity, Dimensions, SafeAreaView, Switch, FlatList } from 'react-native';
 

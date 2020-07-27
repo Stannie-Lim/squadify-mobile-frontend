@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React, { useState } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { API_KEY, API_URL } from '../../secrets'
-import MapView, { AnimatedRegion } from 'react-native-maps';
+import { API_KEY, API_URL } from '../../../secrets'
+import MapView, { AnimatedRegion, Region, Marker } from 'react-native-maps';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions, Switch, Modal, Slider, FlatList } from 'react-native';
 import EventCard from '../../cards/EventCard';
 
@@ -71,9 +71,9 @@ const Search = () => {
         }
     }
 
-    const mapRegion = {
-        latitude,
-        longitude,
+    const mapRegion: Region = {
+        latitude: Number(latitude),
+        longitude: Number(longitude),
         latitudeDelta: 0.001,
         longitudeDelta: 0.001
     }
@@ -171,7 +171,7 @@ const Search = () => {
                         showsUserLocation={true}
                     >
                         <Button title='Close map' onPress={() => setViewMap(false)} />
-                        <MapView.Marker
+                        <Marker
                             coordinate={mapRegion}
                             title={"title"}
                             description={"description"}

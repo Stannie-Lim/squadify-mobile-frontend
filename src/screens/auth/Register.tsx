@@ -1,11 +1,12 @@
 import moment from 'moment';
 import React, { useState } from 'react';
+// @ts-ignore
 import { RNS3 } from 'react-native-aws3';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets'
+import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../../secrets'
 import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, AsyncStorage, Image, ImageBackground, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 
 // components

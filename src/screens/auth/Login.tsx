@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { API_URL } from '../../secrets';
+import { API_URL } from '../../../secrets';
 import { AxiosHttpRequest, setJwt } from '../../utils/axios';
 import { AsyncStorage, StyleSheet, Text, View, SafeAreaView, Button, TextInput, ImageBackground, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 

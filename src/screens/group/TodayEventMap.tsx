@@ -1,9 +1,9 @@
 import moment from 'moment';
 import * as Location from 'expo-location';
-import { API_URL } from '../../secrets';
+import { API_URL } from '../../../secrets';
 import * as Permissions from 'expo-permissions';
 import React, { useState, useEffect } from 'react';
-import MapView, { AnimatedRegion } from 'react-native-maps';
+import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import { StyleSheet, Text, SafeAreaView, View, Dimensions, Button } from 'react-native';
 import { AxiosHttpRequest } from '../../utils/axios';
 
@@ -67,7 +67,7 @@ const TodayEventMap = ({ group, setModalVisible, date }: any) => {
                 </View>
                 {
                     eventGeolocation.map((geo: any, index: number) =>
-                        <MapView.Marker
+                        <Marker
                             key={index}
                             coordinate={{
                                 latitude: geo.latitude * 1,

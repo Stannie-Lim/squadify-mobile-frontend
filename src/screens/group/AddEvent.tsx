@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { API_URL } from '../../secrets';
+import { API_URL } from '../../../secrets';
 import { CheckBox } from 'react-native-elements';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
@@ -51,7 +51,7 @@ const AddEvent = ({ navigation, route }: any) => {
         const time = moment(timeOfEvent).format('HH:mm:ss');
         const startTime = new Date(`${date}T${time}Z`);
         const now = new Date();
-        if(disabled) {
+        if (disabled) {
             alert("Please fill out all fields!");
             return;
         }
@@ -60,7 +60,7 @@ const AddEvent = ({ navigation, route }: any) => {
             try {
                 const data = (await AxiosHttpRequest('POST', `${API_URL}/event/create`, { name, description, isPrivate: !isPublic, startTime, address: addressOfEvent, coordsOfEvent }))?.data;
                 await AxiosHttpRequest('POST', `${API_URL}/event/assign_group/${group.id}`, { eventId: data.event.id });
-                
+
                 setName('');
                 setDescription('');
                 setDate('');
@@ -79,7 +79,7 @@ const AddEvent = ({ navigation, route }: any) => {
         <ImageBackground source={bg} style={styles.image}>
             <SafeAreaView>
                 <View style={styles.title}>
-                    <Text style={ styles.titletext }>Create New Event</Text>
+                    <Text style={styles.titletext}>Create New Event</Text>
                 </View>
                 <TextInput
                     style={styles.inputField}
@@ -96,16 +96,16 @@ const AddEvent = ({ navigation, route }: any) => {
                     placeholder='Description'
                     placeholderTextColor="white"
                 />
-                
-                <View style={ styles.timedateview }>
-                    <TouchableOpacity style={ styles.touchable } onPress={() => setDatePickerVisibility(true)}>
-                        <Text style={ styles.timedate }>{ dateOfEvent.length === 0 ? 'Date' : moment(dateOfEvent).format('YYYY-MM-DD') }</Text>
+
+                <View style={styles.timedateview}>
+                    <TouchableOpacity style={styles.touchable} onPress={() => setDatePickerVisibility(true)}>
+                        <Text style={styles.timedate}>{dateOfEvent.length === 0 ? 'Date' : moment(dateOfEvent).format('YYYY-MM-DD')}</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={ styles.timedateview }>
-                    <TouchableOpacity style={ styles.touchable } onPress={() => setTimePickerVisibility(true)}>
-                        <Text style={ styles.timedate }>{ timeOfEvent.length === 0 ? 'Time' : moment(timeOfEvent).format('LT') }</Text>
+                <View style={styles.timedateview}>
+                    <TouchableOpacity style={styles.touchable} onPress={() => setTimePickerVisibility(true)}>
+                        <Text style={styles.timedate}>{timeOfEvent.length === 0 ? 'Time' : moment(timeOfEvent).format('LT')}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -123,14 +123,14 @@ const AddEvent = ({ navigation, route }: any) => {
                     onCancel={() => setTimePickerVisibility(false)}
                 />
 
-                <View style={ styles.timedateview }>
-                    <TouchableOpacity style={ styles.touchable } onPress={() => navigation.navigate('Set Location')}>
-                        <Text style={ styles.timedate }>{ addressOfEvent.length === 0 ? 'Choose Location' : addressOfEvent }</Text>
+                <View style={styles.timedateview}>
+                    <TouchableOpacity style={styles.touchable} onPress={() => navigation.navigate('Set Location')}>
+                        <Text style={styles.timedate}>{addressOfEvent.length === 0 ? 'Choose Location' : addressOfEvent}</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={ styles.checkboxcontainer}>
-                    <View style={ styles.checkbox }>
+                <View style={styles.checkboxcontainer}>
+                    <View style={styles.checkbox}>
                         <CheckBox
                             title='Public'
                             checked={isPublic}
@@ -141,9 +141,9 @@ const AddEvent = ({ navigation, route }: any) => {
                     </View>
                 </View>
 
-                <View style={ styles.center }>
-                    <TouchableOpacity style={ styles.createContainer } onPress={createEvent} disabled={disabled}>
-                        <Text style={ styles.createEvent }>Create event</Text>
+                <View style={styles.center}>
+                    <TouchableOpacity style={styles.createContainer} onPress={createEvent} disabled={disabled}>
+                        <Text style={styles.createEvent}>Create event</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width / 1.5,
         alignItems: 'center',
         padding: 15,
-    }, 
+    },
     createEvent: {
         color: 'white',
         fontSize: 25,

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { API_URL } from '../../secrets'
+import { API_URL } from '../../../secrets'
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest } from '../../utils/axios';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';

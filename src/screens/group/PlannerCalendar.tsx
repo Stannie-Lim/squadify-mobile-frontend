@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, SafeAreaView, Dimensions, Modal, TouchableOpaci
 import Today from './Today';
 import TodayEventMap from './TodayEventMap';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { API_URL } from '../../secrets';
+import { API_URL } from '../../../secrets';
 import moment from 'moment';
 import Details from './Details';
 

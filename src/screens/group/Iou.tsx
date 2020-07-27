@@ -1,4 +1,4 @@
-import { API_URL } from '../../secrets'
+import { API_URL } from '../../../secrets'
 import React, { useState, useEffect } from 'react';
 import { MenuProvider } from 'react-native-popup-menu';
 import { AxiosHttpRequest, getUser } from '../../utils/axios';

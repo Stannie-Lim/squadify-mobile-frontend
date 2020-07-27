@@ -1,8 +1,9 @@
+// @ts-ignore
 import { RNS3 } from 'react-native-aws3';
 import React, { useState, useEffect } from 'react';
 import { CheckBox } from 'react-native-elements';
 import { AxiosHttpRequest } from '../../utils/axios';
-import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets'
+import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../../secrets'
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button, AsyncStorage, ScrollView, Dimensions } from 'react-native';
 
 //cards 

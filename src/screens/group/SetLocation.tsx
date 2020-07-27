@@ -1,9 +1,9 @@
 import * as Location from 'expo-location';
 import Geocoder from 'react-native-geocoding';
-import { API_KEY } from '../../secrets';
+import { API_KEY } from '../../../secrets';
 import * as Permissions from 'expo-permissions';
 import React, { useState, useEffect } from 'react';
-import MapView, { AnimatedRegion } from 'react-native-maps';
+import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity, Dimensions, Button } from 'react-native';
 
 const SetLocation = ({ navigation }: any) => {
@@ -48,7 +48,9 @@ const SetLocation = ({ navigation }: any) => {
             latitudeDelta: 0.01,
             longitudeDelta: 0.01
         });
+        // @ts-ignore
         Geocoder.init(API_KEY);
+        // @ts-ignore
         const foundAddress = (await Geocoder.from(latitude, longitude)).results[0].formatted_address;
         setAddress(foundAddress);
     };
@@ -62,13 +64,13 @@ const SetLocation = ({ navigation }: any) => {
                 showsUserLocation={true}
                 onPress={pin}
             >
-                <MapView.Marker
+                <Marker
                     coordinate={pinnedLocation}
                     title="Event Location"
                     description={address ? address : 'Loading...'}
                 />
             </MapView>
-            <Button title='Submit' style={styles.button} onPress={() => {
+            <Button title='Submit' onPress={() => {
                 navigation.navigate('Add Event', { address, pinnedLocation });
             }} />
         </SafeAreaView>

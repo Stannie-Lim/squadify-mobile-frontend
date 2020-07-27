@@ -1,4 +1,4 @@
-import { API_URL } from '../secrets';
+import { API_URL } from '../../secrets';
 import { AxiosHttpRequest } from '../utils/axios';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView, SafeAreaView, Button, TouchableOpacity, Image, AsyncStorage, RefreshControl } from 'react-native';
@@ -66,6 +66,7 @@ const Home = ({ navigation, route }: any) => {
                 key={index}
                 onPress={() => navigation.navigate('Group', { group })}
               >
+                {/* @ts-ignore */}
                 <Image source={imageUri.length !== 0 ? { uri: group.avatarUrl } : null} style={styles.avatar} />
                 <Text style={group.isPrivate ? styles.private : styles.public}>{group.name}</Text>
               </TouchableOpacity>

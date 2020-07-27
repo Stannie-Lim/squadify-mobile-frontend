@@ -1,4 +1,4 @@
-import { API_URL } from '../secrets';
+import { API_URL } from '../../secrets';
 import { AxiosHttpRequest } from '../utils/axios';
 import React, { useState, useEffect } from 'react';
 import { removeJwt, getUser } from '../utils/axios';

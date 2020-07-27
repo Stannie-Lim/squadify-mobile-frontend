@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest, getUser } from '../../utils/axios';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets'
+import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../../secrets'
 import { AsyncStorage, StyleSheet, SafeAreaView, Button, TextInput, Image, TouchableOpacity, View, Modal, Text, Dimensions } from 'react-native';
 
 const noimage = require('../../../assets/images/noimage.jpg');
@@ -109,6 +109,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: Dimensions.get('screen').height / 70
   },
+  calendar: {
+
+  }
 });
 
 export default Profile;

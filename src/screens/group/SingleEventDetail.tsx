@@ -1,10 +1,11 @@
 import moment from 'moment';
+// @ts-ignore
 import { RNS3 } from 'react-native-aws3';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useEffect } from 'react';
 import { AxiosHttpRequest, getUser } from '../../utils/axios';
-import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../secrets';
+import { API_URL, REGION, ACCESS_KEY_ID, SECRET_ACCESS_KEY } from '../../../secrets';
 import { Dimensions, View, StyleSheet, Text, SafeAreaView, Modal, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
 
 const noimage = require('../../../assets/images/noimage.jpg');
@@ -70,7 +71,7 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
     const pickImage = async () => {
         try {
             await Permissions.askAsync(Permissions.CAMERA_ROLL);
-            const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
+            const { cancelled, uri }: any = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true });
             if (!cancelled) {
                 await setImageToAdd(uri);
             }
@@ -182,6 +183,7 @@ const SingleEventDetail = ({ event, mapRegion, address, setModalVisible }: any) 
                                 const imageUri = user.user.avatarUrl !== null ? user.user.avatarUrl : ""
                                 return index < 40 ?
                                     <View style={styles.user} key={index}>
+                                        {/* @ts-ignore */}
                                         <Image source={imageUri.length !== 0 ? { uri: user.user.avatarUrl } : null} style={styles.avatar} />
                                         <Text>{`${user.user.firstName.split('#')[0]}`}</Text>
                                     </View> : null
